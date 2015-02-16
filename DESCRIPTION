@@ -1,13 +1,19 @@
 Package: FunChisq
 Type: Package
-Title: Nonparametric functional chi-square tests
-Version: 1.0
-Date: 2014-03-05
-Author: Yang Zhang, Joe Song
+Title: Chi-Square Tests for Non-Parametric Functional Dependencies
+Version: 2.0.0
+Date: 2015-02-15
+Author: Yang Zhang, Hua Zhong, and Joe Song
 Maintainer: Joe Song <joemsong@cs.nmsu.edu>
-Description: The package implements non-constant functional chi-square tests (Zhang and Song, 2013). Such tests offer an advantage over regression analysis when a parametric form cannot be reliably assumed for the underlying function. It requires data from two or more variables be formatted as a contingency table. Continuous variables must be discretized first which can be done by using the Ckmeans.1d.dp function.
+Description: Statistical hypothesis testing methods for non-parametric functional dependencies based on chi-square statistics. These tests were designed to reveal causality based on evidence from non-parametric functional dependencies. It implements an asymptotic non-constant functional chi-square test, an exact functional test, and a comparative functional chi-square test. The normalized functional chi-square test was used by the Best Performer NMSUSongLab in DREAM8 Breast Cancer Network Inference Challenges. These tests offer an advantage over regression analysis when a parametric functional form cannot be assumed.
 License: LGPL (>= 3)
-Packaged: 2014-03-07 21:55:04 UTC; Yang Zhang
-NeedsCompilation: no
+Depends: R (>= 3.0.0)
+Imports: Rcpp
+LinkingTo: BH, Rcpp, RcppClassic
+Suggests: Ckmeans.1d.dp, testthat
+NeedsCompilation: yes
+URL: http://www.cs.nmsu.edu/~joemsong/software,
+        http://www.cs.nmsu.edu/~joemsong/publications
+Packaged: 2015-02-15 19:30:43 UTC; joemsong
 Repository: CRAN
-Date/Publication: 2014-03-08 00:30:50
+Date/Publication: 2015-02-16 17:39:21

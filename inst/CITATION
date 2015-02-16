@@ -1,0 +1,31 @@
+bibentry(bibtype="Article",
+  key = "zhang2013deciphering",
+  header = "To cite the functional chi-square test in publications use:",
+  title = "Deciphering interactions in causal networks without parametric assumptions",
+  journal = "arXiv Molecular Networks",
+  year = "2013",
+  page = "arXiv:1311.2707",
+  author = c(person("Yang", "Zhang"), person("Mingzhou", "Song")), 
+  url="http://arxiv.org/pdf/1311.2707v3.pdf",
+  textVersion = "Zhang, Y., & Song, M. (2013). Deciphering interactions in causal networks without parametric assumptions. arXiv Molecular Networks, arXiv:1311.2707. Retrieved from URL http://arxiv.org/pdf/1311.2707v3.pdf" 
+)
+
+bibentry(bibtype="PhdThesis",
+  key = "zhang2014nonparametric",
+  header = "To cite comparative functional chi-square test in publications use:",
+  author = person("Yang", "Zhang"),
+  year = "2014",
+  title ="Nonparametric Statistical Methods for Biological Network Inference.",
+  school = "New Mexico State University",
+  textVersion = "Zhang, Y. (2014). Nonparametric Statistical Methods for Biological Network Inference. Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA"
+)
+
+bibentry(bibtype="MastersThesis",
+  key = "zhong2014an",
+  header = "To cite the exact functional test in publications use:",
+  author = person("Hua", "Zhong"),
+  year = "2014",
+  title ="An Exact and Fast Statistical Test for Nonparametric Functional Dependencies.",
+  school = "New Mexico State University",
+  textVersion = "Zhong, H. (2014). An Exact and Fast Statistical Test for Nonparametric Functional Dependencies. Unpublished master's thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA"
+)

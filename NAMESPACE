@@ -1,1 +1,5 @@
+import(Rcpp)
 export(fun.chisq.test)
+export(cp.fun.chisq.test)
+useDynLib(FunChisq)
+

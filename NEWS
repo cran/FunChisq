@@ -1,0 +1,31 @@
+NEWS 
+
+FunChisq package
+
+Version 2.0.0 (2015-02-15)
+Changes
+  1. Added a new exact functional test as an exact version of the asymptotic 
+     functional chi-square test. It is more accurate to compute the statistical   
+     significance of functional dependencies in small sample-sized 
+     contingency tables. It can be called by setting the method option to
+     "exact" in fun.chisq.test().
+     
+  2. Added a new function that implements a comparative functional chi-square
+     test for detecting heterogeneity in functional dependencies among 
+     contingency tables.
+     
+  3. Added new examples and revised previous examples to improve software 
+     usability
+  
+  4. Rewrote documentation to improve clarity.
+
+  5. Added automated test cases into the package.
+
+  6. Started this NEWS file.
+
+
+Version 1.0 (2014-03-08)
+Changes
+  1. The first release of this package implements the functional chi-square 
+     test and a normalized version.
+     
