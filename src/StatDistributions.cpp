@@ -7,8 +7,7 @@
 //
 //  Hua modified, replace all distribution computation into boost functions. //Hua modified Feb 6, 2015
 
-#include <iostream>
-#include <cassert>
+//#include <iostream>
 
 #include "boost/math/distributions/fisher_f.hpp"
 #include "boost/math/distributions/gamma.hpp"
@@ -32,7 +31,6 @@ double ChisqPvalue(double x, int df)
     // modified by Yang Zhang 11.2.2010 x may be a slightly smaller than zero due to numerical issues
     
     //Hua modified Feb 6, 2015
-    assert(df >= 0);
     if(x <= 0)
         return 1;
     else

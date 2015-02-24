@@ -59,7 +59,8 @@ void EMTFunctionalChisq::initialize_customized_row_col_sum(const vector<Transiti
         
 		vector<double> moreOrLessExtreme_tmp;//Hua added, May 17 2014
 		moreOrLessExtreme_tmp.resize(Cs.size());//Hua added, May 17 2014
-        
+    
+		m_totalObservedChisq = 0.0; // Line added by MS to prevent memory leak, Feb 23, 2015
         for (size_t k=0; k<Cs.size(); k++) {
             double chisq;
             size_t df;
@@ -194,8 +195,8 @@ double EMTFunctionalChisq::evaluate(const EMTEnumerator & e, const vector<Transi
 
 
     //Added by Hua Mar 20 2014
-	string EMTFunctionalChisq::bound(size_t k, size_t i, size_t j, const EMTEnumerator & e, const vector<TransitionTable> & Cs){
-		string result = "not-to-skip"; // "to keep entire branch"
+	BOUND_CHECK EMTFunctionalChisq::bound(size_t k, size_t i, size_t j, const EMTEnumerator & e, const vector<TransitionTable> & Cs){
+		BOUND_CHECK result = NOT_TO_SKIP; // "to keep entire branch"
         
         int rowNum = e.As[k].getTransitionTable().size();
         int colNum = e.As[k].getTransitionTable()[0].size();
@@ -251,7 +252,7 @@ double EMTFunctionalChisq::evaluate(const EMTEnumerator & e, const vector<Transi
         		}
         
         		result = (boundHeteroChisq - m_colSumChisq[k] +1e-07 < m_totalObservedChisq) ?
-        		"to skip entire branch" : "not-to-skip";
+        		TO_SKIP_ENTIRE_BRANCH : NOT_TO_SKIP;
 			}else{
         		//Hua added, May 17 2014
         		// compare lowest FunChisq and observed FunChisq
@@ -284,26 +285,14 @@ double EMTFunctionalChisq::evaluate(const EMTEnumerator & e, const vector<Transi
         			boundHeteroChisq += chisq_tmp;
         			tmpRow.clear();
         		}
-        		//cout<<boundHeteroChisq - m_colSumChisq[k] <<"  "<<m_totalObservedChisq<<endl;
+        		
         		result = (boundHeteroChisq - m_colSumChisq[k] +1e-07 > m_totalObservedChisq) ?
-        		"to skip entire branch" : "not-to-skip";
-			}
-        
-        
-        
-        
-					 if(result == "to skip entire branch") {
+        		TO_SKIP_ENTIRE_BRANCH : NOT_TO_SKIP;
+			} 
+					 if(result == TO_SKIP_ENTIRE_BRANCH) {
 						 // cout << "Suppose to skip";
 						 m_skip = true;
 						 // result = "not-to-skip";
-        
-						 /*
-						  cout << "skip: actual chisq="
-						  << m_boundChisqs[0] + m_boundChisqs[1] - m_nullHomoChisq
-						  << " bound=" << boundHeteroChisq
-						  << " observed=" << m_observedHeteroChisq
-						  << endl;
-						  */
 					 }
         }
         return result;

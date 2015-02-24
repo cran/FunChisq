@@ -61,6 +61,6 @@ int getTotalSum(const vector<vector<int> > & tt);
 vector<int> getColSums(const vector<vector<int> > & tt);
 vector<int> getRowSums(const vector<vector<int> > & tt);
 
-double applyFunctionalChisqTest(const string & file, int pValMode);//Hua Apr 14 2014
+//double applyFunctionalChisqTest(const string & file, int pValMode);//Hua Apr 14 2014//Hua commented, Feb 18, 2015
 
 #endif

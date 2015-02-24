@@ -8,8 +8,8 @@
 #include <vector>
 using std::vector;
 
-#include <iostream>
-#include <fstream>
+//#include <iostream>
+//#include <fstream>
 using namespace std;
 
 // History:
@@ -62,7 +62,7 @@ public:
     // reset the table to contain only zeros
     void reset();
     
-    bool scan(const string & file);
+    //bool scan(const string & file);//Hua commented, Feb 18, 2015
 
     size_t nrow () const { return m_transitionTable.size(); }
     size_t ncol () const {

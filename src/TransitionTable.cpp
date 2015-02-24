@@ -6,22 +6,22 @@
 //   September 12, 2011. Added different options for parent comparison
 //   January 24, 2013.  Extracted friend functions for comparative chisq
 //     analysis to ComparativeChisq.cpp
+//  Feb 18, 2015. Hua commented all std::~, and assert
 
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
-using std::cerr;
-using std::cout;
-using std::endl;
-using std::string;
-using std::stringstream;
-using std::ifstream;
-using std::ofstream;
-//using std::exit;
+//#include <iostream>
+//#include <fstream>
+//#include <sstream>
+//using std::cerr;
+//using std::cout;
+//using std::endl;
+//using std::string;
+//using std::stringstream;
+//using std::ifstream;
+//using std::ofstream;
+////using std::exit;
 
 #include <algorithm>
-#include <cassert>
+//#include <cassert>
 #include <cstdlib>
 #include <cmath>
 

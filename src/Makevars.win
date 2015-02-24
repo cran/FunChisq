@@ -1,2 +1,0 @@
-export PKG_CPPFLAGS=`$(R_HOME)/bin/Rscript.exe -e "Rcpp:::CxxFlags()"`
-export PKG_CPPFLAGS=`$(R_HOME)/bin/Rscript.exe -e "Rcpp:::LdFlags()"`

@@ -9,7 +9,7 @@
 #ifndef __gln__EMTFisherTests__
 #define __gln__EMTFisherTests__
 
-#include <iostream>
+//#include <iostream>
 #include <algorithm>
 #include "ExactMultiTableTest.h"
 
@@ -34,7 +34,7 @@ public:
 
 
     //Added by Hua Mar 20 2014
-    virtual string bound(size_t k, size_t i, size_t j, const EMTEnumerator & e, const vector<TransitionTable> & Cs);
+    virtual BOUND_CHECK bound(size_t k, size_t i, size_t j, const EMTEnumerator & e, const vector<TransitionTable> & Cs);
     //////
     //Hua added, Apr 21 2014
     void setRowAndColSum(vector<vector<int> > &row, vector<vector<int> > &col, const vector<TransitionTable> & Cs);

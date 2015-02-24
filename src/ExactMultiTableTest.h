@@ -10,12 +10,18 @@
 #define __gln__ExactMultiTableTest__
 
 #include <vector>
-#include <iostream>
+//#include <iostream>
 
 using namespace std;
 
 #include "TransitionTable.h"
 #include "ChisqTests.h"
+
+enum BOUND_CHECK {
+  NOT_TO_SKIP, 
+  TO_SKIP_ENTIRE_BRANCH,
+  TO_KEEP_ENTIRE_BRANCH
+};
 
 class EMTEvaluator;
 
@@ -53,7 +59,7 @@ public:
     virtual double evaluate(const EMTEnumerator & e,
                             const vector<TransitionTable> & Cs)=0;
 
-    virtual string bound(size_t k, size_t i, size_t j,
+    virtual BOUND_CHECK bound(size_t k, size_t i, size_t j,
                          const EMTEnumerator & e,
                          const vector<TransitionTable> & Cs);
     virtual double add(size_t k, size_t i, size_t j,

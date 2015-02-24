@@ -43,10 +43,10 @@ EMTEnumerator::traverse(size_t k, size_t i, size_t j,
     
     // branch-and-bound: decide whether to skip the entire branch starting
     //   at and including Ak[i,j]
-    string check = v.bound(k, i, j, *this, Cs);
-    if( check == "to skip entire branch" ) {
+    BOUND_CHECK check = v.bound(k, i, j, *this, Cs);
+    if( check == TO_SKIP_ENTIRE_BRANCH ) {
         return 0;
-    } else if( check == "to keep entire branch" ) {
+    } else if( check == TO_KEEP_ENTIRE_BRANCH ) {
         P = v.add(k, i, j, *this, Cs);
         return P;
     }
@@ -54,11 +54,11 @@ EMTEnumerator::traverse(size_t k, size_t i, size_t j,
     size_t k_next=k, i_next=i, j_next=j;
     next(k_next, i_next, j_next);
 
-    if (0) {
-        cout << "k=" << k << ", i=" << i << ", j=" << j
-        << "; next k=" << k_next << ", i=" << i_next << ", j=" << j_next
-        << endl;
-    }
+//    if (0) {
+//        cout << "k=" << k << ", i=" << i << ", j=" << j
+//        << "; next k=" << k_next << ", i=" << i_next << ", j=" << j_next
+//        << endl;
+//    }
 
     if(As[k].nrow() == 0 || As[k].ncol() == 0) {
 
@@ -147,11 +147,11 @@ void EMTEnumerator::initialize(const EMTEvaluator & v,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-string EMTEvaluator::bound(size_t k, size_t i, size_t j, const EMTEnumerator & e,
+BOUND_CHECK EMTEvaluator::bound(size_t k, size_t i, size_t j, const EMTEnumerator & e,
                           const vector<TransitionTable> & Cs)
 // (virtual default)
 {
-    return "not-to-skip";
+    return NOT_TO_SKIP;
 }
 
 double EMTEvaluator::add(size_t k, size_t i, size_t j, const EMTEnumerator & e,

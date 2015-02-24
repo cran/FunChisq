@@ -8,16 +8,16 @@
 // Last modified: Name changed from multinom.cpp to ChisqTests.cpp
 // Modified: September 11, 2011.  Add a new chisq comparison function to make the 
 //           comparison more stringent than penalizing by degrees of freedom.
-
-#include <iostream>
-using std::cerr;
-using std::cout;
-using std::endl;
+//           Feb 17, 2015. Hua commented all std::out and assert
+//#include <iostream>
+//using std::cerr;
+//using std::cout;
+//using std::endl;
 
 #include <cstdlib>
 #include <cmath>
 #include <cstring>
-#include <cassert>
+//#include <cassert>
 #include <numeric>
 #include <vector>
 #include <list>
@@ -129,7 +129,7 @@ double chisq(const vector<vector<int> > & O)
 
 vector<vector<double> > getExpectedTable(const vector<vector<int> > & contingencytable)
 {
-    assert(contingencytable.size()>0);
+    //assert(contingencytable.size()>0);
     vector<vector<double> > expectedtable(contingencytable.size(),
                                           vector<double>(contingencytable[0].size(), 0)
                                           );
@@ -244,30 +244,30 @@ double ChisquareTest(const vector< vector<int> > & table_obs, double & chisq, si
 }
 
 
-
-////
-//Add by Hua Apr 14 2014, for -M test to do simulation study on contingency table directly.
-#include "TransitionTable.h"
-double applyFunctionalChisqTest(const string & file, int pValMode)
-{
-    TransitionTable tt;
-    
-    tt.scan(file);
-    double p_value;
-    
-	p_value = exact_functional_test(tt.getTransitionTable(), "chisq");
-    
-    /*
-    cout << "pd\tchisqd\tdf" << endl;
-    cout << p_value << "\t" << tt.getChisq()
-    << "\t" << tt.getDf() << endl;
-     */
-    
-    Rcpp::Rcout << "pd\tchisqd\tdf" << endl
-        << p_value << "\t" << tt.getChisq()
-        << "\t" << tt.getDf() << endl;
- 
-	return p_value;
-}
-/////////
+////////////////
+////Hua commented, Feb 15, 2015
+////Add by Hua Apr 14 2014, for -M test to do simulation study on contingency table directly.
+//#include "TransitionTable.h"
+//double applyFunctionalChisqTest(const string & file, int pValMode)
+//{
+//    TransitionTable tt;
+//    
+//    tt.scan(file);
+//    double p_value;
+//    
+//	p_value = exact_functional_test(tt.getTransitionTable(), "chisq");
+//    
+//    /*
+//    cout << "pd\tchisqd\tdf" << endl;
+//    cout << p_value << "\t" << tt.getChisq()
+//    << "\t" << tt.getDf() << endl;
+//     */
+//    
+//    Rcpp::Rcout << "pd\tchisqd\tdf" << endl
+//        << p_value << "\t" << tt.getChisq()
+//        << "\t" << tt.getDf() << endl;
+// 
+//	return p_value;
+//}
+///////////
 

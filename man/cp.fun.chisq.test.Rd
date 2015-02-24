@@ -2,11 +2,13 @@
 \alias{cp.fun.chisq.test}
 \title{
 
-Comparative Chi-Square Test for Non-Parametric Functional Heterogeneity
+Comparative Chi-Square Test for Nonparametric Functional Heterogeneity
 
 }
 \description{
-Comparative functional chi-square tests on two or more contingency tables.
+
+cp.fun.chisq.test performs comparative functional chi-square tests on two or more contingency tables.
+
 }
 
 \usage{
@@ -32,9 +34,9 @@ Two methods are provided to compute the functional chi-square statistic and its 
 \value{
 A list with class "\code{htest}" containing the following components:
 
-\item{statistic}{functional heterogeneity chi-square (by default), or normalized functional chi-square if \code{method="normalized"}.}
-\item{parameter}{degrees of freedom.}
-\item{p.value}{p-value of the comparative functional chi-square test. By default, it is computed by the chi-square distribution. If \code{method="normalized"}, it is the p-value of the normalized functional chi-square computed by the standard normal distribution.}
+\item{statistic}{functional heterogeneity chi-square (by default), or normalized functional chi-square if \code{method="normalized"}}
+\item{parameter}{degrees of freedom}
+\item{p.value}{p-value of the comparative functional chi-square test. By default, it is computed by the chi-square distribution. If \code{method="normalized"}, it is the p-value of the normalized functional chi-square computed by the standard normal distribution}
 }
 
 \references{
@@ -42,7 +44,7 @@ Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network 
 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707. \url{http://arxiv.org/abs/1311.2707}
 
-Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery, 2nd Edition.} Wiley-Interscience, New York.
+Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
 }
 
 \author{
@@ -55,4 +57,6 @@ y <- t(x)
 z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
 data <- list(x,y,z)
 cp.fun.chisq.test(data)
+cp.fun.chisq.test(data, method="normalized")
+
 }
