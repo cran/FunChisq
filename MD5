@@ -1,11 +1,11 @@
-436d99fdf5c97be753a2d57cccbbad52 *DESCRIPTION
+cb625a57ed91c9fdb499ea2515cfcfca *DESCRIPTION
 f1de2bf883008e48b74c18abbab042bc *NAMESPACE
-50e39c9f362ce4d74b7594a492d8e772 *NEWS
+df0baf04a5821f9a76865d4e88ff8a2b *NEWS
 3d941ad197378e3a1e71fa5045b3560e *R/FunChisq.R
-c1f167fb7cca55a433f3b8f1057e44bb *inst/CITATION
-77924b837fbee76ce4a41f539f8db017 *man/FunChisq-package.Rd
-78f93e8d83ffb6af9d6b2c01723f31f6 *man/cp.fun.chisq.test.Rd
-58dca19c55edb4e4cd2021b50b9afb78 *man/fun.chisq.test.Rd
+e841d84d88ebd8d7c3d87b4a3f789d6e *inst/CITATION
+4e2b8a45d16c4c4934213a34fb12c4be *man/FunChisq-package.Rd
+8fe1286145e4f31f9790a86b29aa3f81 *man/cp.fun.chisq.test.Rd
+62b91d54727773b055380a1c4bacc975 *man/fun.chisq.test.Rd
 0a0fc921da4c5c79925a7eba8716f6b6 *src/AdjustPvalue.cpp
 a56d57e164b1fe4111ecc4c0f8cb2c2e *src/ChisqDirTest.cpp
 155319c7758d85473e3e2fa4c74c6491 *src/ChisqTests.cpp
@@ -20,4 +20,4 @@ e81f3fac8deb094572fd28366bcfe048 *src/TransitionTable.cpp
 796bec5423dde185926c2684223ab000 *src/TransitionTable.h
 e544e1e083565796633f3167614de090 *src/main.cpp
 372ddc24e97f48f5fb010e5472fec20f *tests/testthat.R
-178a7bdc91cd0110d123b5f2b7cb38ef *tests/testthat/test_FunChisq.R
+ea3be5c3458bb9e909534d84f6230d86 *tests/testthat/test_FunChisq.R

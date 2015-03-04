@@ -8,7 +8,7 @@ test_that("Testing the exact functional test", {
   expect_equal(signif(exact.functional.test(t(x1)), 8), 0.027271581)
   
   x2 <- matrix(c(0,0,0,0,0,0,0,0,0), nrow=3, byrow = TRUE)
-  expect_identical(exact.functional.test(x2), 1)
+  expect_equal(exact.functional.test(x2), 1)
   
   x3 <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
   expect_equal(signif(exact.functional.test(x3), 8), 0.002997003)
@@ -16,7 +16,7 @@ test_that("Testing the exact functional test", {
   
   if(0) { # This test case causes hang on windows. To be fixed.
     x4 <- matrix(rep(10,25), nrow=5)
-    expect_identical(exact.functional.test(x4), 1)
+    expect_equal(exact.functional.test(x4), 1)
   }  
   
   x5 <- matrix(c(4,0,0,0,4,0,0,0,4), nrow=3, byrow = TRUE)
@@ -27,8 +27,9 @@ test_that("Testing the exact functional test", {
                signif(as.numeric(fisher.test(x6)$p.value), 8))
   
   x7 <- matrix(c(2,2,2,2), nrow=2, byrow = TRUE)
-  expect_identical(exact.functional.test(x7), fisher.test(x7)$p.value)
-  
+  expect_equal(signif(exact.functional.test(x7), 8), 
+               signif(as.numeric(fisher.test(x7)$p.value), 8))
+    
   x8 <- matrix(c(0,10,15,20,5,0,25,0,0), nrow=3, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x8), 8), 
                signif(as.numeric(fun.chisq.test(x8)$p.value), 8))    

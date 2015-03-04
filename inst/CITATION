@@ -27,5 +27,5 @@ bibentry(bibtype="MastersThesis",
   year = "2014",
   title ="An Exact and Fast Statistical Test for Nonparametric Functional Dependencies.",
   school = "New Mexico State University",
-  textVersion = "Zhong, H. (2014). An Exact and Fast Statistical Test for Nonparametric Functional Dependencies. Unpublished master's thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA"
+  textVersion = "Zhong, H. (2014). An Exact and Fast Statistical Test for Nonparametric Functional Dependencies. Unpublished M.S. thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA"
 )
