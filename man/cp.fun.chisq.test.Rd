@@ -1,9 +1,7 @@
 \name{cp.fun.chisq.test}
 \alias{cp.fun.chisq.test}
 \title{
-
 Comparative Chi-Square Test for Non-Parametric Functional Heterogeneity
-
 }
 \description{
 Comparative functional chi-square tests on two or more contingency tables.
@@ -15,7 +13,7 @@ cp.fun.chisq.test(x, method="default")
 
 \arguments{
   \item{x}{
-  a list of at least 2 matrices representing contingency tables of the same dimensions.
+  a list of at least two matrices representing contingency tables of the same dimensionality.
 }
 
   \item{method}{
@@ -38,7 +36,7 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
-Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State Unviersity, Las Cruces, USA
+Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State Unviersity, Las Cruces, USA.
 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707. \url{http://arxiv.org/abs/1311.2707}
 

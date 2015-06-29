@@ -1,9 +1,19 @@
 NEWS 
 
+Version 2.1.0 2015-06-29
+Changes
+  1. Substantially reduced the run time of exact functional test by designing a 
+     better branch and bound strategy.
+  2. Enabled C++11 compling by adding two files (Makevars and Makevars.win).
+  3. Fixed a bug occured under WIN32 using long double by adding define.h to 
+     specify double precision for WIN32 and long double precision for WIN64.
+  4. Increased float comparison precision by considering a tolerance.
+  5. Imported pnorm() and pchisq() from the "stats" package. 
+
 Version 2.0.2 2015-03-03
 Changes
   1. Updated documentation for the package and its functions.
-  2. Fixed a testing issue under r-release-linux-ix86 flavor
+  2. Fixed a testing issue under r-release-linux-ix86 flavor.
 
 Version 2.0.1 2015-02-23
 Changes

@@ -1,336 +1,656 @@
 //
-//  EMTFisherTests.cpp
-//  gln
+//  ExactFunctionalTest.cpp
+//  eft-mhg
 //
-//  Created by Joe Song on 2/12/13.
+//  Created by Joe Song on 4/18/15.
+//  Copyright (c) 2015 New Mexico State University. All rights reserved.
 //
-//
-#include <cmath>
-#include <ctime>
-#include <numeric>
-
-using namespace std;
+//  Modified by Hua Zhong on 6/28/2015. Increased float comparison precision
 
 #include "ExactFunctionalTest.h"
 
-double factorial_vector(vector<int>);//Hua Added, May 2 2014
+// #include <Rcpp.h>//for deleted
+// using namespace Rcpp;//for deleted
 
-//----------------------------------------------------------------------------
-
-//compute fisher's probability
-double FisherProb(const vector<vector<int> > & A)
-{
-    // Input:
-    //   A -- contingency table
-    
-	// double product = 1.0; Commented by MS Feb 8, 2015
-    
-    //Modified by Hua, May 2 2014
-	vector<int> rowsums = getRowSums(A);
-	vector<int>	colsums = getColSums(A);
-	vector<int> v;
-	v.reserve(rowsums.size() + colsums.size());
-	v.insert(v.end(), rowsums.begin(), rowsums.end());
-	v.insert(v.end(), colsums.begin(), colsums.end());
-	int total = accumulate(rowsums.begin(), rowsums.end(), 0);
-	v.push_back(-total);
-    
-	for(size_t i = 0; i<A.size(); i++)
-	{
-		for(size_t j=0; j<A[i].size(); j++)
-		{
-			//product *= factorial(A[i][j]);//Hua comment it, May 2 2014
-			v.push_back(-A[i][j]);//Added by Hua, May 2 2014
-		}
-	}
-    
-	return factorial_vector(v);//Added by Hua, May 2 2014
-    ////
-
+//Hua added, Jun 28,2015.
+//To make float comparison more precise
+bool is_close(const mydouble & a, const mydouble & b, mydouble epsilon=1e-6){ // a==b?
+  //Rcpp::Rcout<<a<<'\t'<<b<<'\t'<<fabs((a - b)/a)<<'\t'<<fabs((a - b)/b)<<'\t'<<((fabs((a - b)/a) < epsilon && fabs((a - b)/b) < epsilon) ? true : false)<<endl;
+  return (fabs((a - b)/a) < epsilon && fabs((a - b)/b) < epsilon) ? true : false;
 }
 
-void EMTFunctionalChisq::initialize_customized_row_col_sum(const vector<TransitionTable> & Cs){
-		m_observedChisq.resize(Cs.size());
-        m_nullChisq.resize(Cs.size());
-        m_colSumChisq.resize(Cs.size());
-        m_boundChisqs.resize(Cs.size());
-        //        m_boundHeteroChisq = 0;
-        //        m_row=0;
-        
-		vector<double> moreOrLessExtreme_tmp;//Hua added, May 17 2014
-		moreOrLessExtreme_tmp.resize(Cs.size());//Hua added, May 17 2014
+bool ge (const mydouble & a, const mydouble & b){ // a>=b?
+  if((a-b) >= 0 || is_close(a,b)) return true;
+  return false;
+}
+
+bool le (const mydouble & a, const mydouble & b){ // a<=b?
+  if((a-b) <= 0 || is_close(a,b)) return true;
+  return false;
+}
+
+bool gg (const mydouble & a, const mydouble & b){ // a>b?
+  if((a-b) > 0 && !is_close(a,b)) return true;
+  return false;
+}
+
+bool ll (const mydouble & a, const mydouble & b){ // a<b?
+  if((a-b) < 0 && !is_close(a,b)) return true;
+  return false;
+}
+////
+  
+mydouble funchisq(const vector<vector<int> > & O, const vector<int> & rowsums,
+                const vector<int> & colsums, int n)
+{
+    mydouble fc = 0.0;
     
-		m_totalObservedChisq = 0.0; // Line added by MS to prevent memory leak, Feb 23, 2015
-        for (size_t k=0; k<Cs.size(); k++) {
-            double chisq;
-            size_t df;
-            double p_tmp = ChisqDirTest(Cs[k].getTransitionTable(), chisq, df);
-            m_observedChisq[k] = chisq;
-            
-			//Hua added, May 17 2014
-            moreOrLessExtreme_tmp[k] = p_tmp;
-			////
-            
-            m_totalObservedChisq += m_observedChisq[k];
+    if (n == 0 || O.size() == 0) {
+        return fc;
+    } else if(O[0].size() == 0) {
+        return fc;
+    }
+    
+    size_t nrows = O.size();  // number of rows
+    size_t ncols = O[0].size();  // number of columns
+    
+    mydouble ej = n / (mydouble) ncols;
+    if(ej>0){
+        for (size_t j=0; j<ncols; ++j) {
+            fc -= (colsums[j] - ej) * (colsums[j] - ej) / ej;
+        }
+    }
+    
+    for (size_t i=0; i<nrows; ++i) {
+        // Expected cound for cell (i,j):
+        mydouble eij = rowsums[i] / (mydouble) ncols;
+        if (eij > 0) {
+            for (size_t j=0; j<ncols; ++j) {
+                fc += (O[i][j] - eij) * (O[i][j] - eij) / eij;
+            }
+        }
+    }
+    return fc;
+}
+
+mydouble upper_bound(const vector<vector<int> > &A, size_t i,
+                   const mydouble A_running_stat,
+                   const vector<vector<int> > & A_running_rowsums,
+                   const vector<vector<int> > & A_running_colsums,
+                   const vector<int> & O_rowsums,
+                   const vector<int> & O_colsums,
+                   mydouble O_stat)
+{
+    // return 10e10;
+    mydouble upper_bound = A_running_stat;
+    
+    vector<int> U(O_colsums);
+    
+    size_t ncols = A[0].size(); // Number of colmns
+    size_t nrows = A.size(); // Number of rows
+    if (i > 0) {
+        for (size_t q=0; q<ncols; ++q) {
+            U[q] = O_colsums[q] - A_running_colsums[i-1][q];
+        }
+    }
+    
+    vector<size_t> order( ncols );
+    for (size_t q=0; q<ncols; ++q) {
+        order[q] = q;
+    }
+    
+    // sort U in decreasing order
+    sort(order.begin(), order.end(),
+         [&U](size_t i1, size_t i2) {return U[i1] > U[i2];});
+    
+    for (size_t l=i; l<nrows; ++l) {
+        // find lower bound for row l
+        int runsum = 0;
+        mydouble el = O_rowsums[l] / (mydouble) ncols;
+        for (size_t k=0; k<ncols; ++k) {
+            // accumulate the lower bound
+            int xmax = O_rowsums[l] - runsum;
+            if (U[order[k]] < xmax) {
+                mydouble d = U[order[k]] - el;
+                if(el>0) upper_bound += d * d / el;
+                runsum += U[order[k]];
+            } else if (xmax != 0) {
+                mydouble d = xmax - el;
+                if(el>0) upper_bound += d * d / el;
+                runsum += xmax;
+            } else {
+                upper_bound += el * (ncols - k);
+                break;
+            }
+            if (gg(upper_bound, O_stat)) {
+                return upper_bound;
+            }
+        }
+    }
+    
+    return upper_bound;
+    
+}
+
+mydouble upper_bound(const vector<vector<int> > &A, size_t i, size_t j,
+                   const mydouble A_running_stat,
+                   const vector<vector<int> > & A_running_rowsums,
+                   const vector<vector<int> > & A_running_colsums,
+                   const vector<int> & O_rowsums,
+                   const vector<int> & O_colsums,
+                   mydouble O_stat)
+{
+    // return 10e10;
+    mydouble upper_bound = A_running_stat;
+    
+    vector<int> U(O_colsums);
+    
+    size_t ncols = A[0].size(); // Number of colmns
+    size_t nrows = A.size(); // Number of rows
+    if (i > 0) {
+        for (size_t q=0; q<ncols; ++q) {
+            if (q < j) {
+                U[q] = O_colsums[q] - A_running_colsums[i][q];
+            } else {
+                U[q] = O_colsums[q] - A_running_colsums[i-1][q];
+            }
         }
         
-        //Hua added, Jun 5 2014
-        for (size_t k=0; k<Cs.size(); k++) {
-            double min=moreOrLessExtreme_tmp[0];
-            if(min < 1-moreOrLessExtreme_tmp[0])min = 1-moreOrLessExtreme_tmp[0];
-            int minIndex=0;
-            int index=0;
-            while(index < moreOrLessExtreme_tmp.size()){
-                if(moreOrLessExtreme_tmp[index] < min || 1-moreOrLessExtreme_tmp[index] < min){
-                    minIndex = index;
+        /*
+         for (size_t q=0; q<ncols; ++q) {
+         U[q] = O_colsums[q] - A_running_colsums[i-1][q];
+         } */
+    }
+    
+    vector<size_t> order( ncols );
+    for (size_t q=0; q<ncols; ++q) {
+        order[q] = q;
+    }
+    
+    // sort U in decreasing order
+    sort(order.begin(), order.end(),
+         [&U](size_t i1, size_t i2) {return U[i1] > U[i2];});
+    
+    for (size_t l=i; l<nrows; ++l) {
+        // find lower bound for row l
+        
+        if (l == i && j > 0) {
+            
+            vector<size_t> ord( ncols );
+            for (size_t q=0; q<ncols; ++q) {
+                ord[q] = q;
+            }
+            
+            // sort U in decreasing order
+            sort(ord.begin()+j, ord.end(),
+                 [&U](size_t i1, size_t i2) {return U[i1] > U[i2];});
+            
+            // find upper bound for row l
+            int runsum = A_running_rowsums[i][j-1];
+            mydouble el = O_rowsums[l] / (mydouble) ncols;
+            for (size_t k=j; k<ncols; ++k) {
+                // accumulate the upper bound
+                int xmax = O_rowsums[l] - runsum;
+                if (U[order[k]] < xmax) {
+                    mydouble d = U[order[k]] - el;
+                    if(el>0) upper_bound += d * d / el;
+                    runsum += U[order[k]];
+                } else if (xmax != 0) {
+                    mydouble d = xmax - el;
+                    if(el>0) upper_bound += d * d / el;
+                    runsum += xmax;
+                } else {
+                    upper_bound += el * (ncols - k);
+                    break;
                 }
-                index++;
+                if (ge(upper_bound, O_stat)) {
+                    return upper_bound;
+                }
             }
-            if(moreOrLessExtreme_tmp[minIndex]<=0.5){
-                m_moreOrLessExtreme = false;
-            }else{
-                m_moreOrLessExtreme = true;
-            }
+            continue;
         }
-        ////
         
-        ////Add by Hua Mar 20 2014
-        for (size_t k=0; k<Cs.size(); k++) {
-            size_t df=0;
-            int nrow = (int) Cs[k].getTransitionTable().size();
-            int K = (int) Cs[k].getTransitionTable()[0].size();
-            
-            vector<double> p_null(K, 1.0/K);
-            vector<int> n_y(K);  // the histogram of child y
-            
-            for(int j = 0; j < K; j++){
-                
-                for(int i = 0; i < nrow; i++){
-                    
-                    n_y[j] += Cs[k].getTransitionTable()[i][j];
-                    
-                }//end for
-                
-            }//end for
-            
-            double chisq_y;
-            ChisquareTest1DNoPValue(n_y, p_null, K, chisq_y, df);
-            m_colSumChisq[k] = chisq_y;
+        int runsum = 0;
+        mydouble el = O_rowsums[l] / (mydouble) ncols;
+        for (size_t k=0; k<ncols; ++k) {
+            // accumulate the lower bound
+            int xmax = O_rowsums[l] - runsum;
+            if (U[order[k]] < xmax) {
+                mydouble d = U[order[k]] - el;
+                if(el>0) upper_bound += d * d / el;
+                runsum += U[order[k]];
+            } else if (xmax != 0) {
+                mydouble d = xmax - el;
+                if(el>0) upper_bound += d * d / el;
+                runsum += xmax;
+            } else {
+                upper_bound += el * (ncols - k);
+                break;
+            }
+            if (ge(upper_bound, O_stat)) {
+                return upper_bound;
+            }
         }
-        /////
+    }
+    
+    return upper_bound;
+    
 }
 
-void EMTFunctionalChisq::initialize(const vector<TransitionTable> & Cs)
-    {
-        // compute required row sums
-		m_requiredRowSums.resize(Cs.size());
-		for(size_t k=0; k < Cs.size(); k++) {
-			m_requiredRowSums[k] = Cs[k].getRowSums();
-		}
-    
-		// compute required column sums
-		m_requiredColSums.resize(Cs.size());
-		for(size_t k=0; k < Cs.size(); k++) {
-			m_requiredColSums[k] = Cs[k].getColSums();
-		}
-
-        initialize_customized_row_col_sum(Cs);
-    }
-    
-void EMTFunctionalChisq::processTable(size_t k, const EMTEnumerator & e,
-                              const vector<TransitionTable> & Cs)
-    {
-        double chisq;
-        size_t df;
-        ChisqDirTest(e.As[k].getTransitionTable(), chisq, df);
-        m_nullChisq[k] =chisq;
-    }
-    
-bool EMTFunctionalChisq::isMoreExtreme() const
-    {
-        double nullTotalChisq = 0, observedTotalChisq = 0;
-        
-        for(size_t k=0; k < m_nullChisq.size(); k++) {
-            nullTotalChisq += m_nullChisq[k];
-            observedTotalChisq += m_observedChisq[k];
-        }
-        
-		if(m_moreOrLessExtreme ==false){//Hua added, May 17 2014
-			return nullTotalChisq >= observedTotalChisq;
-		}else{
-            return nullTotalChisq < observedTotalChisq;//No equal, modified by Hua, Jun 5 2014
-		}
-    }
-
-double EMTFunctionalChisq::evaluate(const EMTEnumerator & e, const vector<TransitionTable> & Cs)
-    {
-        // Multiple independent Fisher's exact tests
-        double P;
-        
-		vector<vector<int> > row = e.ARowsums;
-		vector<vector<int> > col = e.AColsums;
-		
-        if( isMoreExtreme() ) {
-            P = 1;
-            for(size_t k=0; k < Cs.size(); k++) {
-				P *= FisherProb(e.As[k].getTransitionTable());
-            }
-        } else {
-            P = 0;
-        }
-        
-        return P;
-    }
-    
-	vector<TransitionTable> EMTFunctionalChisq::generateTables(const vector<TransitionTable> & Cs) const
-	{
-		vector<TransitionTable> As(Cs);
-    
-		for (size_t k=0; k<Cs.size(); k++) {
-			As[k].reset();
-		}
-    
-		return As;
-	}
-
-
-    //Added by Hua Mar 20 2014
-	BOUND_CHECK EMTFunctionalChisq::bound(size_t k, size_t i, size_t j, const EMTEnumerator & e, const vector<TransitionTable> & Cs){
-		BOUND_CHECK result = NOT_TO_SKIP; // "to keep entire branch"
-        
-        int rowNum = e.As[k].getTransitionTable().size();
-        int colNum = e.As[k].getTransitionTable()[0].size();
-        
-		
-        
-        if(i>0 && i<rowNum && j==0){
-			m_skip = false;
-			double boundHeteroChisq = 0;//m_boundHeteroChisq;
-        
-			for (size_t r=0; r<i; r++) {
-        		double chisq_tmp;
-				size_t df=0;
-				vector<double> p_null(colNum, 1.0/colNum);
-				ChisquareTest1DNoPValue(e.As[k].getTransitionTable()[r], p_null, colNum, chisq_tmp, df);
-		 		boundHeteroChisq += chisq_tmp;
-			}
-        
-			vector<int> colTotalSum = m_requiredColSums[k];//Cs[k].getColSums();
-        
-			for (size_t c=0; c<colTotalSum.size(); c++) {
-        		colTotalSum[c] = colTotalSum[c] - e.AColsums[k][c];
-			}
-        
-			sort(colTotalSum.begin(), colTotalSum.end());
-        
-			vector<int> rowTotalSum = m_requiredRowSums[k];//s[k].getRowSums();
-        
-			vector<int> tmpRow;
-        
-			if(m_moreOrLessExtreme == false){//Hua added, May 17 2014
-        		for (size_t r=i; r <rowNum; r++) {
-        			tmpRow.resize(colTotalSum.size());
-        			int balls = rowTotalSum[r];
-        			int index = colNum-1;
-        			while (balls > 0) {
-        				if(balls <= colTotalSum[index]){
-        					tmpRow[index] = balls;
-        					balls = 0;
-        				}else{
-        					tmpRow[index] = colTotalSum[index];
-        					balls -= colTotalSum[index];
-        					index--;
-        				}
-        			}
-        
-        			double chisq_tmp;
-        			size_t df=0;
-        			vector<double> p_null(colNum, 1.0/colNum);
-        			ChisquareTest1DNoPValue(tmpRow, p_null, colNum, chisq_tmp, df);
-        			boundHeteroChisq += chisq_tmp;
-        			tmpRow.clear();
-        		}
-        
-        		result = (boundHeteroChisq - m_colSumChisq[k] +1e-07 < m_totalObservedChisq) ?
-        		TO_SKIP_ENTIRE_BRANCH : NOT_TO_SKIP;
-			}else{
-        		//Hua added, May 17 2014
-        		// compare lowest FunChisq and observed FunChisq
-        		for (size_t r=i; r <rowNum; r++) {
-        			tmpRow.resize(colTotalSum.size());
-        			int balls = rowTotalSum[r];
-        			int index = 0;
-        			int everage = balls / colNum;
-        
-        			while (balls > 0){
-        				if(colTotalSum[index] <= everage){
-        					tmpRow[index] = colTotalSum[index];
-        					balls -= colTotalSum[index];
-                            if(balls==0)break;
-        					index++;
-							everage = balls / (colNum - index);
-        				}else{
-							tmpRow[index] = everage;
-        					balls -= everage;
-                            if(balls==0)break;
-        					index++;
-        					if(colNum != index)everage = balls / (colNum - index);
-        				}
-        			}
-        
-        			double chisq_tmp;
-        			size_t df=0;
-        			vector<double> p_null(colNum, 1.0/colNum);
-        			ChisquareTest1DNoPValue(tmpRow, p_null, colNum, chisq_tmp, df);
-        			boundHeteroChisq += chisq_tmp;
-        			tmpRow.clear();
-        		}
-        		
-        		result = (boundHeteroChisq - m_colSumChisq[k] +1e-07 > m_totalObservedChisq) ?
-        		TO_SKIP_ENTIRE_BRANCH : NOT_TO_SKIP;
-			} 
-					 if(result == TO_SKIP_ENTIRE_BRANCH) {
-						 // cout << "Suppose to skip";
-						 m_skip = true;
-						 // result = "not-to-skip";
-					 }
-        }
-        return result;
-    }
-    //////
-    //Hua added, Apr 21 2014
-	void EMTFunctionalChisq::setRowAndColSum(vector<vector<int> > &row, vector<vector<int> > &col, const vector<TransitionTable> & Cs){
-        m_requiredRowSums.resize(row.size());
-        m_requiredColSums.resize(col.size());
-//m_nullFisherProb.resize(Cs.size());
-        
-        for (size_t k=0; k<row.size(); k++) {
-            m_requiredRowSums[k].resize(row[k].size());
-            m_requiredColSums[k].resize(col[k].size());
-            for (size_t i=0; i<row[k].size(); i++) {
-                m_requiredRowSums[k][i] = row[k][i];
-            }
-            for (size_t i=0; i<col[k].size(); i++) {
-                m_requiredColSums[k][i] = col[k][i];
-            }
-        }
-    }
-
-
-	double exact_functional_test(const vector< vector<int> > & C,
-                             const string & discrepancy_measure)
+mydouble lower_bound(const vector<vector<int> > &A, size_t i, size_t j,
+                   const mydouble A_running_stat,
+                   const vector<vector<int> > & A_running_rowsums,
+                   const vector<vector<int> > & A_running_colsums,
+                   const vector<int> & O_rowsums,
+                   const vector<int> & O_colsums,
+                   mydouble O_stat)
 {
-	TransitionTable tt;
-    tt.setTransitionTable(C);
-
-	vector<TransitionTable> Cs(1, tt);
-
-    EMTEnumerator e;
+    mydouble lower_bound = A_running_stat;
     
-    EMTFunctionalChisq v;
-    double P = exact_multi_table_test(Cs, v, e);
-    if(v.getExtremeness()==true){
-        P = 1 - P;
+    vector<int> U(O_colsums);
+    
+    size_t nrows = A.size();
+    size_t ncols = A[0].size();
+    
+    if (i > 0) {
+        for (size_t q=0; q<ncols; ++q) {
+            if (q < j) {
+                U[q] = O_colsums[q] - A_running_colsums[i][q];
+            } else {
+                U[q] = O_colsums[q] - A_running_colsums[i-1][q];
+            }
+        }
     }
-    return P;
+    
+    vector<size_t> order( ncols );
+    for (size_t q=0; q<ncols; ++q) {
+        order[q] = q;
+    }
+    
+    // sort U in increasing order
+    sort(order.begin(), order.end(),
+         [&U](size_t i1, size_t i2) {return U[i1] < U[i2];});
+    
+    for (size_t l=i; l<nrows; ++l) {
+        // find lower bound for row l
+        int runsum = 0;
+        mydouble e = O_rowsums[l] / (mydouble) ncols;
+        for (size_t k=0; k<ncols; ++k) {
+            // accumulate the lower bound
+            mydouble xavg = (O_rowsums[l]-runsum)/(mydouble)(ncols-k);
+            if (U[order[k]] < xavg) {
+                if(e>0) lower_bound += (U[order[k]] - e) * (U[order[k]] - e) / e;
+                runsum += U[order[k]];
+            } else {
+                if(e>0) lower_bound += ((xavg - e) * (xavg - e) / e) * (ncols-k);
+                break;
+            }
+            if (ge(lower_bound, O_stat)) {
+                return lower_bound;
+            }
+        }
+    }
+    
+    return lower_bound;
+}
+
+mydouble prob_entire_branch(vector<vector<int> > &A,
+                               size_t i, size_t j,
+                               mydouble A_running_prob,
+                               const vector<vector<int> > & A_running_rowsums,
+                               const vector<vector<int> > & A_running_colsums,
+                               const vector<int> & O_rowsums,
+                               const vector<int> & O_colsums)
+{
+    mydouble prob = A_running_prob;
+    
+    if(j != 0) throw "ERROR: can only compute whole rows";
+    
+    if (i == 0) {
+        prob = 1.0;
+    } else {
+        int remaing_rowsum=0;
+        size_t nrows = A.size();
+        size_t ncols = A[0].size();
+        
+        for (size_t l=i; l<nrows; ++l) {
+            prob /= factorial<mydouble>(O_rowsums[l]);
+            remaing_rowsum += O_rowsums[l];
+        }
+        prob *= factorial<mydouble>(remaing_rowsum);
+        
+        for(size_t q=0; q<ncols; q++) {
+            prob /= factorial<mydouble>(O_colsums[q] - A_running_colsums[i-1][q]);
+        }
+    }
+    return prob;
+}
+
+mydouble enumerate_next (vector<vector<int> > &A,
+                            size_t i, size_t j,
+                            mydouble A_running_stat,
+                            mydouble A_running_prob,
+                            vector<vector<int> > & A_running_rowsums,
+                            vector<vector<int> > & A_running_colsums,
+                            const vector<int> & O_rowsums,
+                            const vector<int> & O_colsums,
+                            const mydouble O_stat,
+                            enum LBOUND lb_method,
+                            enum UBOUND ub_method,
+                            mydouble (*traverse)
+                            (vector<vector<int> > &A,
+                             size_t i, size_t j,
+                             mydouble A_running_stat,
+                             mydouble A_running_prob,
+                             vector<vector<int> > & A_running_rowsums,
+                             vector<vector<int> > & A_running_colsums,
+                             const vector<int> & O_rowsums,
+                             const vector<int> & O_colsums,
+                             const mydouble O_stat,
+                             enum LBOUND lb_method,
+                             enum UBOUND ub_method)
+                            )
+{
+    mydouble prob=0.0;
+    
+    size_t nrows = A.size();
+    size_t ncols = A[0].size();
+    
+    size_t j_next = j+1;
+    size_t i_next = i;
+    if(j_next == ncols) {
+        j_next = 0;
+        i_next += 1;
+    }
+    
+    int Lij;
+    int Uij;
+    
+    if (i == nrows - 1) { // last row
+        
+        Lij = O_colsums[j] - A_running_colsums[i-1][j];
+        
+    } else if (j == ncols - 1) { // last column
+        
+        Lij = O_rowsums[i] - A_running_rowsums[i][j-1];
+        
+    } else {
+        
+        Lij = 0;
+        
+    }
+    
+    Uij = min(O_rowsums[i] - (j > 0 ? A_running_rowsums[i][j-1]:0),
+              O_colsums[j] - (i > 0 ? A_running_colsums[i-1][j]:0));
+    
+    
+    mydouble eij = O_rowsums[i] / (mydouble) ncols;
+    
+    // mydouble A_running_stat_before = A_running_stat;
+    
+    for(int x=Lij; x <= Uij; x++) {
+        
+        A[i][j] = x;
+        
+        if (A[i][j] == Lij) {
+            A_running_prob /= factorial<mydouble>( Lij );
+        } else {
+            A_running_prob /= A[i][j];
+        }
+        
+        // update running statistics
+        A_running_rowsums[i][j] = (j > 0 ? A_running_rowsums[i][j-1] : 0) + A[i][j];
+        A_running_colsums[i][j] = (i > 0 ? A_running_colsums[i-1][j] : 0) + A[i][j];
+        
+        mydouble d = A[i][j] - eij;
+        mydouble stat_ij = 0;
+        if(eij>0) stat_ij = d * d / eij;
+        
+        // A_running_stat += stat_ij;
+        
+        prob += (*traverse)
+        (A, i_next, j_next, A_running_stat + stat_ij, A_running_prob,
+         A_running_rowsums, A_running_colsums,
+         O_rowsums, O_colsums, O_stat, lb_method, ub_method);
+        
+        // BEGIN ***
+        // NUMERICALLY VERY CRITICAL. Must use option 1 instead of 2
+        // Option 1:
+        //   A_running_stat = A_running_stat_before;
+        // Option 2: A_running_stat -= stat_ij;
+        // Option 3: No need to change A_running_stat
+        
+        // END ***
+        
+        // A_running_prob *= fac_ij;
+        
+        // restore running statistics
+        A_running_rowsums[i][j] = 0; // -= A[i][j];
+        A_running_colsums[i][j] = 0; // -= A[i][j];
+        A[i][j] = 0;
+        
+    }
+    
+    return prob;
+}
+
+mydouble traverse_ge_observed_stat
+(vector<vector<int> > &A,
+ size_t i, size_t j,
+ mydouble A_running_stat,
+ mydouble A_running_prob,
+ vector<vector<int> > & A_running_rowsums,
+ vector<vector<int> > & A_running_colsums,
+ const vector<int> & O_rowsums,
+ const vector<int> & O_colsums,
+ const mydouble O_stat,
+ enum LBOUND lb_method,
+ enum UBOUND ub_method
+ )
+{
+    mydouble prob=0.0;
+    
+    size_t nrows = A.size();
+    
+    if(i >= nrows) { // calculate probability of A
+      prob = ge(A_running_stat, O_stat) ? A_running_prob : 0.0;
+        //prob = (A_running_stat >= O_stat || is_close(A_running_stat, O_stat)) ? A_running_prob : 0.0;
+      //Rcpp::Rcout<<A_running_stat<<'\t'<<O_stat<<'\t'<<A_running_prob<<'\t'<<prob<<'\t'<<(A_running_stat >= O_stat)<<'\t'<<is_close(A_running_stat, O_stat)<<std::endl;
+        /*    } else if (ub_method == UB_BY_ELE // && j == 0
+         && upper_bound(A, i, j, A_running_stat,
+         A_running_rowsums, A_running_colsums,
+         O_rowsums, O_colsums, O_stat)
+         < O_stat)
+         { // check the upper bound on stat
+         
+         // cout << "Skip entire branch" << endl;
+         //cout << "0";
+         prob = 0.0;
+         */
+    } else if (ub_method == UB_BY_ROW && j == 0
+               && ll(upper_bound(A, i, A_running_stat,
+                              A_running_rowsums, A_running_colsums,
+                              O_rowsums, O_colsums, O_stat)
+               , O_stat))
+    { // check the upper bound on stat
+        
+        // cout << "Skip entire branch" << endl;
+        //cout << "0";
+        prob = 0.0;
+        
+        
+    } else if (lb_method == LBON && j == 0 && ge(A_running_stat, O_stat)) {
+        
+        // cout << "Keep entire branch" << endl;
+        prob = prob_entire_branch(A, i, j, A_running_prob, A_running_rowsums,
+                                  A_running_colsums, O_rowsums, O_colsums);
+        
+        //cout << "e";
+    } else if (lb_method == LBON && j == 0 &&
+               ge(lower_bound(A, i, j, A_running_stat,
+                           A_running_rowsums, A_running_colsums,
+                           O_rowsums, O_colsums, O_stat)
+               , O_stat))
+    { // check lower bound on stat
+        
+        // cout << "Keep entire branch" << endl;
+        prob = prob_entire_branch(A, i, j, A_running_prob, A_running_rowsums,
+                                  A_running_colsums, O_rowsums, O_colsums);
+        
+        //cout << "+";
+        
+    } else {
+        
+        prob = enumerate_next(A, i, j, A_running_stat, A_running_prob,
+                              A_running_rowsums, A_running_colsums,
+                              O_rowsums, O_colsums, O_stat,
+                              lb_method, ub_method,
+                              & traverse_ge_observed_stat);
+    }
+    return prob;
+}
+
+mydouble traverse_lt_observed_stat
+(vector<vector<int> > &A,
+ size_t i, size_t j,
+ mydouble A_running_stat,
+ mydouble A_running_prob,
+ vector<vector<int> > & A_running_rowsums,
+ vector<vector<int> > & A_running_colsums,
+ const vector<int> & O_rowsums,
+ const vector<int> & O_colsums,
+ const mydouble O_stat,
+ enum LBOUND lb_method,
+ enum UBOUND ub_method
+ )
+{
+    mydouble prob=0.0;
+    
+    size_t nrows = A.size();
+    
+    if(i >= nrows) { // calculate probability of A
+        
+        prob = ll(A_running_stat, O_stat) ? A_running_prob : 0.0;
+        
+        /*    } else if (ub_method == UB_BY_ELE // && j == 0
+         && upper_bound(A, i, j, A_running_stat,
+         A_running_rowsums, A_running_colsums,
+         O_rowsums, O_colsums, O_stat)
+         < O_stat) { // check the upper bound on stat
+         
+         // cout << "Keep entire branch" << endl;
+         prob = prob_entire_branch(A, i, j, A_running_prob, A_running_rowsums,
+         A_running_colsums, O_rowsums, O_colsums);
+         */
+    } else if (ub_method == UB_BY_ROW && j == 0
+               && ll(upper_bound(A, i, A_running_stat,
+                              A_running_rowsums, A_running_colsums,
+                              O_rowsums, O_colsums, O_stat)
+               , O_stat)) { // check the upper bound on stat
+        
+        // cout << "Keep entire branch" << endl;
+        // prob = 0.0;
+        prob = prob_entire_branch(A, i, j, A_running_prob, A_running_rowsums,
+                                  A_running_colsums, O_rowsums, O_colsums);
+        
+    } else if (lb_method == LBON && j == 0 && ge(A_running_stat, O_stat)) {
+        
+        // cout << "Skip entire branch" << endl;
+        prob = 0.0;
+        
+        //cout << "e";
+    } else if (lb_method == LBON && j == 0 &&
+               ge(lower_bound(A, i, j, A_running_stat,
+                           A_running_rowsums, A_running_colsums,
+                           O_rowsums, O_colsums, O_stat)
+               , O_stat)) { // check lower bound on stat
+        
+        // cout << "Skip entire branch" << endl;
+        prob = 0.0;
+        
+    } else {
+        
+        prob = enumerate_next(A, i, j, A_running_stat, A_running_prob,
+                              A_running_rowsums, A_running_colsums,
+                              O_rowsums, O_colsums, O_stat,
+                              lb_method, ub_method,
+                              & traverse_lt_observed_stat);
+    }
+    
+    return prob;
+}
+
+
+mydouble exact_func_test_multi_hypergeometric
+(const vector<vector<int> > &O, mydouble & fc,
+ enum LBOUND lb_method, enum UBOUND ub_method,
+ enum PVAL pval_method)
+{
+    mydouble pval=1.0;
+    fc = 0;
+    
+    size_t nrows = O.size();
+    size_t ncols = O[0].size();
+    
+    if (nrows < 2 || ncols < 2) {
+        return pval;
+    }
+    
+    int n=0;
+    
+    vector<vector<int> > A(nrows, vector<int>(ncols, 0));
+    mydouble A_running_stat = 0.0;
+    mydouble A_running_prob = 1.0;
+    vector<vector<int> > A_running_rowsums(A);
+    vector<vector<int> > A_running_colsums(A);
+    
+    // Calculate row and col sums, sample size, and initial probability
+    vector<int> O_rowsums(nrows, 0);
+    vector<int> O_colsums(ncols, 0);
+    
+    for (size_t i=0; i<nrows; ++i) {
+        for (size_t j=0; j<ncols; ++j) {
+            O_rowsums[i] += O[i][j];
+        }
+        A_running_prob *= factorial<mydouble>(O_rowsums[i]);
+        n += O_rowsums[i];
+    }
+    
+    mydouble ej = n / (mydouble) ncols;
+    for (size_t j=0; j<ncols; ++j) {
+        for (size_t i=0; i<nrows; ++i) {
+            O_colsums[j] += O[i][j];
+        }
+        A_running_prob *= factorial<mydouble>(O_colsums[j]);
+        if(ej>0) A_running_stat -= (O_colsums[j]-ej) * (O_colsums[j]-ej) / ej;
+    }
+    
+    A_running_prob /= factorial<mydouble>(n);
+    
+    fc = funchisq(O, O_rowsums, O_colsums, n);
+    
+    switch (pval_method) {
+        case PVAL:
+            pval = traverse_ge_observed_stat
+            (A, 0, 0, A_running_stat, A_running_prob,
+             A_running_rowsums, A_running_colsums,
+             O_rowsums, O_colsums, fc,
+             lb_method, ub_method);
+            
+            break;
+            
+        case ONE_MINUS:
+            pval = 1 - traverse_lt_observed_stat
+            (A, 0, 0, A_running_stat, A_running_prob,
+             A_running_rowsums, A_running_colsums,
+             O_rowsums, O_colsums, fc,
+             lb_method, ub_method);
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    return pval;
 }

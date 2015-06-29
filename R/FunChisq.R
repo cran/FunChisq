@@ -1,14 +1,10 @@
-# FunChisq.R
+# FunChisq.R -- statistical tests for nonparametric functional dependencies
 #
 # YZ, HZ, MS
-# Modified: Feb 8, 2015
+# Modified: Feb 8, 2015; June 25, 2015
 
 fun.chisq.test <- function (x, method="default")
-{
-  #Check numbers in x are integers
-  if(sum(x%%1!=0)>=1)stop("Numbers in the contingency table should be integers!", call. = TRUE)
-  ####
-  
+{  
   DNAME <- deparse(substitute(x))
   
   row.chisq.sum <- sum(apply(x, 1,
@@ -42,6 +38,11 @@ fun.chisq.test <- function (x, method="default")
                      class = "htest"))
     
   } else if(method=="exact") {
+    
+    #Check numbers in x are integers
+    if(sum(x%%1!=0)>=1)stop("ERROR: Exact test requires integers in the contingency table!", call. = TRUE)
+    ####
+    
     ####
     #Hua added, Nov 13, 2014
     #Exact functional test
@@ -107,7 +108,7 @@ cp.fun.chisq.test <- function(x, method="default")
                      class = "htest"))
     
   } else {
-    stop("method can be either \"default\" or \"normalized\" or \"exact\"")
+    stop("method can only be \"default\", \"normalized\", or \"exact\".\n")
   }  
 }
 

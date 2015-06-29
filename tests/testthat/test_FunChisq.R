@@ -24,15 +24,18 @@ test_that("Testing the exact functional test", {
   
   x6 <- matrix(c(2,0,0,2), nrow=2, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x6), 8), 
-               signif(as.numeric(fisher.test(x6)$p.value), 8))
+               signif(as.numeric(stats::fisher.test(x6)$p.value), 8))
   
   x7 <- matrix(c(2,2,2,2), nrow=2, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x7), 8), 
-               signif(as.numeric(fisher.test(x7)$p.value), 8))
+               signif(as.numeric(stats::fisher.test(x7)$p.value), 8))
     
   x8 <- matrix(c(0,10,15,20,5,0,25,0,0), nrow=3, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x8), 8), 
-               signif(as.numeric(fun.chisq.test(x8)$p.value), 8))    
+               signif(as.numeric(fun.chisq.test(x8)$p.value), 8))
+  
+  x9 <- matrix(c(1,1,1,1,1,1,1,1,1), nrow=3, byrow = TRUE)
+  expect_equal(exact.functional.test(x9), 1)
 })
 
 test_that("Testing the functional chi-square test", {

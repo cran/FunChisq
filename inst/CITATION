@@ -15,7 +15,7 @@ bibentry(bibtype="PhdThesis",
   header = "To cite comparative functional chi-square test in publications use:",
   author = person("Yang", "Zhang"),
   year = "2014",
-  title ="Nonparametric Statistical Methods for Biological Network Inference.",
+  title ="Nonparametric Statistical Methods for Biological Network Inference",
   school = "New Mexico State University",
   textVersion = "Zhang, Y. (2014). Nonparametric Statistical Methods for Biological Network Inference. Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA"
 )
@@ -25,7 +25,7 @@ bibentry(bibtype="MastersThesis",
   header = "To cite the exact functional test in publications use:",
   author = person("Hua", "Zhong"),
   year = "2014",
-  title ="An Exact and Fast Statistical Test for Nonparametric Functional Dependencies.",
+  title ="An Exact and Fast Statistical Test for Nonparametric Functional Dependencies",
   school = "New Mexico State University",
   textVersion = "Zhong, H. (2014). An Exact and Fast Statistical Test for Nonparametric Functional Dependencies. Unpublished M.S. thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA"
 )

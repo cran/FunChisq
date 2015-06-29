@@ -1,65 +1,125 @@
 //
-//  EMTFisherTests.h
-//  gln
+//  ExactFunctionalTest.h
+//  eft-mhg
 //
-//  Created by Joe Song on 2/12/13.
+//  Created by Joe Song on 4/18/15.
+//  Copyright (c) 2015 New Mexico State University. All rights reserved.
 //
-//
-
-#ifndef __gln__EMTFisherTests__
-#define __gln__EMTFisherTests__
 
 //#include <iostream>
-#include <algorithm>
-#include "ExactMultiTableTest.h"
+#include "define.h"
+#include <vector>
+#include <cmath>
+#include "boost/math/special_functions/factorials.hpp"
 
-double marginalDistribution(const vector<TransitionTable> & Cs,  int index,  vector<vector<int> > & marginal, string mode);//index:0->row, 1->column//Hua added, May 19 2014
+using namespace::std;
+using namespace::boost::math;
 
-//Add by Hua Apr 14 2014
-class EMTFunctionalChisq : public EMTEvaluator
-{
-public:
-    void initialize_customized_row_col_sum(const vector<TransitionTable> & Cs);
-    
-    virtual void initialize(const vector<TransitionTable> & Cs);
-    
-    virtual void processTable(size_t k, const EMTEnumerator & e,
-                              const vector<TransitionTable> & Cs);
-    
-    virtual bool isMoreExtreme() const;
-    
-    double evaluate(const EMTEnumerator & e, const vector<TransitionTable> & Cs);
-    
-	vector<TransitionTable> generateTables(const vector<TransitionTable> & Cs) const;
+enum LBOUND { LBON = 1, LBOFF = 0 };
+enum UBOUND { UB_BY_ROW = 1<<1, UB_BY_ELE = 1<<2, UBOFF = 0 };
+enum PVAL {PVAL, ONE_MINUS};
 
+mydouble traverse
+(vector<vector<int> > &A, size_t i, size_t j,
+ mydouble A_running_stat, mydouble A_running_prob,
+ vector<vector<int> > & A_running_rowsums,
+ vector<vector<int> > & A_running_colsums,
+ const vector<int> & O_rowsums, const vector<int> & O_colsums,
+ const mydouble O_stat,
+ enum LBOUND lb_method, enum UBOUND ub_method
+ );
+ 
+mydouble funchisq(const vector<vector<int> > & O, const vector<int> & rowsums,
+                const vector<int> & colsums, int n);
+                
+mydouble upper_bound(const vector<vector<int> > &A, size_t i,
+                        const mydouble A_running_stat,
+                        const vector<vector<int> > & A_running_rowsums,
+                        const vector<vector<int> > & A_running_colsums,
+                        const vector<int> & O_rowsums,
+                        const vector<int> & O_colsums,
+                        mydouble O_stat);
 
-    //Added by Hua Mar 20 2014
-    virtual BOUND_CHECK bound(size_t k, size_t i, size_t j, const EMTEnumerator & e, const vector<TransitionTable> & Cs);
-    //////
-    //Hua added, Apr 21 2014
-    void setRowAndColSum(vector<vector<int> > &row, vector<vector<int> > &col, const vector<TransitionTable> & Cs);
-    
-    bool getExtremeness() const {return m_moreOrLessExtreme;};
-    ////
-    
-protected:
-    vector<double> m_observedChisq; // observed statistics
-    double m_totalObservedChisq;
-    vector<double> m_colSumChisq; //chisq of columTotles of the tables
-    vector<double> m_nullChisq; // null statistics
-    vector<double> m_boundChisqs; // a bound on chisq under each condition
-    //    double m_boundHeteroChisq;
-    //    int m_row;
-    bool m_skip;
-	bool m_moreOrLessExtreme;//Hua added, May 17 2014. Test observed table's FunChisq, if <=0.5, false; else true. If two observed tables, 0.1 and 0.7, compare 0.1 and 0.3, so choose the 0.1, choose false; if 0.3 and 0.9, compare 0.3 and 0.1, choose 0.9, choose true.
-};
+mydouble upper_bound(const vector<vector<int> > &A, size_t i, size_t j,
+                   const mydouble A_running_stat,
+                   const vector<vector<int> > & A_running_rowsums,
+                   const vector<vector<int> > & A_running_colsums,
+                   const vector<int> & O_rowsums,
+                   const vector<int> & O_colsums,
+                   mydouble O_stat);
 
+mydouble lower_bound(const vector<vector<int> > &A, size_t i, size_t j,
+                        const mydouble A_running_stat,
+                        const vector<vector<int> > & A_running_rowsums,
+                        const vector<vector<int> > & A_running_colsums,
+                        const vector<int> & O_rowsums,
+                        const vector<int> & O_colsums,
+                        mydouble O_stat);
 
-////
-//Add by Hua Apr 14 2014
+mydouble prob_entire_branch(vector<vector<int> > &A,
+                               size_t i, size_t j,
+                               mydouble A_running_prob,
+                               const vector<vector<int> > & A_running_rowsums,
+                               const vector<vector<int> > & A_running_colsums,
+                               const vector<int> & O_rowsums,
+                               const vector<int> & O_colsums);
 
-double exact_functional_test(const vector< vector<int> > & C,
-                             const string & discrepancy_measure);
-////
+mydouble enumerate_next (vector<vector<int> > &A,
+                            size_t i, size_t j,
+                            mydouble A_running_stat,
+                            mydouble A_running_prob,
+                            vector<vector<int> > & A_running_rowsums,
+                            vector<vector<int> > & A_running_colsums,
+                            const vector<int> & O_rowsums,
+                            const vector<int> & O_colsums,
+                            const mydouble O_stat,
+                            enum LBOUND lb_method,
+                            enum UBOUND ub_method,
+                            mydouble (*traverse)
+                            (vector<vector<int> > &A,
+                             size_t i, size_t j,
+                             mydouble A_running_stat,
+                             mydouble A_running_prob,
+                             vector<vector<int> > & A_running_rowsums,
+                             vector<vector<int> > & A_running_colsums,
+                             const vector<int> & O_rowsums,
+                             const vector<int> & O_colsums,
+                             const mydouble O_stat,
+                             enum LBOUND lb_method,
+                             enum UBOUND ub_method)
+                            );
 
-#endif /* defined(__gln__EMTFisherTests__) */
+mydouble traverse_ge_observed_stat
+                            (vector<vector<int> > &A,
+                             size_t i, size_t j,
+                             mydouble A_running_stat,
+                             mydouble A_running_prob,
+                             vector<vector<int> > & A_running_rowsums,
+                             vector<vector<int> > & A_running_colsums,
+                             const vector<int> & O_rowsums,
+                             const vector<int> & O_colsums,
+                             const mydouble O_stat,
+                             enum LBOUND lb_method,
+                             enum UBOUND ub_method
+                             );
+ 
+mydouble traverse_lt_observed_stat
+                            (vector<vector<int> > &A,
+                             size_t i, size_t j,
+                             mydouble A_running_stat,
+                             mydouble A_running_prob,
+                             vector<vector<int> > & A_running_rowsums,
+                             vector<vector<int> > & A_running_colsums,
+                             const vector<int> & O_rowsums,
+                             const vector<int> & O_colsums,
+                             const mydouble O_stat,
+                             enum LBOUND lb_method,
+                             enum UBOUND ub_method
+                             );
+ 
+mydouble exact_func_test_multi_hypergeometric
+                            (const vector<vector<int> > &O, mydouble & fc,
+                             enum LBOUND lb_method, enum UBOUND ub_method,
+                             enum PVAL pval_method);
+ 
+ 
