@@ -5,11 +5,11 @@ Chi-Square and Exact Tests for Non-Parametric Functional Dependencies
 }
 
 \description{
-Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine non-parametric non-constant functional depedencies of the column variable on the row variable.
+Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine non-parametric functional depedencies of the column variable on the row variable.
 }
 
 \usage{
-fun.chisq.test(x, method="default")
+fun.chisq.test(x, method="default", type="non-constant", log.p=FALSE)
 }
 
 \arguments{
@@ -20,6 +20,12 @@ fun.chisq.test(x, method="default")
   \item{method}{
   a character string to specify the method to compute the functional chi-square test statistic and its p-value. The options are \code{"default"}, \code{"normalized"}, or \code{"exact"}. See Details.
 }
+  \item{type}{
+  a character string to specify either the functional or the non-constant functional chi-square test. The options are \code{"non-constant"} (default) and \code{"all"} for all types of functions including constant ones.
+  }
+  \item{log.p}{
+  logical; if \code{TRUE}, the p-value is given as \code{log(p)}. Taking the log improves the accuracy when p-value is close to zero.
+  }
 }
 
 \details{
@@ -28,9 +34,9 @@ The functional chi-square test determines whether the column variable is a funct
 
 When \code{method = "default"}, the test statistic is computed as described in (Zhang and Song, 2013; Zhang, 2014) and the p-value is computed using the chi-square distribution.
 
-When \code{method = "normalized"}, a normalized functional chi-square obtained by shifting and scaling the original chi-square (Zhang and Song, 2013; Zhang, 2014) and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in DREAM8 Breast Cancer Network Inference Challenges.
+When \code{method = "normalized"}, a normalized functional chi-square obtained by shifting and scaling the original chi-square (Zhang and Song, 2013; Zhang, 2014) and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
 
-When \code{method = "exact"}, an exact functional test (Zhong, 2014) is performed. It gives more precise p-value when the sample size is small. When the sample size of an input contingency table is large, the exact functional test and the functional chi-square test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test. On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied. In this 2-by-2 case, the other two options for \code{method} are more desirable when the goal is to test functional depenencies. In addition, if the sample size is larger than 200 or the table size is larger than 5 by 5, the asymptotic functional chi-square test is forced to replace the exact test to for run time speed-up at a comparable precision. 
+When \code{method = "exact"}, an exact functional test (Zhong, 2014) is performed. It gives more precise p-value when the sample size is small. When the sample size of an input contingency table is large, the exact functional test and the functional chi-square test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test. On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied. In this 2-by-2 case, the other two options for \code{method} are more desirable when the goal is to test functional depenencies. In addition, if the sample size is larger than 200 or the table size is larger than 5 by 5, the asymptotic functional chi-square test is forced to replace the exact test to for run time speed-up at a comparable precision.
 
 The following is an example suitable for the exact functional test. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens (Shen et al, 2002) to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylation gene), intermediate (1~2 methylated genes) and positive (>2 methylated genes). The following table represents the frequencies of observed tumor protein p53 mutations and CIMP status:
 \tabular{lcccc}{
@@ -79,6 +85,7 @@ A list with class "\code{htest}" containing the following components:
 \item{statistic}{the functional chi-square statistic if \code{method = "default"} or \code{"exact"}, or the normalized functional chi-square statistic if \code{method = "normalized"}.}
 \item{parameter}{degrees of freedom for the functional chi-square statistic.}
 \item{p.value}{p-value of the functional chi-square test. If \code{method = "default"}, it is computed by an asymptotic chi-square distribution; if \code{method = "normalized"}, it is computed by the standard normal distribution; if \code{method = "exact"}, it is computed by an exact hypergeometric distribution.}
+\item{estimate}{an estimate of functional index between 0 and 1 (perfect function). It is asymetrical with respect to transpose of the input contigency table, different from the symmetrical Cramer's V for Pearson's chi-square.}
 }
 
 \references{
@@ -90,7 +97,7 @@ Pearson, K. (1990). On the criterion that a given system of deviations from the 
 
 Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 
-Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707, 
+Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
 \url{http://arxiv.org/abs/1311.2707}
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State Unviersity, Las Cruces, USA.
@@ -108,27 +115,27 @@ Yang Zhang, Hua Zhong and Joe Song
 # Example 1. Asymptotic functional chi-square test
 x <- matrix(c(20,0,20,0,20,0,5,0,5), 3)
 fun.chisq.test(x) # strong functional dependency
-fun.chisq.test(t(x)) # weak functional dependency 
+fun.chisq.test(t(x)) # weak functional dependency
 
 # Example 2. Normalized functional chi-square test
 x <- matrix(c(8,0,8,0,8,0,2,0,2), 3)
 fun.chisq.test(x, method="normalized") # strong functional dependency
-fun.chisq.test(t(x), method="normalized") # weak functional dependency 
+fun.chisq.test(t(x), method="normalized") # weak functional dependency
 
 # Example 3. Exact functional chi-square test
 x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
 fun.chisq.test(x, method="exact") # strong functional dependency
 fun.chisq.test(t(x), method="exact") # weak functional dependency
 
-# Example 4. Exact functional chi-square test on a real data set 
+# Example 4. Exact functional chi-square test on a real data set
 #            (Shen et al., 2002)
 # x is a contingency table with row variable for p53 mutation and
 #   column variable for CIMP
 x <- matrix(c(12,26,18,0,8,12), nrow=2, ncol=3, byrow=TRUE)
 
 # Test the functional dependency: p53 mutation -> CIMP
-fun.chisq.test(x, method="exact") 
+fun.chisq.test(x, method="exact")
 
 # Test the functional dependency CIMP -> p53 mutation
-fun.chisq.test(t(x), method="exact") 
+fun.chisq.test(t(x), method="exact")
 }

@@ -7,12 +7,12 @@ bibentry(bibtype="Article",
   page = "arXiv:1311.2707",
   author = c(person("Yang", "Zhang"), person("Mingzhou", "Song")), 
   url="http://arxiv.org/pdf/1311.2707v3.pdf",
-  textVersion = "Zhang, Y., & Song, M. (2013). Deciphering interactions in causal networks without parametric assumptions. arXiv Molecular Networks, arXiv:1311.2707. Retrieved from URL http://arxiv.org/pdf/1311.2707v3.pdf" 
+  textVersion = "Zhang, Y., & Song, M. (2013). Deciphering interactions in causal networks without parametric assumptions. arXiv Molecular Networks, arXiv:1311.2707. Retrieved from URL http://arxiv.org/pdf/1311.2707v3.pdf"
 )
 
 bibentry(bibtype="PhdThesis",
   key = "zhang2014nonparametric",
-  header = "To cite comparative functional chi-square test in publications use:",
+  header = "To cite the comparative functional chi-square test in publications use:",
   author = person("Yang", "Zhang"),
   year = "2014",
   title ="Nonparametric Statistical Methods for Biological Network Inference",
@@ -28,4 +28,31 @@ bibentry(bibtype="MastersThesis",
   title ="An Exact and Fast Statistical Test for Nonparametric Functional Dependencies",
   school = "New Mexico State University",
   textVersion = "Zhong, H. (2014). An Exact and Fast Statistical Test for Nonparametric Functional Dependencies. Unpublished M.S. thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA"
+)
+
+bibentry(bibtype="Article",
+  key = "song2014hunting",
+  header = "To cite the comparative chi-square test in publications use:",
+  title = "Hunting complex differential gene interaction patterns across molecular contexts",
+  journal = "Nucleic Acids Research",
+  year = "2014",
+  volume = "42",
+  number = "7",
+  page = "e57",
+  author = c(person("Mingzhou", "Song"), person("Yang", "Zhang"), person("Alexia", "Katzaroff"), person("Bruce", "Edgar"), person("Laura", "Buttitta")), 
+  url = "http://nar.oxfordjournals.org/content/42/7/e57.full",
+  textVersion = "Song, M., Zhang, Y., Katzaroff, A. J., Edgar, B. A., and Buttitta, L. (2014) Hunting complex differential gene interaction patterns across molecular contexts. Nucleic Acids Research 42(7), e57" 
+)
+
+bibentry(bibtype="Article",
+  key = "zhang2015chinet",
+  title = "{ChiNet} uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion",
+  journal = "Nucleic Acids Research",
+  year = "2015",
+  volume = "43",
+  number = "9",
+  page = "4393-4407",
+  author = c(person("Yang", "Zhang"), person("Lewis", "Liu"), person("Mingzhou", "Song")), 
+  url = "http://nar.oxfordjournals.org/content/43/9/4393.long",
+  textVersion = "Zhang, Y., Liu, Z. L., and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. Nucleic Acids Research 43(9), 4393-4407" 
 )

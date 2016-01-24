@@ -47,6 +47,10 @@ Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experi
 Yang Zhang and Joe Song
 }
 
+\seealso{
+For comparative chi-square test that does not consider functional dependencies, \code{\link{cp.chisq.test}}.
+}
+
 \examples{
 x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
 y <- t(x)
@@ -54,5 +58,4 @@ z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
 data <- list(x,y,z)
 cp.fun.chisq.test(data)
 cp.fun.chisq.test(data, method="normalized")
-
 }
