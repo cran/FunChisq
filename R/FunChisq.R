@@ -74,7 +74,7 @@ fun.chisq.test <- function (x, method="default", type="non-constant", log.p=FALS
     ####
     #Hua added, Nov 13, 2014
     #Exact functional test
-    if(type == "non-constant" && (sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
+    if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
        && nrow(x)<=5 && ncol(x)<=5) {
       p.value <- exact.functional.test(x)
       if(log.p) p.value <- log(p.value)

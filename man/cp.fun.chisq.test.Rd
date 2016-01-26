@@ -22,7 +22,7 @@ cp.fun.chisq.test(x, method="default")
 }
 
 \details{
-The comparative functional chi-square test determines whether the patterns underlying the contingency tables are heterogeneous in a functional way. Specifically, it evaluates whether the column variable is a changed function of the row variable across the contingency tables. 
+The comparative functional chi-square test determines whether the patterns underlying the contingency tables are heterogeneous in a functional way. Specifically, it evaluates whether the column variable is a changed function of the row variable across the contingency tables.
 
 Two methods are provided to compute the functional chi-square statistic and its p-value. When \code{method = "default"}, the p-value is computed using the chi-square distribution; when \code{method =} \code{"normalized"} a normalized functional chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
 }
@@ -36,11 +36,11 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
+Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
+
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State Unviersity, Las Cruces, USA.
 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707. \url{http://arxiv.org/abs/1311.2707}
-
-Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
 }
 
 \author{
