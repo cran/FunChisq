@@ -11,8 +11,8 @@ Statistical hypothesis testing methods for non-parametric functional dependencie
 \tabular{ll}{
 Package: \tab FunChisq\cr
 Type: \tab Package\cr
-Version: \tab 2.2.1\cr
-Date: \tab 2016-01-25\cr
+Version: \tab 2.2.2\cr
+Date: \tab 2016-02-14\cr
 Initial version: \tab 1.0\cr
 Initial date: \tab 2014-03-08\cr
 License: \tab LGPL (>= 3) \cr

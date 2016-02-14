@@ -8,7 +8,7 @@ Comparative chi-square tests on two or more contingency tables. This test does n
 }
 
 \usage{
-cp.chisq.test(x, method="default")
+cp.chisq.test(x, method = "chisq", log.p = FALSE)
 }
 
 \arguments{
@@ -17,22 +17,25 @@ cp.chisq.test(x, method="default")
 }
 
   \item{method}{
-  a character string to specify the method to compute the chi-square statistic and its p-value. See Details.
+  a character string to specify the method to compute the chi-square statistic and its p-value. The default is \code{"chisq"}. See Details.
 }
+  \item{log.p}{
+  logical; if \code{TRUE}, the p-value is given as \code{log(p)}. Taking the log improves the accuracy when p-value is close to zero. The default is \code{FALSE}.
+  }
 }
 
 \details{
-The comparative chi-square test determines whether the patterns underlying the contingency tables are heterogeneous. This null test statistic is proved to asymptotically follow the chi-square distribution (Song et al., 2014; Zhang et al., 2015), different from the widely used heterogeneity chi-square test (Zar, 2010).
+The comparative chi-square heterogeneity test determines whether the patterns underlying multiple contingency tables are heterogeneous. Its null test statistic is proved to asymptotically follow the chi-square distribution (Song et al., 2014; Zhang et al., 2015), different from the widely used chi-square heterogeneity test (Zar, 2010).
 
-Two methods are provided to compute the chi-square statistic and its p-value. When \code{method = "default"}, the p-value is computed using the chi-square distribution; when \code{method =} \code{"normalized"} a normalized chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
+Two methods are provided to compute the chi-square statistic and its p-value. When \code{method = "chisq"} (or \code{"default"}), the p-value is computed using the chi-square distribution; when \code{method =} \code{"nchisq"} (or \code{"normalized"}) a normalized chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
 }
 
 \value{
 A list with class "\code{htest}" containing the following components:
 
-\item{statistic}{heterogeneity chi-square (by default), or normalized chi-square if \code{method = "normalized"}.}
-\item{parameter}{degrees of freedom.}
-\item{p.value}{p-value of the comparative chi-square test. By default, it is computed by the chi-square distribution. If \code{method = "normalized"}, it is the p-value of the normalized chi-square computed by the standard normal distribution.}
+\item{statistic}{heterogeneity chi-square if \code{method = "chisq"} (equivalent to \code{"default"}), or normalized chi-square if \code{method = "nchisq"} (equivalent to \code{"normalized"}).}
+\item{parameter}{degrees of freedom of the chi-square statistic.}
+\item{p.value}{p-value of the comparative chi-square test. By default, it is computed by the chi-square distribution (\code{method = "chisq"} or \code{"default"}). If \code{method = "nchisq"} (or \code{"normalized"}), it is the p-value of the normalized chi-square statistic using the standard normal distribution.}
 }
 
 \references{
@@ -59,6 +62,6 @@ y <- t(x)
 z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
 data <- list(x,y,z)
 cp.chisq.test(data)
-cp.chisq.test(data, method="normalized")
+cp.chisq.test(data, method="nchisq")
 
 }

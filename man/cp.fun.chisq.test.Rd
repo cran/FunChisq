@@ -8,7 +8,7 @@ Comparative functional chi-square tests on two or more contingency tables.
 }
 
 \usage{
-cp.fun.chisq.test(x, method="default")
+cp.fun.chisq.test(x, method = "fchisq", log.p = FALSE)
 }
 
 \arguments{
@@ -17,20 +17,24 @@ cp.fun.chisq.test(x, method="default")
 }
 
   \item{method}{
-  a character string to specify the method to compute the functional chi-square statistic and its p-value. See Details.
+  a character string to specify the method to compute the functional chi-square statistic and its p-value. The default is \code{"fchisq"} (equivalent to \code{"default"}). See Details.
 }
+
+  \item{log.p}{
+  logical; if \code{TRUE}, the p-value is given as \code{log(p)}. Taking the log improves the accuracy when p-value is close to zero. The default is \code{FALSE}.
+  }
 }
 
 \details{
 The comparative functional chi-square test determines whether the patterns underlying the contingency tables are heterogeneous in a functional way. Specifically, it evaluates whether the column variable is a changed function of the row variable across the contingency tables.
 
-Two methods are provided to compute the functional chi-square statistic and its p-value. When \code{method = "default"}, the p-value is computed using the chi-square distribution; when \code{method =} \code{"normalized"} a normalized functional chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
+Two methods are provided to compute the functional chi-square statistic and its p-value. When \code{method = "fchisq"} (or \code{"default"}), the p-value is computed using the chi-square distribution; when \code{method =} \code{"nfchisq"} (or \code{"normalized"}) a normalized functional chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
 }
 
 \value{
 A list with class "\code{htest}" containing the following components:
 
-\item{statistic}{functional heterogeneity chi-square (by default), or normalized functional chi-square if \code{method = "normalized"}.}
+\item{statistic}{functional heterogeneity chi-square if \code{method = "fchisq"} (equivalent to \code{"default"}), or normalized functional chi-square if \code{method = "nfchisq"} (equivalent to \code{"normalized"}).}
 \item{parameter}{degrees of freedom.}
 \item{p.value}{p-value of the comparative functional chi-square test. By default, it is computed by the chi-square distribution. If \code{method = "normalized"}, it is the p-value of the normalized functional chi-square computed by the standard normal distribution.}
 }
@@ -57,5 +61,5 @@ y <- t(x)
 z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
 data <- list(x,y,z)
 cp.fun.chisq.test(data)
-cp.fun.chisq.test(data, method="normalized")
+cp.fun.chisq.test(data, method="nfchisq")
 }

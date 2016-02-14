@@ -49,57 +49,63 @@ test_that("Testing the functional chi-square test", {
     method = "default",
     stat.truth = 72,
     par.truth = 4,
-    estimate.truth = 0.71713717,
+    estimate.cond.fun.index = 0.77459667,
+    estimate.fun.index = 0.71713717,
     pval.truth = 8.5822345e-15,
     digits = 8
   )
 
   ex[[2]] <- list(
     x = ex[[1]]$x,
-    method = "normalized",
+    method = "nfchisq",
     stat.truth = 24.0416306,
     par.truth = 4,
-    estimate.truth = 0.71713717,
+    estimate.cond.fun.index = 0.77459667,
+    estimate.fun.index = 0.71713717,
     pval.truth = 5.1061401e-128,
     digits = 8
   )
 
   ex[[3]] <- list(
     x = t(ex[[1]]$x),
-    method = "default",
+    method = "fchisq",
     stat.truth = 64.285714,
     par.truth = 4,
-    estimate.truth = 0.67763093,
+    estimate.cond.fun.index = 0.67936622,
+    estimate.fun.index = 0.67763093,
     pval.truth = 3.6385174e-13,
     digits = 8
   )
 
   ex[[4]] <- list(
     x = ex[[3]]$x,
-    method = "normalized",
+    method = "nfchisq",
     stat.truth = 21.314219,
     par.truth = 4,
-    estimate.truth = 0.67763093,
+    estimate.cond.fun.index = 0.67936622,
+    estimate.fun.index = 0.67763093,
     pval.truth = 4.1897164e-101,
     digits = 8
   )
 
   ex[[5]] <- list(
     x = matrix(c(5, 0, 0, 0, 5, 0, 0, 0, 5), nrow=3),
-    method = "default",
+    method = "fchisq",
     stat.truth = 30,
     par.truth = 4,
-    estimate.truth = 1,
+    estimate.cond.fun.index = 1,
+    estimate.fun.index = 1,
     pval.truth = 4.8944371e-06,
     digits = 8
   )
 
   ex[[6]] <- list(
     x = matrix(c(5, 0, 5, 0, 0, 5, 0, 5), nrow=4),
-    method = "default",
+    method = "fchisq",
     stat.truth = 20,
     par.truth = 3,
-    estimate.truth = 1,
+    estimate.cond.fun.index = 1,
+    estimate.fun.index = 1,
     pval.truth = 0.00016974244,
     digits = 8
   )
@@ -110,8 +116,11 @@ test_that("Testing the functional chi-square test", {
              h <- fun.chisq.test(x, method=method)
              expect_equivalent(h$statistic, stat.truth)
              expect_equivalent(h$parameter, par.truth)
-             expect_equivalent(signif(h$estimate, digits=digits), estimate.truth)
+             expect_equivalent(signif(h$estimate, digits=digits), estimate.fun.index)
              expect_equivalent(signif(h$p.value, digits=digits), pval.truth)
+
+             h <- fun.chisq.test(x, method=method, index.kind="conditional")
+             expect_equivalent(signif(h$estimate, digits=digits), estimate.cond.fun.index)
            }
     )
   }
@@ -124,7 +133,7 @@ test_that("Testing the comparative functional chi-square test", {
   z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
   data <- list(x,y,z)
   expect_equivalent(signif(cp.fun.chisq.test(data)$p.value, 8), 0.00018762119)
-  expect_equivalent(signif(cp.fun.chisq.test(data, method="normalized")$p.value, 8),
+  expect_equivalent(signif(cp.fun.chisq.test(data, method="nfchisq")$p.value, 8),
                1.0052639e-07)
 })
 
@@ -137,10 +146,15 @@ test_that("Testing the comparative chi-square test", {
                      0,0,0,
                      0,0,0), nrow=3)
   x[[2]] <- x[[1]]
+  x[[3]] <- x[[1]]
 
-  expect_equivalent(signif(cp.chisq.test(x)$p.value, 8), 1)
+  h <- cp.chisq.test(x)
+  expect_equivalent(signif(h$p.value, 8), 1)
+  expect_equivalent(signif(h$statistic, 8), 0)
+  expect_equivalent(h$parameter, 0)
 
-  expect_equivalent(signif(cp.chisq.test(x, method="normalized")$p.value, 8), 1)
+  h <- cp.chisq.test(x, method="nchisq")
+  expect_equivalent(signif(h$p.value, 8), 1)
 
   x <- list()
 
@@ -148,10 +162,14 @@ test_that("Testing the comparative chi-square test", {
                      0,4,0,
                      0,0,4), nrow=3)
   x[[2]] <- x[[1]]
+  x[[3]] <- x[[1]]
+  h <- cp.chisq.test(x)
+  expect_equivalent(signif(h$p.value, 8), 1)
+  expect_equivalent(signif(h$statistic, 8), 0)
+  expect_equivalent(h$parameter, 8)
 
-  expect_equivalent(signif(cp.chisq.test(x)$p.value, 8), 1)
-
-  expect_equivalent(signif(cp.chisq.test(x, method="normalized")$p.value, 8), 1)
+  h <- cp.chisq.test(x, method="nchisq")
+  expect_equivalent(signif(h$p.value, 8), 0.97724987)
 
   x <- list()
 
@@ -159,20 +177,27 @@ test_that("Testing the comparative chi-square test", {
                      0,4,0,
                      0,0,4), nrow=3)
 
-  x[[2]] <- matrix(c(4,0,0,
-                     0,4,0,
-                     0,0,4), nrow=3)
+  x[[2]] <- matrix(c(0,4,4,
+                     4,0,4,
+                     4,4,0), nrow=3)
 
-  expect_equivalent(signif(cp.chisq.test(x)$p.value, 8), 1)
+  h <- cp.chisq.test(x)
+  expect_equivalent(signif(h$p.value, 8), 2.8936962e-07)
+  expect_equivalent(signif(h$statistic, 8), 36)
+  expect_equivalent(h$parameter, 4)
 
-  expect_equivalent(signif(cp.chisq.test(x, method="normalized")$p.value, 8), 1)
+  h <- cp.chisq.test(x, method="nchisq")
+  expect_equivalent(signif(h$p.value, 8), 0)
 
   x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
   y <- t(x)
   z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
   data <- list(x,y,z)
-  expect_equivalent(signif(cp.chisq.test(data)$p.value, 8), 0.61840403)
-  expect_equivalent(signif(cp.chisq.test(data, method="normalized")$p.value, 8),
-                    0.66843871)
+  h <- cp.chisq.test(data)
+  expect_equivalent(signif(h$p.value, 8), 1.3542453e-06)
+  expect_equivalent(signif(h$statistic, 8), 42)
+  expect_equivalent(h$parameter, 8)
 
+  h <- cp.chisq.test(data, method="nchisq")
+  expect_equivalent(signif(h$p.value, 8), 9.4795348e-18)
 })
