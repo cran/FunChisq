@@ -17,6 +17,8 @@
 # Feb 7, 2016 MS:
 #   Handled the special case when the degrees of freedom for the normalized FunChisq are zero
 
+# exact.functional.test <- ExactFunctionalTest
+
 fun.chisq.test <- function (x, method="fchisq", alternative="non-constant", log.p=FALSE,
                             index.kind="unconditional")
 {
@@ -105,7 +107,8 @@ fun.chisq.test <- function (x, method="fchisq", alternative="non-constant", log.
     #Exact functional test
     if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
        && nrow(x)<=5 && ncol(x)<=5) {
-      p.value <- exact.functional.test(x)
+      # p.value <- exact.functional.test(x)
+      p.value <- ExactFunctionalTest(x)
       if(log.p) p.value <- log(p.value)
       names(fun.chisq) <- "statistic"
       return(structure(list(statistic = fun.chisq, p.value = p.value, estimate = estimate,
@@ -172,8 +175,8 @@ cp.fun.chisq.test <- function(x, method="fchisq", log.p=FALSE)
   }
 }
 
-exact.functional.test <- function(x){
-  res <- .Call("ExactFunctionalTest", x, PACKAGE="FunChisq")
-  return (as.double(res))
-}
+# exact.functional.test <- function(x){
+#  res <- .Call("ExactFunctionalTest", x, PACKAGE="FunChisq")
+#  return (as.double(res))
+#}
 ####

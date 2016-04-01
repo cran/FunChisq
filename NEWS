@@ -1,5 +1,16 @@
 NEWS
 
+Version 2.2.3
+  Changes
+  2016-03-31
+  1. Use [[Rcpp::export]] to automatically generate R interface
+
+  2016-03-15
+  1. Revised the code to remove dependency on RcppClassic
+
+  2016-03-12
+  1. Revised help documentation and included new references
+
 Version 2.2.2
   Changes
   2016-02-07

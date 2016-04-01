@@ -4,6 +4,9 @@ context("Testing the FunChisq package")
 
 
 test_that("Testing the exact functional test", {
+
+  exact.functional.test <- ExactFunctionalTest
+
   x1 <- matrix(c(12, 26, 18, 0, 8, 12), nrow=2, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x1), 8), 0.042556227)
   expect_equal(signif(exact.functional.test(t(x1)), 8), 0.027271581)
