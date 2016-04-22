@@ -1,11 +1,15 @@
-6f1003caa53485259d28dc815f564f32 *DESCRIPTION
+f13a4c004bc1bd9501407d26d54f2e75 *DESCRIPTION
 9ef1f1d39be4a95ef694f22d7e72fc15 *NAMESPACE
-8475a55d4b62bbd0d8f7a2cb9756851c *NEWS
+3d90d3fd3d23c8d85a1a37ed09b5dcd7 *NEWS
 af7e545d8cbbc5eb7c7c26a9ad33aee5 *R/CPChisq.R
 8c3f058c7016f198e9161234ff079d12 *R/FunChisq.R
 3368fde4e4a861b42ef8e65d4bb7ec03 *R/RcppExports.R
+49e2fb2013025e2fc639462d893310a2 *build/vignette.rds
 665b91fac7041fd34a564626bfdda14f *inst/CITATION
-72a43b728062422e8c7f48c1e4e1e4bf *man/FunChisq-package.Rd
+114378b99e534709423be304c5f787ff *inst/doc/fun.chisq.test.R
+18ac964939f83e63dfacb6411010a708 *inst/doc/fun.chisq.test.Rmd
+3ad47701b04654813e096f96f399d2e4 *inst/doc/fun.chisq.test.html
+6acd49c772e83dd5e33ffb406bfcdd8b *man/FunChisq-package.Rd
 5d7cef64a4f9c97320d309ddebd6e60b *man/cp.chisq.test.Rd
 edcda47aab54b73226a7f8e96596b667 *man/cp.fun.chisq.test.Rd
 a42b1ded9669a4212791149abe73bfb3 *man/fun.chisq.test.Rd
@@ -18,3 +22,4 @@ e3d3cb360fbfdb3c6974e14eb5f09870 *src/Makevars.win
 cf4e9047f4898b5066d98aace9f02423 *src/main.cpp
 67802a3cde10554de4d22ea062eca41a *tests/testthat.R
 b9ec5fa234db92416a8f93422c94d08b *tests/testthat/test_FunChisq.R
+18ac964939f83e63dfacb6411010a708 *vignettes/fun.chisq.test.Rmd

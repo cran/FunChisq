@@ -1,0 +1,67 @@
+---
+title: "Which statistic to use for functional dependency from `fun.chisq.test()`?"
+author: "Joe Song"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+  #pdf_document:
+    #latex_engine: xelatex
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Which statistic to use for evaluating functional dependency?
+
+Given an input contingency table, the `fun.chisq.test()` offers several statistics to evaluate non-parametric functional dependency of the column variable $Y$ on the row variable $X$. They include functional chi-square statistic $\chi^2_f$, its $p$-value, or function index $\xi_f$. 
+
+We explain their differences in analogy to those statistics returned from `cor.test()`, the R function for the test of correlation, and the $t$-test. We chose both tests because they are widely used and well understood. Variants of the $t$-test are popular for differential gene expression analysis. Another choice could be the Pearson's chi-square test plus a statistic called Cramer's V, analogus to correlation coefficient, but not as popularly used. The table below summarizes the differences among the test statistics and their analogous counterpart in correlation and $t$ tests.
+
+Table: **Comparison of the three statistics returned from `fun.chisq.test()`.**
+
+----------------------------------------------------------------------------------
+              Measure        Affected       Affected     Measure         Analogous to                Analogous to
+              functional     by sample      by table     statistical     correlation                 differential
+ Statistics   dependency?    size?          size?        significance?   test                         expression by $t$-test
+------------ -------------  ----------     -----------  --------------- ---------------             ---------------
+$\chi^2_f$    Yes             Yes             Yes         No             test statistic              $t$-statistic
+
+$p$-value     Yes             Yes             Yes         Yes             $p$-value                   $p$-value
+
+$\xi_f$       Yes             No              No          No             correlation coefficient      fold change
+----------------------------------------------------------------------------------
+
+The test statistic $\chi^2_f$ measures deviation of $Y$ from a uniform distribution contributed by $X$. It is maximized when there is a functional relationship from $X$ to $Y$. This statistic is also affected by sample size and the size of the contingency table. It summarizes the strength of both functional dependency and support from the sample. A strong function supported by few samples may have equal $\chi^2_f$ to a weak function supported by more samples. It is analogous to the test statistic (not to be confused with correlation coefficient) in `cor.test()`.
+
+The $p$-value of $\chi^2_f$ overcomes the table size factor and making tables of different sizes or sample sizes comparable. However, its null distribution (chi-square or normalized) is only asymptotically true. It is analogous to the role of the $p$-value of `cor.test()`.
+
+The function index $\xi_f$ measures *only* the strength of functional dependency without considering statistical significance or support from the data. When the sample size is small, the index may be unreliable; when the sample size is large, it is a direct measure of functional dependency and is comparable across tables. It is analogous to the role of correlation coefficient in `cor.test()`, or fold change in $t$-test for differential gene expression analysis.
+
+## Examples
+
+We provide four examples to illustrate the differences among the statistics. `x1` and `x4` represent the same non-monotonic function pattern in differen sample sizes; `x2` is the transpose of `x1`, no longer functional; and `x3` is another non-functional pattern. Among the first three examples, `x3` is the most statistically significant, but `x1` has the highest function index $\xi_f$. This can be explained by a larger sample size but a smaller effect in `x3` than `x1`. However, when `x1` is linearly scaled to `x4` to have exactly the same sample size with `x3`, both the $p$-value and the function index $\xi_f$ favor `x4` over `x3` for representing a stronger function.
+
+```{r}
+require(FunChisq)
+x1=matrix(c(5,1,5,1,5,1,1,0,1), nrow=3)
+x1
+fun.chisq.test(x1)
+```
+
+```{r}
+x2=matrix(c(5,1,1,1,5,0,5,1,1), nrow=3)
+x2
+fun.chisq.test(x2)
+```
+
+```{r}
+x3=matrix(c(5,1,1,1,5,0,9,1,1), nrow=3)
+x3
+fun.chisq.test(x3)
+```
+
+```{r}
+x4=x1*sum(x3)/sum(x1)
+x4
+fun.chisq.test(x4)
+```
