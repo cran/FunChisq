@@ -28,7 +28,10 @@ mydouble traverse
  const mydouble O_stat,
  enum LBOUND lb_method, enum UBOUND ub_method
  );
- 
+
+mydouble funchisq(const vector<vector<int> > & O, mydouble & estimate,
+                  const string index_kind);
+
 mydouble funchisq(const vector<vector<int> > & O, const vector<int> & rowsums,
                 const vector<int> & colsums, int n);
                 

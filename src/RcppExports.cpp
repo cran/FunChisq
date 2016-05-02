@@ -16,3 +16,17 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// interactions
+DataFrame interactions(const IntegerMatrix& expression_matrix, const List& parent_index, const IntegerVector& child_index, const String& index_kind);
+RcppExport SEXP FunChisq_interactions(SEXP expression_matrixSEXP, SEXP parent_indexSEXP, SEXP child_indexSEXP, SEXP index_kindSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type expression_matrix(expression_matrixSEXP);
+    Rcpp::traits::input_parameter< const List& >::type parent_index(parent_indexSEXP);
+    Rcpp::traits::input_parameter< const IntegerVector& >::type child_index(child_indexSEXP);
+    Rcpp::traits::input_parameter< const String& >::type index_kind(index_kindSEXP);
+    __result = Rcpp::wrap(interactions(expression_matrix, parent_index, child_index, index_kind));
+    return __result;
+END_RCPP
+}

@@ -12,3 +12,12 @@ typedef double mydouble;
 #else
 typedef long double mydouble;
 #endif
+
+#include <vector>
+#include <string>
+
+mydouble funchisq(const std::vector<std::vector<int> > & O, mydouble & estimate,
+                  const std::string index_kind);
+
+mydouble funchisq(const std::vector<std::vector<int> > & O, const std::vector<int> & rowsums,
+                  const std::vector<int> & colsums, int n);

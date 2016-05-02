@@ -5,7 +5,7 @@ Chi-Square and Exact Tests for Non-Parametric Functional Dependencies
 }
 
 \description{
-Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine non-parametric functional depedencies of the column variable on the row variable.
+Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine non-parametric functional dependencies of the column variable on the row variable.
 }
 
 \usage{
@@ -36,7 +36,7 @@ fun.chisq.test(x, method = "fchisq", alternative = "non-constant",
 
 The functional chi-square test determines whether the column variable is a function of the row variable in contingency table \code{x} (Zhang and Song, 2013; Zhang, 2014). This function supports three hypothesis testing methods:
 
-\code{index.kind} specifies the kind of estimated function index to be computed. If the experimental design predefines neither the row nor column marginal sample size, \code{index.kind = "unconditional"} (default) is recommended; otherwise, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the estimated function index xi.f value, but not the test statistic or p-value.
+\code{index.kind} specifies the kind of estimated function index to be computed. If the experimental design controls neither the row nor column marginal sample size, \code{index.kind = "unconditional"} (default) is recommended; otherwise, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the estimated function index xi.f value, but not the test statistic or p-value.
 
 When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in (Zhang and Song, 2013; Zhang, 2014) and the p-value is computed using the chi-square distribution.
 
@@ -44,30 +44,30 @@ When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test stati
 
 When \code{method="exact"}, an exact functional test (Zhong, 2014) is performed. It computes an exact p-value and is fast when both the sample and table sizes are small. If the sample size is greater than 200 or the table size is larger than 5 by 5,  the exact test may not complete within a reasonable amount of time and the asymptotic functional chi-square test (\code{method="fchisq"}) is used instead. %When the sample size of an input contingency table is large, the exact functional test and the functional chi-square test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
 % On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied.
-For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq"} or \code{"nfchisq"}) are recommended to test functional depenency.
+For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq"} or \code{"nfchisq"}) are recommended to test functional dependency.
 
-The following is an example suitable for the exact functional test. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens (Shen et al, 2002) to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylation gene), intermediate (1~2 methylated genes) and positive (>2 methylated genes). The following table represents the frequencies of observed tumor protein p53 mutations and CIMP status:
-\tabular{lcccc}{
-  \tab \tab  CpG Island Methylator\cr
-  \tab \tab Phenotype (CIMP)\cr
-  \tab  Negative  \tab  Intermediate	\tab	Positive\cr
-%	\bold{Cirrhosis} \tab  \tab  \tab  \tab  0.038 (Pearson`s chisq)\cr
-%	  Negative  \tab	12	\tab	16	\tab	10\cr
-%	  Positive	\tab	5	\tab	18	\tab	21\cr
-%    \cr
-%	\bold{Hepatitis} \tab \tab  \tab  \tab 0.010 (Pearson`s chisq$)\cr
-%	  Negative	\tab	12	\tab	12	\tab	8\cr
-%	  Positive	\tab	 5	\tab	22	\tab	22\cr
-%    \cr
-%	\bold{Country risk} \tab  \tab  \tab \tab  0.021 (Fisher`s exact)\cr
-%	  Low risk	\tab	14	\tab	17	\tab	14\cr
-%	  High risk	\tab	 3	\tab	19	\tab	18\cr
-%    \cr
-	\bold{p53 mutation}\cr
-    No	\tab	12	\tab	26	\tab	18\cr
-	  Yes	\tab	 0	\tab	 8	\tab	12
-}
-Example 4 below performs the exact functional test on this table.
+%The following is an example suitable for the exact functional test. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens (Shen et al, 2002) to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylation gene), intermediate (1~2 methylated genes) and positive (>2 methylated genes). The following table represents the frequencies of observed tumor protein p53 mutations and CIMP status:
+%\tabular{lcccc}{
+%  \tab \tab  CpG Island Methylator\cr
+%  \tab \tab Phenotype (CIMP)\cr
+%  \tab  Negative  \tab  Intermediate	\tab	Positive\cr
+%%	\bold{Cirrhosis} \tab  \tab  \tab  \tab  0.038 (Pearson`s chisq)\cr
+%%	  Negative  \tab	12	\tab	16	\tab	10\cr
+%%	  Positive	\tab	5	\tab	18	\tab	21\cr
+%%    \cr
+%%	\bold{Hepatitis} \tab \tab  \tab  \tab 0.010 (Pearson`s chisq$)\cr
+%%	  Negative	\tab	12	\tab	12	\tab	8\cr
+%%	  Positive	\tab	 5	\tab	22	\tab	22\cr
+%%    \cr
+%%	\bold{Country risk} \tab  \tab  \tab \tab  0.021 (Fisher`s exact)\cr
+%%	  Low risk	\tab	14	\tab	17	\tab	14\cr
+%%	  High risk	\tab	 3	\tab	19	\tab	18\cr
+%%    \cr
+%	\bold{p53 mutation}\cr
+%    No	\tab	12	\tab	26	\tab	18\cr
+%	  Yes	\tab	 0	\tab	 8	\tab	12
+%}
+%Example 4 below performs the exact functional test on this table.
 
 %\tabular{lccc}{
 %\tab  Exact functional test\cr
@@ -103,12 +103,12 @@ Fisher, R. A. (1922). On the interpretation of chi-square from contingency table
 
 Pearson, K. (1990). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5}, 50(302), 157-175.
 
-Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
+%Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
 \url{http://arxiv.org/abs/1311.2707}
 
-Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State Unviersity, Las Cruces, USA.
+Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
 Zhong, H. (2014) \emph{An Exact and Fast Statistical Test for Nonparametric Functional Dependencies.} Unpublished M.S. thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 

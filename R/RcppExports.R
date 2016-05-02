@@ -5,3 +5,7 @@ ExactFunctionalTest <- function(nm) {
     .Call('FunChisq_ExactFunctionalTest', PACKAGE = 'FunChisq', nm)
 }
 
+interactions <- function(expression_matrix, parent_index, child_index, index_kind) {
+    .Call('FunChisq_interactions', PACKAGE = 'FunChisq', expression_matrix, parent_index, child_index, index_kind)
+}
+

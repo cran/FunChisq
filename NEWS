@@ -1,22 +1,35 @@
 NEWS
+Version 2.3.1
+  Changes
+  2016-05-01
+  1. Expanded test.interactions() to test many-to-one combinatorial
+     interactions in C++ via Rcpp.
+
+Version 2.3.0 (not deposited to CRAN)
+  Changes
+  2016-04-30
+  1. Data frame input is now converted to numeric matrix before exact
+     functional test.
+  2. Added function test.interactions() to test pairwise (one-to-one)
+     interactions, implemented in C++ via Rcpp for computational efficiency.
 
 Version 2.2.4
   Changes
   2016-04-21
   1. Added vignette "Which statistic to use for functional dependency
      from fun.chisq.test()?"
-  2. Updated references and description
+  2. Updated references and description.
 
 Version 2.2.3
   Changes
   2016-03-31
-  1. Use [[Rcpp::export]] to automatically generate R interface
+  1. Use [[Rcpp::export]] to automatically generate R interface.
 
   2016-03-15
-  1. Revised the code to remove dependency on RcppClassic
+  1. Revised the code to remove dependency on RcppClassic.
 
   2016-03-12
-  1. Revised help documentation and included new references
+  1. Revised help documentation and included new references.
 
 Version 2.2.2
   Changes
@@ -67,7 +80,7 @@ Version 2.2.0
   2. Added test examples for cp.chisq.test().
 
 Version 2.1.0 2015-06-29
-Changes
+  Changes
   1. Substantially reduced the run time of exact functional test by designing a
      better branch and bound strategy.
   2. Enabled C++11 compling by adding two files (Makevars and Makevars.win).
@@ -77,12 +90,12 @@ Changes
   5. Imported pnorm() and pchisq() from the "stats" package.
 
 Version 2.0.2 2015-03-03
-Changes
+  Changes
   1. Updated documentation for the package and its functions.
   2. Fixed a testing issue under r-release-linux-ix86 flavor.
 
 Version 2.0.1 2015-02-23
-Changes
+  Changes
   1. Removed assert() function from StatDistribution.cpp.
   2. Removed Makevar and Makevar.win files.
   3. Removed all iostream and sstream and cassert.
@@ -92,7 +105,7 @@ Changes
   6. Added a normalized functional chi-square test example.
 
 Version 2.0.0 2015-02-12
-Changes
+  Changes
   1. Added a new exact functional test as a method option to fun.chisq.test().
      The exact functional test is an exact version of FunChisq test, it is
      more precise to detect functional dependencies in small sample-sized
@@ -104,6 +117,6 @@ Changes
   5. Started the NEWS file.
 
 Version 1.0 2014-03-08
-Changes
+  Changes
   1. The first release of this package implements the functional chi-square
      test and a normalized version.
