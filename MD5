@@ -1,6 +1,6 @@
-051d94497db9d805c00b4dff2af90972 *DESCRIPTION
+1b15616aabd5faa6259ad4efcb89e215 *DESCRIPTION
 932b634eaf43afa928a3423ce83b1d83 *NAMESPACE
-30df2f0895ba72e17418bd6f8d7a9f0c *NEWS
+991da183b4f3cca2111687c2d625d8c3 *NEWS
 a6a7e4aff72b19c2f8f9d032c841bc39 *R/CPChisq.R
 4c660b6866f643c0f903ce91f671706a *R/CPFunChisq.R
 11f14c301b60242a130a016741d07965 *R/FunChisq.R
@@ -9,12 +9,12 @@ a6a7e4aff72b19c2f8f9d032c841bc39 *R/CPChisq.R
 d57c7d45ab4eeb9a73e83cc4a055380a *build/vignette.rds
 665b91fac7041fd34a564626bfdda14f *inst/CITATION
 83ff0c0bd5a0922fbc2774dd44c3b6e9 *inst/doc/exact.fun.test.R
-7a384246a1fa164230df466293b02b08 *inst/doc/exact.fun.test.Rmd
-635e21e75df8dbd7010afcca80711fbb *inst/doc/exact.fun.test.html
+541ed0bd7fdcefae89ddea0171538b82 *inst/doc/exact.fun.test.Rmd
+13d640f360e3541d78786b53def6e76f *inst/doc/exact.fun.test.html
 114378b99e534709423be304c5f787ff *inst/doc/fun.chisq.test.R
-4513a6c9c06b6fd791684fa92259c8ef *inst/doc/fun.chisq.test.Rmd
-b5f1728afd9781faa2e25b44f72fa694 *inst/doc/fun.chisq.test.html
-4ba030d2aedb3f99169895f6bfc3a18f *man/FunChisq-package.Rd
+7310a93cd7e1cc96333a778fde6f13b4 *inst/doc/fun.chisq.test.Rmd
+dc6b92962c21a2371d15f01b7d6daa7f *inst/doc/fun.chisq.test.html
+139d56c03782b08f939242b5292c0299 *man/FunChisq-package.Rd
 0d40bd735b3ab1f5508aa50035686c3d *man/cp.chisq.test.Rd
 df319643bcf7805c859d7722b4b64b89 *man/cp.fun.chisq.test.Rd
 9b0eeda5401e56670ab7cc5967eec4d6 *man/fun.chisq.test.Rd

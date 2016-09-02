@@ -1,18 +1,18 @@
 ---
-title: "Examples of the exact functional test"
+title: "Using the exact functional test"
 author: "Hua Zhong and Joe Song"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Examples of the exact functional test}
+  %\VignetteIndexEntry{Using the exact functional test}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 
-We show an example of the exact functional test. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens [@shen2002dna] to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylation gene), intermediate (1~2 methylated genes) and positive (>2 methylated genes). 
+We illustrate the exact functional test with an example. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens [@shen2002dna] to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylated genes), intermediate (1~2 methylated genes) and positive (>2 methylated genes). 
 
-The following table represents the frequencies of observed tumor protein p53 mutations and CIMP status:
+The following table gives the frequencies of observed tumor protein p53 mutations and CIMP status:
 
 Table: **CpG Island Methylator Phenotype (CIMP) and p53 mutation.**
 
