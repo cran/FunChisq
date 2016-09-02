@@ -8,7 +8,8 @@ Comparative chi-square tests on two or more contingency tables. This test does n
 }
 
 \usage{
-cp.chisq.test(x, method = "chisq", log.p = FALSE)
+cp.chisq.test(x, method=c("chisq", "nchisq", "default", "normalized"),
+              log.p = FALSE)
 }
 
 \arguments{
@@ -18,6 +19,8 @@ cp.chisq.test(x, method = "chisq", log.p = FALSE)
 
   \item{method}{
   a character string to specify the method to compute the chi-square statistic and its p-value. The default is \code{"chisq"}. See Details.
+
+    Note: \code{"default"} and \code{"normalized"} are deprecated.
 }
   \item{log.p}{
   logical; if \code{TRUE}, the p-value is given as \code{log(p)}. Taking the log improves the accuracy when p-value is close to zero. The default is \code{FALSE}.

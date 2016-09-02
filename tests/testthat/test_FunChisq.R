@@ -49,7 +49,7 @@ test_that("Testing the functional chi-square test", {
 
   ex[[1]] <- list(
     x = matrix(c(20,0,20,0,20,0,5,0,5), 3),
-    method = "default",
+    method = "fchisq",
     stat.truth = 72,
     par.truth = 4,
     estimate.cond.fun.index = 0.77459667,

@@ -1,12 +1,12 @@
 ---
-title: "Which statistic from `fun.chisq.test()` to use for functional dependency?"
+title: "Which statistic to use for functional dependency?"
 author: "Joe Song"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
   #pdf_document:
     #latex_engine: xelatex
 vignette: >
-  %\VignetteIndexEntry{Which statistic to use?}
+  %\VignetteIndexEntry{Which statistic to use for functional dependency?}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

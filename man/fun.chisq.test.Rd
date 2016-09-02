@@ -9,8 +9,10 @@ Asymptotic chi-square, normalized chi-square or exact tests on contingency table
 }
 
 \usage{
-fun.chisq.test(x, method = "fchisq", alternative = "non-constant",
-               log.p = FALSE, index.kind = "unconditional")
+fun.chisq.test(x,
+               method=c("fchisq", "nfchisq", "exact", "default", "normalized"),
+               alternative=c("non-constant", "all"), log.p=FALSE,
+               index.kind=c("unconditional", "conditional"))
 }
 
 \arguments{
@@ -20,6 +22,8 @@ fun.chisq.test(x, method = "fchisq", alternative = "non-constant",
 
   \item{method}{
   a character string to specify the method to compute the functional chi-square test statistic and its p-value. The options are \code{"fchisq"} (equivalent to \code{"default"}, the default), \code{"nfchisq"} (equivalent to \code{"normalized"}), or \code{"exact"}. See Details.
+
+  Note: \code{"default"} and \code{"normalized"} are deprecated.
 }
   \item{alternative}{
   a character string to specify the alternative hypothesis. The options are \code{"non-constant"} (default, non-constant functions) and \code{"all"} (all types of functions including constant ones).
@@ -101,7 +105,7 @@ Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experi
 
 Fisher, R. A. (1922). On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society}, 85(1), 87-94.
 
-Pearson, K. (1990). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5}, 50(302), 157-175.
+Pearson, K. (1900). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5}, 50(302), 157-175.
 
 %Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 

@@ -8,7 +8,7 @@
 }
 \usage{
 test.interactions(x, list.ind.vars, dep.vars, var.names = rownames(x),
-                  index.kind = "unconditional")
+                  index.kind = c("unconditional", "conditional"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

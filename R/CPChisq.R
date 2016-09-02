@@ -7,12 +7,22 @@
 #   Modified the method name
 #   Added log.p argument to specify log p-value
 
-cp.chisq.test <- function(x, method="chisq", log.p=FALSE)
+cp.chisq.test <- function(x, method=c("chisq", "nchisq", "default", "normalized"),
+                          log.p=FALSE)
 {
   DNAME <- deparse(substitute(x))
   if(mode(x)!="list" || length(x)<2 )
   {
     stop("only accept list of 2 or more matrices as input!")
+  }
+
+  method <- match.arg(method)
+  if(method == "default") {
+    warning(paste0("method=\"", method, "\" is deprecated. Use \"chisq\" instead."))
+    method <- "chisq"
+  } else if(method == "normalized") {
+    warning(paste0("method=\"", method, "\" is deprecated. Use \"nchisq\" instead."))
+    method <- "nchisq"
   }
 
   pooled <- x[[1]]
@@ -61,7 +71,7 @@ cp.chisq.test <- function(x, method="chisq", log.p=FALSE)
 
   }
 
-  if(method=="default" || method=="chisq") {
+  if(method=="chisq") {
 
     finalStat <- hetero.chisq
     names(finalStat) <- "statistic"
@@ -77,7 +87,7 @@ cp.chisq.test <- function(x, method="chisq", log.p=FALSE)
                            data.name= DNAME),
                      class = "htest"))
 
-  } else if(method=="normalized" || method=="nchisq" ) {
+  } else if(method=="nchisq") {
 
     finalStat <- ifelse(df > 0, ( hetero.chisq - df) / sqrt( 2 * df ), 0)
     names(finalStat) <- "statistic"
@@ -92,8 +102,5 @@ cp.chisq.test <- function(x, method="chisq", log.p=FALSE)
                           method = "Nomalized comparative chi-square heterogeneity test",
                           data.name= DNAME),
                      class = "htest"))
-
-  } else {
-    stop("method can only be \"default\", \"normalized\", or \"exact\".\n")
   }
 }

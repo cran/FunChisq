@@ -4,7 +4,7 @@
 #Created: Apr 14, 2016
 
 test.interactions <- function(x, list.ind.vars, dep.vars, var.names = rownames(x),
-                              index.kind = "unconditional")
+                              index.kind = c("unconditional", "conditional"))
 {
   if(is.null(x) ||  nrow(x)<=0 || ncol(x)<=0)stop("x must not be empty!")
   if(is.data.frame(x)){
@@ -15,6 +15,9 @@ test.interactions <- function(x, list.ind.vars, dep.vars, var.names = rownames(x
     stop("list.ind.vars must be a numerical list!")
   if(!is.numeric(dep.vars) || !is.vector(dep.vars))
     stop("dep.vars must be a numerical vector!")
+
+  index.kind <- match.arg(index.kind)
+
   if(is.null(index.kind) || is.na(index.kind) ||
      (index.kind != "conditional" && index.kind != "unconditional")){
     warning("The index.kind must be conditional or unconditional! Using default \"unconditional\"!")

@@ -1,4 +1,15 @@
 NEWS
+
+Version 2.3.2
+  Changes
+  2016-08-29
+  1. Updated the reference section to fix the year of Pearson's chi-square test
+     paper which was published in 1900 not 1990.
+
+  2016-05-03
+  1. Now check all options for the method argument so that only valid
+    methods are allowed.
+
 Version 2.3.1
   Changes
   2016-05-01

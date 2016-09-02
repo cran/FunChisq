@@ -16,13 +16,27 @@
 #    Renamed the "type" argument to "alternative"
 # Feb 7, 2016 MS:
 #   Handled the special case when the degrees of freedom for the normalized FunChisq are zero
+# May 3, 2016 MS:
+#   Listed all arguments
 
-# exact.functional.test <- ExactFunctionalTest
-
-fun.chisq.test <- function (x, method="fchisq", alternative="non-constant", log.p=FALSE,
-                            index.kind="unconditional")
+fun.chisq.test <- function (x,
+                            method=c("fchisq", "nfchisq", "exact", "default", "normalized"),
+                            alternative=c("non-constant", "all"), log.p=FALSE,
+                            index.kind=c("unconditional", "conditional"))
 {
   if(!is.matrix(x) && !is.data.frame(x)) stop("input x must be matrix or data frame\n")
+
+  method <- match.arg(method)
+  if(method == "default") {
+    warning(paste0("method=\"", method, "\" is deprecated. Use \"fchisq\" instead."))
+    method <- "fchisq"
+  } else if(method == "normalized") {
+    warning(paste0("method=\"", method, "\" is deprecated. Use \"nfchisq\" instead."))
+    method <- "nfchisq"
+  }
+
+  alternative <- match.arg(alternative)
+  index.kind <- match.arg(index.kind)
 
   row.chisq.sum <- sum(apply(x, 1,
                              function(v){
@@ -70,7 +84,7 @@ fun.chisq.test <- function (x, method="fchisq", alternative="non-constant", log.
 
   DNAME <- deparse(substitute(x))
 
-  if(method=="default" || method=="fchisq") {
+  if(method=="fchisq") {
     method.text <- "Functional chi-square test"
     names(fun.chisq) <- "statistic"
     names(df) <- "parameter"
@@ -80,7 +94,7 @@ fun.chisq.test <- function (x, method="fchisq", alternative="non-constant", log.
                            method = method.text),
                      class = "htest"))
 
-  } else if(method=="normalized" || method=="nfchisq") {
+  } else if(method=="nfchisq") {
     method.text <- "Normalized functional chi-square test"
     if(df > 0) {
       normalized <- as.numeric((fun.chisq-df)/sqrt(2*df))
@@ -124,59 +138,3 @@ fun.chisq.test <- function (x, method="fchisq", alternative="non-constant", log.
     stop("ERROR: unrecognized method argument", method)
   }
 }
-
-cp.fun.chisq.test <- function(x, method="fchisq", log.p=FALSE)
-{
-  if(mode(x)!="list" || length(x)<2 )
-  {
-    stop("only accept list of 2 or more matrices as input!")
-  }
-
-  finalStat <- 0
-  finalDf <- 0
-
-  for(i in 1:nrow(x[[1]]))
-  {
-    oneT <- c() # one table for each row
-    for(j in 1:length(x))
-    {
-      oneT <- rbind(oneT, x[[j]][i,])
-    }
-    oneresult <- fun.chisq.test(oneT)
-    finalStat <- finalStat + oneresult$statistic
-    finalDf <- finalDf + oneresult$parameter
-  }
-
-  DNAME <- deparse(substitute(x))
-
-  if(method=="default" || method=="fchisq") {
-
-    names(finalStat) <- "statistic"
-    names(finalDf) <- "parameter"
-    p.value <- pchisq(finalStat, df = finalDf, lower.tail=FALSE, log.p=log.p)
-    return(structure(list( statistic=finalStat, parameter=finalDf, p.value=p.value,
-                           method = "Comparative functional chi-square test for heterogeneity",
-                           data.name= DNAME),
-                     class = "htest"))
-
-  } else if(method=="normalized" || method=="nfchisq") {
-
-      finalStat <- as.numeric((finalStat-finalDf)/sqrt(2*finalDf))
-      names(finalStat) <- "statistic"
-      names(finalDf) <- "parameter"
-      return(structure(list(statistic = finalStat, parameter = finalDf,
-                            p.value = pnorm( finalStat, lower.tail=FALSE, log.p=log.p),
-                            method = "Nomalized comparative functional chi-square test for heterogeneity",
-                            data.name= DNAME),
-                       class = "htest"))
-
-  } else {
-    stop("method can only be \"default\", \"normalized\", or \"exact\".\n")
-  }
-}
-
-# exact.functional.test <- function(x){
-#  res <- .Call("ExactFunctionalTest", x, PACKAGE="FunChisq")
-#  return (as.double(res))
-#}
-####

@@ -8,7 +8,8 @@ Comparative functional chi-square tests on two or more contingency tables.
 }
 
 \usage{
-cp.fun.chisq.test(x, method = "fchisq", log.p = FALSE)
+cp.fun.chisq.test(x, method = c("fchisq", "nfchisq", "default", "normalized"),
+                  log.p = FALSE)
 }
 
 \arguments{
@@ -18,6 +19,8 @@ cp.fun.chisq.test(x, method = "fchisq", log.p = FALSE)
 
   \item{method}{
   a character string to specify the method to compute the functional chi-square statistic and its p-value. The default is \code{"fchisq"} (equivalent to \code{"default"}). See Details.
+
+    Note: \code{"default"} and \code{"normalized"} are deprecated.
 }
 
   \item{log.p}{
