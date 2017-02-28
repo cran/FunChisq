@@ -47,7 +47,7 @@ Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experi
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
-Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707. \url{http://arxiv.org/abs/1311.2707}
+Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707. \url{https://arxiv.org/abs/1311.2707}
 }
 
 \author{
@@ -66,3 +66,11 @@ data <- list(x,y,z)
 cp.fun.chisq.test(data)
 cp.fun.chisq.test(data, method="nfchisq")
 }
+
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+%\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{htest}
+\keyword{nonparametric}

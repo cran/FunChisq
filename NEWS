@@ -1,9 +1,21 @@
 NEWS
 
+Version 2.4.0
+  2017-02-26
+  Changes
+  1. Added a new R function simulate_tables() with supporting test functions.
+  2. Added a new R function add.house.noise() with supporting test functions.
+  3. Introduced the use of 'R_registerRoutines' and 'R_useDynamicSymbols'.
+
+Version 2.3.4
+  Changes
+  2016-10-01
+  1. Added keywords to the package manual.
+
 Version 2.3.3
   Changes
   2016-09-02
-  1. Updated the vignettes
+  1. Updated the vignettes.
 
 Version 2.3.2
   Changes

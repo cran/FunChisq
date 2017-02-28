@@ -47,7 +47,9 @@ When a contingency table is created for each interaction, all combinations of un
   Hua Zhong and Joe Song
 }
 \seealso{
-  This function makes multiple calls to functional chi-square test implemented in C++ and is thus much faster than the R function \code{\link{fun.chisq.test}}.
+  This function calls functional chi-square test implemented in C++ and is thus much faster than the R version \code{\link{fun.chisq.test}}.
+
+  For data discretization by optimal univariate \var{k}-means clustering, see \pkg{Ckmeans.1d.dp}.
 }
 
 \examples{
@@ -92,4 +94,12 @@ test.interactions(
   var.names = var.names,
   index.kind = "unconditional")
 }
+
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+%\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{htest}
+\keyword{nonparametric}
 

@@ -10,6 +10,8 @@
 #include <vector>
 //#include "ExactFunctionalTest.h"//Commented by Hua, Jun 17 2015
 #include <Rcpp.h>
+#include <R_ext/Rdynload.h>
+
 //#include <classic/RcppMatrix.h>
 #include "ExactFunctionalTest.h"
 #include "StatDistributions.h"
@@ -171,4 +173,30 @@ DataFrame interactions(const IntegerMatrix & expression_matrix, const List & par
                                        Named("statistic")=statistic,
                                        Named("estimate")=estimate);
   return output;
+}
+
+static const
+  R_CMethodDef cMethods[] = {
+    {"FunChisq", (DL_FUNC) & ExactFunctionalTest, 1},
+    {"FunChisq", (DL_FUNC) & interactions, 4},
+    {NULL}
+  };
+
+static const
+  R_CallMethodDef callMethods[] = {
+    {"FunChisq", (DL_FUNC) & ExactFunctionalTest, 1},
+    {"FunChisq", (DL_FUNC) & interactions, 4},
+    {NULL} };
+
+void R_init_FunChisq(DllInfo *info)
+{
+  /* Register the .C and .Call routines.
+  No .Fortran() or .External() routines,
+  so pass those arrays as NULL.
+  */
+  R_registerRoutines(info,
+                     cMethods, callMethods,
+                     NULL, NULL);
+
+  R_useDynamicSymbols(info, TRUE);
 }

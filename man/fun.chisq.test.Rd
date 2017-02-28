@@ -110,7 +110,7 @@ Pearson, K. (1900). On the criterion that a given system of deviations from the 
 %Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
-\url{http://arxiv.org/abs/1311.2707}
+\url{https://arxiv.org/abs/1311.2707}
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
@@ -118,9 +118,14 @@ Zhong, H. (2014) \emph{An Exact and Fast Statistical Test for Nonparametric Func
 
 }
 
-
 \author{
 Yang Zhang, Hua Zhong and Joe Song
+}
+
+\seealso{
+  For data discretization by optimal univariate \var{k}-means clustering, see \pkg{Ckmeans.1d.dp}.
+
+  For symmetrical dependency tests on discrete data, see Pearson's chi-square test \code{\link[stats]{chisq.test}}, Fisher's exact test \code{\link[stats]{fisher.test}}, and mutual information \pkg{entropy}.
 }
 
 \examples{
@@ -151,3 +156,12 @@ fun.chisq.test(x, method="exact")
 # Test the functional dependency CIMP -> p53 mutation
 fun.chisq.test(t(x), method="exact")
 }
+
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+%\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{htest}
+\keyword{nonparametric}
+
