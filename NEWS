@@ -1,5 +1,23 @@
 NEWS
 
+Version 2.4.2
+  2017-04-20
+  1. Renamed "nonmonotonic" to "many-to-one"" for pattern type in
+     simulate_tables().
+  2. Added a "discontinuous" pattern in simulate_tables().
+  3. Added a new candle noise model for categorical variables.
+
+Version 2.4.1
+  2017-04-02
+  1. Revised the manual for function simulate_tables()
+
+  2017-02-28
+  1. Suppressed warning messages when calling chisq.test() to
+     compute chi-squares in function simulate_tables().
+  2. Edited the manual for simulate_tables().
+  3. Edited other manuals for improved consistency with R package
+     reference format.
+
 Version 2.4.0
   2017-02-26
   Changes

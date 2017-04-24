@@ -330,8 +330,8 @@ mydouble enumerate_next (vector<vector<int> > &A,
         i_next += 1;
     }
 
-    int Lij;
-    int Uij;
+    int Lij=0;
+    //int Uij;
 
     if (i == nrows - 1) { // last row
 
@@ -341,13 +341,13 @@ mydouble enumerate_next (vector<vector<int> > &A,
 
         Lij = O_rowsums[i] - A_running_rowsums[i][j-1];
 
-    } else {
+    } /*else {
 
         Lij = 0;
 
-    }
+    }*/
 
-    Uij = min(O_rowsums[i] - (j > 0 ? A_running_rowsums[i][j-1]:0),
+    int Uij = min(O_rowsums[i] - (j > 0 ? A_running_rowsums[i][j-1]:0),
               O_colsums[j] - (i > 0 ? A_running_colsums[i-1][j]:0));
 
 

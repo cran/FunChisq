@@ -2,6 +2,7 @@
 # Created by: Sajal Kumar
 # Modified by : Ruby Sharma
 # Date : February 27 2017
+# Last Modified : April 20 2017
 
 library(testthat)
 library(FunChisq)
@@ -71,12 +72,76 @@ Test_Functional_table = function(iter)
   expect_identical(func.flag, FALSE)
 }
 
+
+#Attributes to test
+#1) y = f(x)
+#2) Not a constant function - All populated samples are not supposed to be on the same column.
+Test_Functional_Discontinuous_table = function(iter)
+{
+  
+  func.flag = FALSE
+  
+  for(i in 1:iter)
+  {
+    Get.Stats = Construct_Table("discontinuous")
+    
+    conti.table = Get.Stats$conti.table
+    
+    # check if all samples are populated
+    
+    check.all.samples = All.sample.check(conti.table,Get.Stats$sample.size)
+    
+    if(check.all.samples$flag)
+    {
+      func.flag = TRUE
+      failure.summary = check.all.samples$failure.table
+      break
+    }
+    
+    # Check for non zero cells
+    
+    check.non.zero = No.Non.Zero.Check(conti.table)
+    
+    if(check.non.zero$flag)
+    {
+      func.flag = TRUE
+      failure.summary = check.non.zero$failure.table
+      break
+    }
+    
+    # Check y = f(x)
+    
+    check.functional = Functional.check(conti.table)
+    
+    if(check.functional$flag)
+    {
+      func.flag = TRUE
+      failure.summary = check.functional$failure.table
+      break
+    }
+    
+    # check constant functions
+    
+    check.constant = Constant.check(conti.table)
+    
+    if(check.functional$flag)
+    {
+      func.flag = TRUE
+      failure.summary = check.constant$failure.table
+      break
+    }
+  }
+  
+  #if any table was flagged, the test failed.
+  expect_identical(func.flag, FALSE)
+}
+
 #Attributes to test
 #1) y = f(x)
 #2) x ! = f(y)
 #2) Not a constant function - All populated samples are not supposed to be on the same column.
 
-Test_Functional_Non_Monotonic_table = function(iter)
+Test_Functional_Many_to_one_table = function(iter)
 {
 
   non.mono.func.flag = FALSE
@@ -84,7 +149,7 @@ Test_Functional_Non_Monotonic_table = function(iter)
   for(i in 1:iter)
   {
 
-    Get.Stats = Construct_Table("nonmonotonic")
+    Get.Stats = Construct_Table("many.to.one")
 
     conti.table = Get.Stats$conti.table
 
@@ -293,13 +358,16 @@ Construct_Table = function(type)
     ncols = sample(c(2:15),1)
   }
 
-  if(type=="nonmonotonic" && nrows == 2)
+  if(type=="many.to.one" && nrows == 2)
     nrows = 3
 
   sample.size = ((sample(c(1:100),1) * sample(c(1:100),1))) + nrows
   row.marginal = rep(0,nrows)
 
   if(type=="independent" && sample.size < (nrows * ncols))
+    sample.size = nrows * ncols
+  
+  if(type=="dependent.non.functional" && sample.size < (nrows * ncols))
     sample.size = nrows * ncols
 
   row.marginal.set = sample(c(TRUE,FALSE),1)
@@ -451,6 +519,7 @@ test_that("Testing the Simulate_tables()", {
   Test_Functional_table(2)
   Test_Independent_table(2)
   Test_Non_Functional_table(2)
-  Test_Functional_Non_Monotonic_table(2)
+  Test_Functional_Many_to_one_table(2)
+  Test_Functional_Discontinuous_table(2)
 })
 

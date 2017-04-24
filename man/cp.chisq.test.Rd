@@ -48,7 +48,7 @@ Song M., Zhang Y., Katzaroff A. J., Edgar B. A., and Buttitta L. (2014). Hunting
 
 Zar, J. H. (2010). \emph{Biostatistical Analysis}, 5th Edition. Prentice Hall, New Jersey.
 
-Zhang, Y., Liu, Z. L., and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393-4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
+Zhang, Y., Liu, Z. L., and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
 }
 
 \author{

@@ -103,9 +103,9 @@ A list with class "\code{htest}" containing the following components:
 \references{
 Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
 
-Fisher, R. A. (1922). On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society}, 85(1), 87-94.
+Fisher, R. A. (1922). On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society}, 85(1), 87--94.
 
-Pearson, K. (1900). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5}, 50(302), 157-175.
+Pearson, K. (1900). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5}, 50(302), 157--175.
 
 %Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 
