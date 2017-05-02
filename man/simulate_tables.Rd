@@ -1,29 +1,30 @@
 \name{simulate_tables}
 \alias{simulate_tables}
 \title{
-Simulate Noisy, Nonparametric, and Discrete-Valued Tables
+Simulate Noisy, Nonparametric, and Discrete-Valued Contingency Tables
 }
 
 \description{
-Generate random contingency tables representing functional, non-functional, dependent, or independent interaction patterns.
+Generate random contingency tables representing various functional, non-functional, dependent, or independent patterns.
 }
 
 \usage{
-simulate_tables(n=100, nrow=3, ncol=3,
-                type = c("functional",
-                         "many.to.one",
-                         "independent",
-                         "dependent.non.functional",
-                         "discontinuous"),
-                noise=0.0, n.tables=1,
-                row.marginal=rep(1/nrow, nrow),
-                col.marginal= rep(1/ncol, ncol))
+simulate_tables(
+  n=100, nrow=3, ncol=3,
+  type = c("functional", "many.to.one",
+           "discontinuous", "independent",
+           "dependent.non.functional"),
+  noise.model = c("house", "candle"), noise=0.0,
+  n.tables=1,
+  row.marginal=rep(1/nrow, nrow),
+  col.marginal=rep(1/ncol, ncol)
+)
 }
 
 \arguments{
 
    \item{n}{
-   an integer specifying the sample size to be distributed in the table. For \code{"functional"},  \code{"many.to.one"} \code{"discontinuous"} tables, \code{n} must be no less than \code{nrow}. For \code{"independent"} tables and \code{"dependent.non.functional"}  \code{n} must be no less than \code{nrow}*\code{ncol}.
+   an integer specifying the sample size to be distributed in the table. For \code{"functional"},  \code{"many.to.one"}, and \code{"discontinuous"} tables, \code{n} must be no less than \code{nrow}. For \code{"independent"} and \code{"dependent.non.functional"} tables, \code{n} must be no less than \code{nrow}*\code{ncol}.
   }
 
   \item{nrow}{
@@ -38,9 +39,12 @@ simulate_tables(n=100, nrow=3, ncol=3,
   a character string to specify the type of pattern underlying the table. The options are \code{"functional"} (default),  \code{"many.to.one"}, \code{"discontinuous"}, \code{"independent"}, and \code{"dependent.non.functional"}. See Details.
 %The options are \code{"functional"} (default, where y=f(x) but x may or may not be function of y),  \code{"many.to.one"} (where y=f(x) but x != f(y)), \code{"independent"} (x and y are statistically independent),  \code{"dependent.non.functional"} (x and y are statistically dependent but y!=f(x) and x!=f(y)).
   }
+  \item{noise.model}{
+  The noise model type is either \code{"house"} for ordinal variables (Zhang et al., 2015) or \code{"candle"} for categorical variables. See \code{\link{add.noise}} for details.
+  }
 
    \item{noise}{
-  a numeric value between 0 and 1 specifying the factor of noise to be added to the table using the house noise model (Zhang et al., 2015). The house noise is applied along the rows of the table. See \code{\link{add.house.noise}} for details.
+  a numeric value between 0 and 1 specifying the noise level to be added to the table using function \code{\link{add.noise}}. The noise is applied along the rows of the table. See \code{\link{add.noise}} for details.
   }
   \item{n.tables}{
   an integer value specifying the number of tables to be generated.
@@ -57,21 +61,20 @@ simulate_tables(n=100, nrow=3, ncol=3,
 }
 
 \details{
-This function can generate four types of table representing different interaction patterns between row discrete random variable \eqn{X}{X} and column discrete random variable \eqn{Y}{Y}:
+This function can generate five types of table representing different interaction patterns between row and column discrete random variables \eqn{X}{X} and \eqn{Y}{Y}. Three of the five types are non-constant functional patterns (\eqn{Y}{Y} is a non-constant function of \eqn{X}{X}):
 
-\code{type="functional"}: \eqn{Y}{Y} is a function of \eqn{X}{X} (\eqn{Y=f(X)}{Y=f(X)}) but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities.
+\code{type="functional"}: \eqn{Y}{Y} is a function of \eqn{X}{X} but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities.
 
-\code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} (\eqn{Y=f(X)}{Y=f(X)}) but \eqn{X}{X} is not a function of \eqn{Y}{Y} \eqn{X\neq g(Y)}{X!=g(Y)}. The samples are distributed on the basis of row probabilities.
+\code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} but \eqn{X}{X} is not a function of \eqn{Y}{Y}. The samples are distributed on the basis of row probabilities.
 
-\code{type="independent"}: \eqn{X}{X} and \eqn{Y}{Y} are statistically independent whose joint probability mass function is the product of their marginal probability mass functions.
+\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities.
 
-\code{type="dependent.non.functional"}: \eqn{X}{X} and \eqn{Y}{Y} are statistically dependent on each other but they are not function of each other (\eqn{Y \neq f(X)}{Y!=f(X)} and \eqn{X\neq g(Y)}{X!=g(Y)}).
+The fourth \code{type="dependent.non.functional"} is non-functional patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically dependent but not function of each other.
 
-\code{type="discontinuous"}: \eqn{Y}{Y} is a discontinuous function of \eqn{X}{X} (\eqn{Y=f(X)}{Y=f(X)}) but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities.
+The fifth \code{type="independent"} is a pattern where \eqn{X}{X} and \eqn{Y}{Y} are statistically independent whose joint probability mass function is the product of their marginal probability mass functions.
 
-Here, if the pattern in a table reflects an underlying function, it will never be a constant function.
-
-Random perturbations can be optionally applied to the tables using the house noise model (Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.
+Random noise can be optionally applied to the tables using two noise models. See \code{\link{add.noise}} for details.
+%(Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.
 
 }
 
@@ -101,7 +104,7 @@ Ruby Sharma, Sajal Kumar, Hua Zhong and Joe Song
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-\code{\link{add.house.noise}} for details of the house noise model.
+\code{\link{add.noise}} for details of the noise model.
 }
 
 \examples{

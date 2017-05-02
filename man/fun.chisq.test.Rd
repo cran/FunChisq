@@ -9,10 +9,13 @@ Asymptotic chi-square, normalized chi-square or exact tests on contingency table
 }
 
 \usage{
-fun.chisq.test(x,
-               method=c("fchisq", "nfchisq", "exact", "default", "normalized"),
-               alternative=c("non-constant", "all"), log.p=FALSE,
-               index.kind=c("unconditional", "conditional"))
+fun.chisq.test(
+  x,
+  method=c("fchisq", "nfchisq", "exact",
+           "default", "normalized"),
+  alternative=c("non-constant", "all"), log.p=FALSE,
+  index.kind=c("unconditional", "conditional")
+)
 }
 
 \arguments{

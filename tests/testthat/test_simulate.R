@@ -2,7 +2,6 @@
 # Created by: Sajal Kumar
 # Modified by : Ruby Sharma
 # Date : February 27 2017
-# Last Modified : April 20 2017
 
 library(testthat)
 library(FunChisq)
@@ -22,6 +21,7 @@ Test_Functional_table = function(iter)
     Get.Stats = Construct_Table("functional")
 
     conti.table = Get.Stats$conti.table
+    noise.table = Get.Stats$noise.table
 
     # check if all samples are populated
 
@@ -60,12 +60,22 @@ Test_Functional_table = function(iter)
 
     check.constant = Constant.check(conti.table)
 
-    if(check.functional$flag)
+    if(check.constant$flag)
     {
       func.flag = TRUE
       failure.summary = check.constant$failure.table
       break
     }
+
+    check.margin = margin.check(conti.table, noise.table)
+    if(check.margin$flag)
+    {
+      func.flag = TRUE
+      failure.summary = check.margin$failure.table
+      break
+    }
+
+
   }
 
   #if any table was flagged, the test failed.
@@ -78,52 +88,52 @@ Test_Functional_table = function(iter)
 #2) Not a constant function - All populated samples are not supposed to be on the same column.
 Test_Functional_Discontinuous_table = function(iter)
 {
-  
+
   func.flag = FALSE
-  
+
   for(i in 1:iter)
   {
     Get.Stats = Construct_Table("discontinuous")
-    
+
     conti.table = Get.Stats$conti.table
-    
+
     # check if all samples are populated
-    
+
     check.all.samples = All.sample.check(conti.table,Get.Stats$sample.size)
-    
+
     if(check.all.samples$flag)
     {
       func.flag = TRUE
       failure.summary = check.all.samples$failure.table
       break
     }
-    
+
     # Check for non zero cells
-    
+
     check.non.zero = No.Non.Zero.Check(conti.table)
-    
+
     if(check.non.zero$flag)
     {
       func.flag = TRUE
       failure.summary = check.non.zero$failure.table
       break
     }
-    
+
     # Check y = f(x)
-    
+
     check.functional = Functional.check(conti.table)
-    
+
     if(check.functional$flag)
     {
       func.flag = TRUE
       failure.summary = check.functional$failure.table
       break
     }
-    
+
     # check constant functions
-    
+
     check.constant = Constant.check(conti.table)
-    
+
     if(check.functional$flag)
     {
       func.flag = TRUE
@@ -131,7 +141,7 @@ Test_Functional_Discontinuous_table = function(iter)
       break
     }
   }
-  
+
   #if any table was flagged, the test failed.
   expect_identical(func.flag, FALSE)
 }
@@ -366,7 +376,7 @@ Construct_Table = function(type)
 
   if(type=="independent" && sample.size < (nrows * ncols))
     sample.size = nrows * ncols
-  
+
   if(type=="dependent.non.functional" && sample.size < (nrows * ncols))
     sample.size = nrows * ncols
 
@@ -374,12 +384,12 @@ Construct_Table = function(type)
   if(row.marginal.set){
     row.marginal = runif(nrows)
     row.marginal = row.marginal/sum(row.marginal)
-    conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, row.marginal = row.marginal)$sample.list
+    conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, row.marginal = row.marginal, noise = 0.2)
   } else {
-    conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1)$sample.list
+    conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, noise =0.2)
   }
 
-  list(conti.table = conti.table[[1]], nrows = nrows, ncols = ncols, sample.size = sample.size, row.marginal = row.marginal)
+  list(conti.table = conti.table$sample.list[[1]], nrows = nrows, ncols = ncols, sample.size = sample.size, row.marginal = row.marginal, noise.table = conti.table$noise.list[[1]])
 }
 
 # The table should contain all the samples specified in sample size
@@ -513,6 +523,21 @@ Dependency.check = function(conti.table)
   }
 
   list(flag=flag, failure.table = failure.summary)
+}
+
+margin.check = function(conti.table, noise.table)
+{
+  flag=FALSE
+  failure.summary = NULL
+
+
+    if(any(rowSums(conti.table)!= rowSums(noise.table)))
+    {
+      flag = TRUE
+      failure.summary = noise.table
+    }
+  list(flag=flag, failure.table = failure.summary)
+
 }
 
 test_that("Testing the Simulate_tables()", {

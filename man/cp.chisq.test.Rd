@@ -8,8 +8,10 @@ Comparative chi-square tests on two or more contingency tables. This test does n
 }
 
 \usage{
-cp.chisq.test(x, method=c("chisq", "nchisq", "default", "normalized"),
-              log.p = FALSE)
+cp.chisq.test(
+  x, method=c("chisq", "nchisq", "default", "normalized"),
+  log.p = FALSE
+)
 }
 
 \arguments{

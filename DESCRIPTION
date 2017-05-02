@@ -1,7 +1,7 @@
 Package: FunChisq
 Type: Package
-Version: 2.4.2
-Date: 2017-04-23
+Version: 2.4.3
+Date: 2017-05-02
 Title: Chi-Square and Exact Tests for Non-Parametric Functional
         Dependencies
 Authors@R: c(person("Yang", "Zhang", role = "aut"),
@@ -14,10 +14,10 @@ Author: Yang Zhang [aut], Hua Zhong [aut], Ruby Sharma [aut], Sajal Kumar [aut],
 Maintainer: Joe Song <joemsong@cs.nmsu.edu>
 Description: Statistical hypothesis testing methods for
  non-parametric functional dependencies using asymptotic
- chi-square or exact statistics. Functional chi-squares are
- asymmetric and functional optimal, unique from other related
- statistics. These tests reveal evidence for causality based on
- the causality-by-functionality principle. They include
+ chi-square or exact distributions. Functional chi-squares are
+ asymmetric and functionally optimal, unique from other related
+ statistics. Tests in this package reveal evidence for causality 
+ based on the causality-by-functionality principle. They include
  asymptotic functional chi-square tests, an exact functional
  test, a comparative functional chi-square test, and also a
  comparative chi-square test. The normalized non-constant
@@ -37,6 +37,6 @@ NeedsCompilation: yes
 URL: https://www.cs.nmsu.edu/~joemsong/publications
 LazyData: TRUE
 VignetteBuilder: knitr
-Packaged: 2017-04-24 04:06:07 UTC; joemsong
+Packaged: 2017-05-02 16:04:26 UTC; joemsong
 Repository: CRAN
-Date/Publication: 2017-04-24 05:47:33 UTC
+Date/Publication: 2017-05-02 16:17:03 UTC

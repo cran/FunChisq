@@ -1,4 +1,4 @@
-# simulate.table : Generates simulated contingency tables (with or without noise) of a given "type".
+# simulate_tables : Generates simulated contingency tables (with or without noise) of a given "type".
 #
 # Parameters details
 # n              : Expected sample size, should be atleast nrow for "functional", "many.to.one", "discontinuous"
@@ -17,22 +17,25 @@
 #
 # Created by     : Ruby Sharma
 # Date           : October 16 2016
-# Last Modified  : April 20 2017
-# Version        : 0.0.1
-
+# Last Modified  : April 27 2017
+# Version        : 0.0.2
+# Updates        : Added pattern type "discontinuous"
+#                : Added noise.model parameter
 
 
 simulate_tables <- function(n=100, nrow=3, ncol=3,
                             type = c("functional",  #=F
-                                    "many.to.one", #= MO
-                                    "independent", #=I
-                                    "dependent.non.functional", #=NF
-                                    "discontinuous" #=DS
-                                    ), noise=0.0, n.tables=1,
+                                     "many.to.one", #= MO
+                                     "discontinuous",#=DS
+                                     "independent", #=I
+                                     "dependent.non.functional" #=NF
+                            ), noise.model = c("house","candle"),
+                            noise=0.0, n.tables=1,
                             row.marginal=rep(1/nrow, nrow),
                             col.marginal= rep(1/ncol, ncol))
 {
   type <- match.arg(type)
+  noise.model <- match.arg(noise.model)
 
   prelim.check(nrow, ncol, type, n, noise, row.marginal, col.marginal)
 
@@ -57,7 +60,8 @@ simulate_tables <- function(n=100, nrow=3, ncol=3,
 
   for(i in 1:n.tables)
   {
-    alltables = table.generate(nrow, ncol, type, n, noise, row.marginal, col.marginal)
+    alltables = table.generate(nrow, ncol, type, n, noise,
+                               noise.model, row.marginal, col.marginal)
     pattern.list[[i]] = alltables$pattern.table
     sample.list[[i]] = alltables$sampled.table
     noise.list[[i]] = alltables$noise.table
@@ -67,12 +71,13 @@ simulate_tables <- function(n=100, nrow=3, ncol=3,
 
   #return a list of pattern table, sampled contingency table and noise table.
 
-  list(pattern.list = pattern.list, sample.list = sample.list, noise.list = noise.list, pvalue.list = p.value.list)
+  list(pattern.list = pattern.list, sample.list = sample.list,
+       noise.list = noise.list, pvalue.list = p.value.list)
 }
 
 
 #generating pattern table, sampled contingency table and noise table
-table.generate=function(nrow, ncol, type, n, noise, row.marginal, col.marginal)
+table.generate=function(nrow, ncol, type, n, noise, noise.model, row.marginal, col.marginal)
 {
 
   if(type=="dependent.non.functional"){
@@ -119,7 +124,7 @@ table.generate=function(nrow, ncol, type, n, noise, row.marginal, col.marginal)
 
   } else if(type=="discontinuous"){
     if(n<nrow)
-      stop(paste("n should be greater than or equal to",nrow))
+      stop(paste("n should be greater than or equal to", nrow))
 
     sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
     pattern.table = discontinuous.table(nrow, ncol, row.marginal, sam.val.row)
@@ -141,7 +146,7 @@ table.generate=function(nrow, ncol, type, n, noise, row.marginal, col.marginal)
   if(noise==0){
     noise.table = sampled.table
   } else {
-    noise.table = add.house.noise(tables = sampled.table, u = noise, margin = 2)
+    noise.table = add.noise(tables = sampled.table, u = noise, noise.model = noise.model, margin = 1)
   }
 
 
@@ -203,12 +208,12 @@ functional.table=function(nrow, ncol, row.marginal, sam.val.row)
 
   for(i in 1:nrow)
   {
-      if(sam.val.row[i]!=0) {
+    if(sam.val.row[i]!=0) {
 
-        index = sample(1:ncol,1)
-        pattern.table[i,index] = 1
+      index = sample(1:ncol,1)
+      pattern.table[i,index] = 1
 
-      }
+    }
   }
 
   # check for constant functions
@@ -407,13 +412,13 @@ non.functional.prob=function(nrow, ncol, pattern.table)
 
   for(i in 1:nrow)
   {
-     if(is.element(i,rows))
-     {
-       col.ind = which(rows==i)
-       freq.no = length(col.ind)
-       prob.ele.row = 1/freq.no
-       prob.table[i,cols[col.ind]] = prob.ele.row
-     }
+    if(is.element(i,rows))
+    {
+      col.ind = which(rows==i)
+      freq.no = length(col.ind)
+      prob.ele.row = 1/freq.no
+      prob.table[i,cols[col.ind]] = prob.ele.row
+    }
   }
 
   return(prob.table)
@@ -615,10 +620,7 @@ sample.sec.col.ind_notf.y <- function(index ,ncol, only.col)
   }else{
     chng.col.index = sample(vec.to.sample,1)
   }
-   return(chng.col.index)
-
-
-
+  return(chng.col.index)
 }
 
 

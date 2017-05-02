@@ -1,11 +1,25 @@
 NEWS
 
+Version 2.4.3
+  2017-04-27
+  1. Fixed a bug in specifying the margin to apply noise in
+  simulate_tables().
+  2. Added a noise.model parameter in simulate_tables() to
+  specify either the "house" or "candle" noise model for applying
+  noise to contingency tables representing ordinal or categorical
+  data.
+
+  2017-04-25
+  1. Revised package description and manuals.
+
 Version 2.4.2
   2017-04-20
-  1. Renamed "nonmonotonic" to "many-to-one"" for pattern type in
-     simulate_tables().
-  2. Added a "discontinuous" pattern in simulate_tables().
+  1. Renamed pattern type "nonmonotonic" to "many.to.one" in
+     simulate_tables(). The latter is mathematically correct.
+  2. Added a "discontinuous" pattern type in simulate_tables().
   3. Added a new candle noise model for categorical variables.
+  4. Sped up add.noise function code by taking advantage of
+  vectorized multinomial distribution R function.
 
 Version 2.4.1
   2017-04-02

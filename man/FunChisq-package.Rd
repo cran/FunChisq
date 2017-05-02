@@ -5,13 +5,13 @@
 Chi-Square and Exact Tests for Non-Parametric Functional Dependencies
 }
 \description{
-Statistical hypothesis testing methods for non-parametric functional dependencies using asymptotic chi-square or exact statistics. Functional chi-squares are asymmetric and functional optimal, unique from other related statistics. These tests reveal evidence for causality based on the causality-by-functionality principle (Simon and Rescher, 1966). The package implements asymptotic functional chi-square tests (Zhang and Song, 2013; Zhang, 2014), an exact functional test (Zhong, 2014), a comparative functional chi-square test (Zhang, 2014), and also a comparative chi-square test (Song et al., 2014; Zhang et al., 2015). The tests require data from two or more variables be formatted as a contingency table. Continuous variables need to be discretized first, for example, using the R package Ckmeans.1d.dp. The normalized functional chi-square test was used by Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges (Hill et al., 2016). For continuous data, these tests offer an advantage over regression analysis when a parametric form cannot be reliably assumed for the underlying function. For categorical data, they provide a novel means to assess directional dependencies not possible with symmetrical Pearson's chi-square or Fisher's exact tests.
+Statistical hypothesis testing methods for non-parametric functional dependencies using asymptotic chi-square or exact distributions. Functional chi-squares are asymmetric and functionally optimal, different from other related statistical measures. Tests in this package reveal evidence for causality based on the causality-by-functionality principle (Simon and Rescher, 1966). The package implements asymptotic functional chi-square tests (Zhang and Song, 2013; Zhang, 2014), an exact functional test (Zhong, 2014), a comparative functional chi-square test (Zhang, 2014), and also a comparative chi-square test (Song et al., 2014; Zhang et al., 2015). The tests require data from two or more variables be formatted as a contingency table. Continuous variables need to be discretized first, for example, using the R package Ckmeans.1d.dp. The normalized functional chi-square test was used by Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges (Hill et al., 2016). For continuous data, these tests offer an advantage over regression analysis when a parametric form cannot be reliably assumed for the underlying function. For categorical data, they provide a novel means to assess directional dependencies not possible with symmetrical Pearson's chi-square or Fisher's exact tests.
 }
 \details{
 \tabular{ll}{
 Package: \tab FunChisq\cr
 Type: \tab Package\cr
-Current version: \tab 2.4.2\cr
+Current version: \tab 2.4.3\cr
 Initial release version: \tab 1.0\cr
 Initial release date: \tab 2014-03-08\cr
 License: \tab LGPL (>= 3) \cr
@@ -19,9 +19,9 @@ License: \tab LGPL (>= 3) \cr
 
 }
 \seealso{
-  For data discretization by optimal univariate \var{k}-means clustering, see package \pkg{Ckmeans.1d.dp}.
+  For data discretization, an option is optimal univariate clustering. See package \pkg{Ckmeans.1d.dp}.
 
-  For symmetrical dependency tests on discrete data, see Pearson's chi-square test \code{\link[stats]{chisq.test}}, Fisher's exact test \code{\link[stats]{fisher.test}}, and mutual information \pkg{entropy}.
+  For symmetric dependency tests on discrete data, see Pearson's chi-square test (\code{\link[stats]{chisq.test}}), Fisher's exact test (\code{\link[stats]{fisher.test}}), mutual information (package \pkg{entropy}), and G-test.
 }
 
 \author{
