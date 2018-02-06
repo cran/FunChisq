@@ -28,11 +28,11 @@ simulate_tables(
   }
 
   \item{nrow}{
-  an integer specifying the number of rows of output tables. The value must be no less than 2. For \code{"many.to.one"} tables, \code{nrow} must be no less than 3.
+  an integer specifying the number of rows in output tables. The value must be no less than 2. For \code{"many.to.one"} tables, \code{nrow} must be no less than 3.
   }
 
   \item{ncol}{
-  an integer value specifying the number of columns in desired table. \code{ncol} must be no less than 2.
+  an integer specifying the number of columns in output table. \code{ncol} must be no less than 2.
   }
 
   \item{type}{
@@ -40,7 +40,7 @@ simulate_tables(
 %The options are \code{"functional"} (default, where y=f(x) but x may or may not be function of y),  \code{"many.to.one"} (where y=f(x) but x != f(y)), \code{"independent"} (x and y are statistically independent),  \code{"dependent.non.functional"} (x and y are statistically dependent but y!=f(x) and x!=f(y)).
   }
   \item{noise.model}{
-  The noise model type is either \code{"house"} for ordinal variables (Zhang et al., 2015) or \code{"candle"} for categorical variables. See \code{\link{add.noise}} for details.
+  a character string indicating the noise model of either \code{"house"} for ordinal variables (Zhang et al., 2015) or \code{"candle"} for categorical variables. See \code{\link{add.noise}} for details.
   }
 
    \item{noise}{
@@ -50,12 +50,12 @@ simulate_tables(
   an integer value specifying the number of tables to be generated.
   }
   \item{row.marginal}{
-  a numeric vector with two or more values specifying row marginal probabilities.
+  a numeric vector of length \code{nrow} specifying row marginal probabilities. The default is a uniform distribution.
   %For \code{"functional table"}, \code{"dependent.non.functional"} and \code{"independent"} tables, \code{row.marginal} should be greater than or equal to 2.
   For \code{"many.to.one"} tables, the length of \code{row.marginal} vector must be no less than 3.
   }
   \item{col.marginal}{
-  a numeric vector specifying column marginal probabilities. It is only applicable in generating independent tables.
+  a numeric vector of length \code{ncol} specifying column marginal probabilities. It is only applicable in generating independent tables. The default is a uniform distribution.
   }
 
 }
@@ -67,15 +67,16 @@ This function can generate five types of table representing different interactio
 
 \code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} but \eqn{X}{X} is not a function of \eqn{Y}{Y}. The samples are distributed on the basis of row probabilities.
 
-\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities.
+\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities. A discontinuous function forms a contrast with those that are close to constant functions.
 
 The fourth \code{type="dependent.non.functional"} is non-functional patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically dependent but not function of each other.
 
 The fifth \code{type="independent"} is a pattern where \eqn{X}{X} and \eqn{Y}{Y} are statistically independent whose joint probability mass function is the product of their marginal probability mass functions.
 
-Random noise can be optionally applied to the tables using two noise models. See \code{\link{add.noise}} for details.
+Random noise can be optionally applied to the tables using either the house or the candle noise model. See \code{\link{add.noise}} for details.
 %(Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.
 
+Sharma et al. (2017) give full mathematical and statistical details of the simulation strategies for the above table types except the "discontinuous" type.
 }
 
 \value{
@@ -92,6 +93,8 @@ A list containing the following components:
 
 \references{
 %% ~put references to the literature/web site here ~
+Sharma, R., Kumar, S., Zhong, H. and Song, M. (2017) Simulating noisy, nonparametric, and multivariate discrete patterns. \emph{The R Journal} \bold{9}(2), 366--377. Retrieved from \url{https://journal.r-project.org/archive/2017/RJ-2017-053/index.html}
+
 Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
@@ -108,6 +111,7 @@ Ruby Sharma, Sajal Kumar, Hua Zhong and Joe Song
 }
 
 \examples{
+\dontrun{
 # In all examples, x is the row variable and y is the column
 #    variable of a table.
 
@@ -154,7 +158,7 @@ simulate_tables(n=100, nrow=4, ncol=5,
 simulate_tables(n=100, nrow=4, ncol=5,
                 type="discontinuous", noise=0.0,
                 n.tables = 1, row.marginal = c(0.2,0.4,0.2,0.2))
-
+}
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

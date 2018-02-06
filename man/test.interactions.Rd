@@ -1,10 +1,10 @@
 \name{test.interactions}
 \alias{test.interactions}
 \title{
-  Fast test of directional interactions by functional chi-squares
+  Fast Test of Directional Interactions by Functional Chi-Squares
 }
 \description{
-  \code{test.interactions} efficiently performs functional chi-square tests on many-to-one interactions using multivariate discrete data.
+  \code{test.interactions} efficiently performs functional chi-square tests on combinatorial interactions using multivariate discrete data.
 }
 \usage{
 test.interactions(

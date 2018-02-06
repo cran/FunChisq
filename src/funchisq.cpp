@@ -6,6 +6,9 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <algorithm>
+#include <functional>
+#include <numeric>
 
 mydouble funchisq(const std::vector<std::vector<int> > & O, mydouble & estimate,
                   const std::string index_kind){
@@ -53,10 +56,35 @@ mydouble funchisq(const std::vector<std::vector<int> > & O, mydouble & estimate,
     }
   }
 
-  if (index_kind == "conditional") {
-    estimate = std::sqrt(std::abs(fc) / (n * (ncols - 1) - col_chisq));
-  }else if(index_kind == "unconditional"){
-    estimate = std::sqrt(std::abs(fc) / (n * (ncols - 1)));
+  mydouble maxfc = -1;
+
+  // Version 1: Current. Added June 11, 2017. Bound is maximum reachable
+  if (index_kind == "conditional") { // conditional on column marginal sums
+
+    // max.fun.chisq <- sum(sort(col.sum, decreasing=TRUE)[seq(min(dim(x)))]) *
+    //  ncol(x) - n - col.chisq
+
+    // std::sort(&colsums[0], &colsums[ncols], std::greater<int>());
+    // maxfc = std::accumulate(&colsums[0], &colsums[std::min(nrows, ncols)], 0);
+    // maxfc = maxfc * ncols - n - col_chisq;
+
+    maxfc = n * ncols - n - col_chisq;
+
+  } else if(index_kind == "unconditional"){
+    maxfc = n * ncols * (1 - 1.0 / std::min(nrows, ncols));
+  }
+
+  //  Version 0: bound is not reachable when nrow(x) < ncol(x)
+  else if (index_kind == "conditional-version-0") {
+    maxfc = n * (ncols - 1) - col_chisq;
+  }else if(index_kind == "unconditional-version-0"){
+    maxfc =  n * (ncols - 1);
+  }
+
+  if(maxfc > 0) {
+    estimate = std::sqrt(std::abs(fc) / maxfc);
+  } else {
+    estimate = 0;
   }
 
   return fc;

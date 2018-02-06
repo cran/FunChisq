@@ -44,13 +44,13 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
-Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
+Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Ed., New York: Wiley-Interscience.
 
-Song M., Zhang Y., Katzaroff A. J., Edgar B. A., and Buttitta L. (2014). Hunting complex differential gene interaction patterns across molecular contexts. \emph{Nucleic Acids Research} \bold{42}(7), e57. Retrieved from \url{https://nar.oxfordjournals.org/content/42/7/e57.long}
+Song M., Zhang Y., Katzaroff A. J., Edgar B. A. and Buttitta L. (2014) Hunting complex differential gene interaction patterns across molecular contexts. \emph{Nucleic Acids Research} \bold{42}(7), e57. Retrieved from \url{https://nar.oxfordjournals.org/content/42/7/e57.long}
 
-Zar, J. H. (2010). \emph{Biostatistical Analysis}, 5th Edition. Prentice Hall, New Jersey.
+Zar, J. H. (2010) \emph{Biostatistical Analysis}, 5th Ed., New Jersey: Prentice Hall.
 
-Zhang, Y., Liu, Z. L., and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
+Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
 }
 
 \author{
@@ -62,13 +62,14 @@ For comparative \emph{functional} chi-square test, \code{\link[FunChisq]{cp.fun.
 }
 
 \examples{
+\dontrun{
 x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
 y <- t(x)
 z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
 data <- list(x,y,z)
 cp.chisq.test(data)
 cp.chisq.test(data, method="nchisq")
-
+}
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

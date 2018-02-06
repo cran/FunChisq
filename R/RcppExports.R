@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 ExactFunctionalTest <- function(nm) {
-    .Call('FunChisq_ExactFunctionalTest', PACKAGE = 'FunChisq', nm)
+    .Call('_FunChisq_ExactFunctionalTest', PACKAGE = 'FunChisq', nm)
 }
 
 interactions <- function(expression_matrix, parent_index, child_index, index_kind) {
-    .Call('FunChisq_interactions', PACKAGE = 'FunChisq', expression_matrix, parent_index, child_index, index_kind)
+    .Call('_FunChisq_interactions', PACKAGE = 'FunChisq', expression_matrix, parent_index, child_index, index_kind)
 }
 

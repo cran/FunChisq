@@ -45,7 +45,7 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
-Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
+Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Ed., New York: Wiley-Interscience.
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
@@ -61,12 +61,14 @@ For comparative chi-square test that does not consider functional dependencies, 
 }
 
 \examples{
+\dontrun{
 x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
 y <- t(x)
 z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)
 data <- list(x,y,z)
 cp.fun.chisq.test(data)
 cp.fun.chisq.test(data, method="nfchisq")
+}
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -39,6 +39,105 @@ bool ll (const mydouble & a, const mydouble & b){ // a<b?
 }
 ////
 
+mydouble upper_bound_EXPERIMENTAL(const vector<vector<int> > &A, size_t i,
+                        const mydouble A_running_stat,
+                        const vector<vector<int> > & A_running_rowsums,
+                        const vector<vector<int> > & A_running_colsums,
+                        const vector<int> & O_rowsums,
+                        const vector<int> & O_colsums,
+                        mydouble O_stat)
+{
+  // Version: EXPERIMENTAL
+
+  // return 10e10;
+  mydouble upper_bound = A_running_stat;
+
+  vector<int> U(O_colsums);
+  size_t ncols = A[0].size(); // Number of colmns
+  size_t nrows = A.size(); // Number of rows
+
+  if (i > 0) {
+
+    int maxU = 0;
+
+    for (size_t q=0; q<ncols; ++q) {
+      U[q] = O_colsums[q] - A_running_colsums[i-1][q];
+      if(U[q] > maxU) {
+        maxU = U[q];
+      }
+    }
+    if(1) {
+      int ub = 0;
+      for (size_t l=i; l<nrows; ++l) {
+        if(O_rowsums[l] > maxU) {
+          ub += maxU;
+        } else {
+          ub += O_rowsums[l];
+        }
+      }
+      ub *= ncols;
+      if(ll(upper_bound + ub, O_stat)) {
+        return upper_bound + ub; // Not a tight upperbound. This will speed up 30\% on 5x4 matrix
+      }
+    }
+  } /* else {
+    for (size_t q=0; q<ncols; ++q) {
+      if(O_colsums[q] > maxU) {
+        maxU = O_colsums[q];
+      }
+    }
+  } */
+
+  vector<size_t> order( ncols );
+  for (size_t q=0; q<ncols; ++q) {
+    order[q] = q;
+  }
+
+  // sort U in decreasing order
+  sort(order.begin(), order.end(),
+       [&U](size_t i1, size_t i2) {return U[i1] > U[i2];});
+
+  if(1) {
+    if(nrows - i < ncols) {
+      int ub = 0;
+      for (size_t k=0; k<nrows - i; ++k) {
+        ub += U[order[k]];
+      }
+      ub *= ncols;
+      if(ll(upper_bound + ub, O_stat)) {
+        return upper_bound + ub; // Not a tight upperbound.
+      }
+    }
+  }
+
+  for (size_t l=i; l<nrows; ++l) {
+    // find lower bound for row l
+    int runsum = 0;
+    mydouble el = O_rowsums[l] / (mydouble) ncols;
+    for (size_t k=0; k<ncols; ++k) {
+      // accumulate the lower bound
+      int xmax = O_rowsums[l] - runsum;
+      if (U[order[k]] < xmax) {
+        mydouble d = U[order[k]] - el;
+        if(el>0) upper_bound += d * d / el;
+        runsum += U[order[k]];
+      } else if (xmax != 0) {
+        mydouble d = xmax - el;
+        if(el>0) upper_bound += d * d / el;
+        runsum += xmax;
+      } else {
+        upper_bound += el * (ncols - k);
+        break;
+      }
+      if (gg(upper_bound, O_stat)) {
+        return upper_bound;
+      }
+    }
+  }
+
+  return upper_bound;
+
+}
 
 mydouble upper_bound(const vector<vector<int> > &A, size_t i,
                    const mydouble A_running_stat,
@@ -47,7 +146,8 @@ mydouble upper_bound(const vector<vector<int> > &A, size_t i,
                    const vector<int> & O_rowsums,
                    const vector<int> & O_colsums,
                    mydouble O_stat)
-{
+{   // Version 0:
+
     // return 10e10;
     mydouble upper_bound = A_running_stat;
 

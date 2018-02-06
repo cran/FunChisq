@@ -12,9 +12,9 @@
 
 <meta name="author" content="Joe Song" />
 
-<meta name="date" content="2017-05-02" />
+<meta name="date" content="2018-02-05" />
 
-<title>Which statistic to use for functional dependency?</title>
+<title>Which quantity to measure functional dependency?</title>
 
 
 
@@ -68,16 +68,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Which statistic to use for functional dependency?</h1>
+<h1 class="title toc-ignore">Which quantity to measure functional dependency?</h1>
 <h4 class="author"><em>Joe Song</em></h4>
-<h4 class="date"><em>2017-05-02</em></h4>
+<h4 class="date"><em>2018-02-05</em></h4>
 
 
 
-<p>Given an input contingency table, <code>fun.chisq.test()</code> offers several statistics to evaluate non-parametric functional dependency of the column variable <span class="math inline">\(Y\)</span> on the row variable <span class="math inline">\(X\)</span>. They include functional chi-square statistic <span class="math inline">\(\chi^2_f\)</span>, its <span class="math inline">\(p\)</span>-value, and function index <span class="math inline">\(\xi_f\)</span>.</p>
-<p>We explain their differences in analogy to those statistics returned from <code>cor.test()</code>, the R function for the test of correlation, and the <span class="math inline">\(t\)</span>-test. We chose both tests because they are widely used and well understood. Variants of the <span class="math inline">\(t\)</span>-test are popular for differential gene expression analysis. Another choice could be the Pearson’s chi-square test plus a statistic called Cramer’s V, analogous to correlation coefficient, but not as popularly used. The table below summarizes the differences among the test statistics and their analogous counterpart in correlation and <span class="math inline">\(t\)</span> tests.</p>
+<p>Given an input contingency table, <code>fun.chisq.test()</code> offers three quantities to evaluate non-parametric functional dependency of the column variable <span class="math inline">\(Y\)</span> on the row variable <span class="math inline">\(X\)</span>. They include test statistic (functional chi-square <span class="math inline">\(\chi^2_f\)</span>), statistical significance (<span class="math inline">\(p\)</span>-value), and effect size (function index <span class="math inline">\(\xi_f\)</span>).</p>
+<p>We explain their differences in analogy to those statistics returned from <code>cor.test()</code>, the R function for the test of correlation, and the <span class="math inline">\(t\)</span>-test. We chose both tests because they are widely used and well understood. Another choice could be the Pearson’s chi-square test plus a statistic called Cramer’s V, analogous to correlation coefficient, but not as popularly used. The table below summarizes the differences among the quantities and their analogous counterparts in correlation and <span class="math inline">\(t\)</span> tests.</p>
 <table>
-<caption><strong>Comparison of the three statistics returned from <code>fun.chisq.test()</code>.</strong></caption>
+<caption><strong>Comparison of the three quantities returned from <code>fun.chisq.test()</code>.</strong></caption>
 <colgroup>
 <col width="11%"></col>
 <col width="13%"></col>
@@ -89,13 +89,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </colgroup>
 <thead>
 <tr class="header">
-<th align="center">Statistics</th>
+<th align="center">Quantity</th>
 <th align="center">Measure functional dependency?</th>
 <th align="center">Affected by sample size?</th>
 <th align="center">Affected by table size?</th>
 <th align="center">Measure statistical significance?</th>
 <th align="center">Counterpart in correlation test</th>
-<th align="center">Counterpart in differential expression by <span class="math inline">\(t\)</span>-test</th>
+<th align="center">Counterpart in two-sample <span class="math inline">\(t\)</span>-test</th>
 </tr>
 </thead>
 <tbody>
@@ -105,7 +105,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 <td align="center">No</td>
-<td align="center">test statistic</td>
+<td align="center"><span class="math inline">\(t\)</span>-statistic</td>
 <td align="center"><span class="math inline">\(t\)</span>-statistic</td>
 </tr>
 <tr class="even">
@@ -124,7 +124,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td align="center">No</td>
 <td align="center">No</td>
 <td align="center">correlation coefficient</td>
-<td align="center">fold change</td>
+<td align="center">mean difference</td>
 </tr>
 </tbody>
 </table>
@@ -148,8 +148,8 @@ x1</code></pre></div>
 ## data:  x1
 ## statistic = 10.043, parameter = 4, p-value = 0.03971
 ## sample estimates:
-## function index xi.f 
-##           0.5010703</code></pre>
+## non-constant function index xi.f 
+##                        0.5010703</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x2=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">nrow=</span><span class="dv">3</span>)
 x2</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
@@ -163,8 +163,8 @@ x2</code></pre></div>
 ## data:  x2
 ## statistic = 8.3805, parameter = 4, p-value = 0.07859
 ## sample estimates:
-## function index xi.f 
-##           0.4577259</code></pre>
+## non-constant function index xi.f 
+##                        0.4577259</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x3=<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">0</span>,<span class="dv">9</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">nrow=</span><span class="dv">3</span>)
 x3</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
@@ -178,9 +178,9 @@ x3</code></pre></div>
 ## data:  x3
 ## statistic = 10.221, parameter = 4, p-value = 0.03686
 ## sample estimates:
-## function index xi.f 
-##           0.4614612</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x4=x1*<span class="kw">sum</span>(x3)/<span class="kw">sum</span>(x1)
+## non-constant function index xi.f 
+##                        0.4614612</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x4=x1<span class="op">*</span><span class="kw">sum</span>(x3)<span class="op">/</span><span class="kw">sum</span>(x1)
 x4</code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]  6.0  1.2  1.2
@@ -193,8 +193,8 @@ x4</code></pre></div>
 ## data:  x4
 ## statistic = 12.051, parameter = 4, p-value = 0.01697
 ## sample estimates:
-## function index xi.f 
-##           0.5010703</code></pre>
+## non-constant function index xi.f 
+##                        0.5010703</code></pre>
 </div>
 
 

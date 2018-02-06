@@ -30,8 +30,8 @@ double ExactFunctionalTest(const IntegerMatrix & nm) {
   // IntegerMatrix nm(x);
 
   vector< vector< int > > C(nm.nrow(), vector<int>(nm.ncol()));
-  for(size_t i = 0; i < nm.nrow(); ++i) {
-    for(size_t j = 0; j < nm.ncol(); ++j) {
+  for(size_t i = 0; i < (size_t) nm.nrow(); ++i) {
+    for(size_t j = 0; j < (size_t) nm.ncol(); ++j) {
       C[i][j] = nm(i, j);
     }
   }
@@ -53,14 +53,14 @@ DataFrame interactions(const IntegerMatrix & expression_matrix, const List & par
 
   //Take inputs
   vector< vector< int > > x (expression_matrix.nrow(), vector<int> (expression_matrix.ncol(), 0));
-  for(size_t i = 0; i < expression_matrix.nrow(); ++i) {
-    for(size_t j = 0; j < expression_matrix.ncol(); ++j) {
+  for(size_t i = 0; i < (size_t) expression_matrix.nrow(); ++i) {
+    for(size_t j = 0; j < (size_t) expression_matrix.ncol(); ++j) {
       x[i][j] = expression_matrix(i, j);
     }
   }
 
   vector< vector< int > > P;
-  for(size_t i = 0; i < parent_index.length(); ++i) {
+  for(size_t i = 0; i < (size_t) parent_index.length(); ++i) {
     P.push_back(as< vector < int > >(parent_index[i]));
   }
 
@@ -116,7 +116,7 @@ DataFrame interactions(const IntegerMatrix & expression_matrix, const List & par
       int accumulation_tmp = 0; // table combined parent index
       int product_tmp = 1;
       for(int k=(int)P_index.size()-1; k>=0; k--){
-        if(k!=P_index.size()-1) product_tmp *= (P_max_level[k+1]+1);
+        if(k!=(int)P_index.size()-1) product_tmp *= (P_max_level[k+1]+1);
         accumulation_tmp += P_exp[k][j] * product_tmp;
       }
 

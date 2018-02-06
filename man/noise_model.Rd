@@ -8,7 +8,7 @@
 Apply Noise to Discrete-Valued Tables
 }
 \description{
-    The function can apply two types of noise to contingency tables of discrete values. A house noise model is designed for ordinal variables; a candle noise model is for categorical variables. Noise is applied indepdently for each data point in a table.
+    The function can apply two types of noise to contingency tables of discrete values. A house noise model is designed for ordinal variables; a candle noise model is for categorical variables. Noise is applied independently for each data point in a table.
 }
 \usage{
 add.noise(tables, u, noise.model, margin=0)
@@ -18,16 +18,16 @@ add.candle.noise(tables, u, margin=0)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{tables}{
-    A list of tables or one table. A table can be either a matrix or a data frame of integer values.
+    a list of tables or one table. A table can be either a matrix or a data frame of integer values.
   }
   \item{u}{
-    A numeric value between 0 and 1 to specify the noise level to be applied to the input tables. See Details.
+    a numeric value between 0 and 1 to specify the noise level to be applied to the input tables. See Details.
   }
   \item{noise.model}{
-    The noise model type is either \code{"house"} for ordinal variables or \code{"candle"} for categorical variables. See Details.
+    a character string indicating the noise model of either \code{"house"} for ordinal variables or \code{"candle"} for categorical variables. See Details.
   }
   \item{margin}{
-    A value of either 0, 1, or 2. Default is 0.
+    a value of either 0, 1, or 2. Default is 0.
 
     0: noise is applied along both rows and columns in a table. The sum of values in the table is the same before and after noise application.
 
@@ -40,7 +40,7 @@ add.candle.noise(tables, u, margin=0)
 \details{
   Each noise model defines a conditional probability function of a noisy version given an original discrete value and a noise level. In the house noise model for ordinal variables, defined in (Zhang et al., 2015), the probability decreases as the noisy version deviates from the original ordinal value. The shape of the function is like a pitched house roof. In the candle noise model for categorical variables, the probability of the noisy version for any value other than the original categorical value is the same given the noise level. The function shape is like a candle.
 
-  At a minimum level of 0, no noise is applied on the input table(s). A maximum level of 1 indicates that the original sample will be changed to some other values with a probability of 1. For a discrete random variable of two possible values, a noise level of 1 will flip the values; a noise level of 0.5 is considered more appropriate if the interaction pattern is to be studied.
+  At a minimum level of 0, no noise is applied on the input table(s). A maximum level of 1 indicates that the original sample will be changed to some other values with a probability of 1. For a discrete random variable of two possible values, a noise level of 1 will flip the values and create a non-random pattern; a noise level of 0.5 creates the most random pattern.
 }
 
 \value{

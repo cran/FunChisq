@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // ExactFunctionalTest
 double ExactFunctionalTest(const IntegerMatrix& nm);
-RcppExport SEXP FunChisq_ExactFunctionalTest(SEXP nmSEXP) {
+RcppExport SEXP _FunChisq_ExactFunctionalTest(SEXP nmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // interactions
 DataFrame interactions(const IntegerMatrix& expression_matrix, const List& parent_index, const IntegerVector& child_index, const String& index_kind);
-RcppExport SEXP FunChisq_interactions(SEXP expression_matrixSEXP, SEXP parent_indexSEXP, SEXP child_indexSEXP, SEXP index_kindSEXP) {
+RcppExport SEXP _FunChisq_interactions(SEXP expression_matrixSEXP, SEXP parent_indexSEXP, SEXP child_indexSEXP, SEXP index_kindSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;

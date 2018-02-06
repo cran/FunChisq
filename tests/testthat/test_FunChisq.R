@@ -113,6 +113,17 @@ test_that("Testing the functional chi-square test", {
     digits = 8
   )
 
+  ex[[7]] <- list(
+    x = matrix(c(5, 0, 0, 0, 0, 5, 0, 0), byrow=TRUE, nrow=2),
+    method = "fchisq",
+    stat.truth = 20,
+    par.truth = 3,
+    estimate.cond.fun.index = 1,
+    estimate.fun.index = 1,
+    pval.truth = 0.00016974244,
+    digits = 8
+  )
+
   for(i in seq_along(ex)) {
     within(ex[[i]],
            {

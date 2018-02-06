@@ -1,20 +1,21 @@
 \name{fun.chisq.test}
 \alias{fun.chisq.test}
 \title{
-Chi-Square and Exact Tests for Non-Parametric Functional Dependencies
+Chi-Square and Exact Tests for Model-Free Functional Dependency
 }
 
 \description{
-Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine non-parametric functional dependencies of the column variable on the row variable.
+Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine model-free functional dependency of the column variable on the row variable.
 }
 
 \usage{
 fun.chisq.test(
   x,
-  method=c("fchisq", "nfchisq", "exact",
-           "default", "normalized"),
-  alternative=c("non-constant", "all"), log.p=FALSE,
-  index.kind=c("unconditional", "conditional")
+  method = c("fchisq", "nfchisq", "exact", "default",
+             "normalized", "simulate.p.value"),
+  alternative = c("non-constant", "all"), log.p=FALSE,
+  index.kind = c("unconditional", "conditional"),
+  simulate.nruns = 2000
 )
 }
 
@@ -24,7 +25,7 @@ fun.chisq.test(
 }
 
   \item{method}{
-  a character string to specify the method to compute the functional chi-square test statistic and its p-value. The options are \code{"fchisq"} (equivalent to \code{"default"}, the default), \code{"nfchisq"} (equivalent to \code{"normalized"}), or \code{"exact"}. See Details.
+  a character string to specify the method to compute the functional chi-square test statistic and its p-value. The options are \code{"fchisq"} (equivalent to \code{"default"}, the default), \code{"nfchisq"} (equivalent to \code{"normalized"}), \code{"exact"} or \code{"simulate.p.value"}. See Details.
 
   Note: \code{"default"} and \code{"normalized"} are deprecated.
 }
@@ -37,21 +38,26 @@ fun.chisq.test(
   \item{index.kind}{
   a character string to specify the kind of function index xi.f to be estimated. The options are \code{"unconditional"} (default) and \code{"conditional"}. See Details.
   }
+  \item{simulate.nruns}{
+   A number to specify the number of tables generated to simulate the null distribution. Default is \code{2000}. Only used when \code{method="simulate.p.value"}.
+  }
 }
 
 \details{
 
 The functional chi-square test determines whether the column variable is a function of the row variable in contingency table \code{x} (Zhang and Song, 2013; Zhang, 2014). This function supports three hypothesis testing methods:
 
-\code{index.kind} specifies the kind of estimated function index to be computed. If the experimental design controls neither the row nor column marginal sample size, \code{index.kind = "unconditional"} (default) is recommended; otherwise, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the estimated function index xi.f value, but not the test statistic or p-value.
+\code{index.kind} specifies the kind of function index to be computed. If the experimental design controls neither the row nor column marginal sums, \code{index.kind = "unconditional"} (default) is recommended; If the column marginal sums are controlled, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the function index xi.f value, but not the test statistic or p-value.
 
 When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in (Zhang and Song, 2013; Zhang, 2014) and the p-value is computed using the chi-square distribution.
 
 When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is a normalized functional chi-square obtained by shifting and scaling the original chi-square (Zhang and Song, 2013; Zhang, 2014); and the p-value is computed using the standard normal distribution (Box et al., 2005). The normalized chi-square, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
 
-When \code{method="exact"}, an exact functional test (Zhong, 2014) is performed. It computes an exact p-value and is fast when both the sample and table sizes are small. If the sample size is greater than 200 or the table size is larger than 5 by 5,  the exact test may not complete within a reasonable amount of time and the asymptotic functional chi-square test (\code{method="fchisq"}) is used instead. %When the sample size of an input contingency table is large, the exact functional test and the functional chi-square test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
+When \code{method="exact"}, an exact functional test (Zhong and Song, 2018) is performed. It computes an exact p-value and is fast when both the sample and table sizes are small. If the sample size is greater than 200 or the table size is larger than 5 by 5,  the exact test may not complete within a reasonable amount of time and the asymptotic functional chi-square test (\code{method="fchisq"}) is used instead. %When the sample size of an input contingency table is large, the exact functional test and the functional chi-square test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
 % On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied.
 For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq"} or \code{"nfchisq"}) are recommended to test functional dependency.
+
+When \code{method="simulate.p.value"}, a simulated null distribution is used to calculate \code{p-value}. The null distribution is a multinomial distribution that is the product of two marginal distributions. Like other Monte Carlo based methods, this method is slower but may be more accurate than other methods based on asymptotic distributions.
 
 %The following is an example suitable for the exact functional test. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens (Shen et al, 2002) to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylation gene), intermediate (1~2 methylated genes) and positive (>2 methylated genes). The following table represents the frequencies of observed tumor protein p53 mutations and CIMP status:
 %\tabular{lcccc}{
@@ -104,11 +110,11 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
-Box, G. E., Hunter, J. S., and Hunter, W. G. (2005). \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Edition. Wiley-Interscience, New York.
+Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
 
-Fisher, R. A. (1922). On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society}, 85(1), 87--94.
+Fisher, R. A. (1922) On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society} \bold{85}(1), 87--94.
 
-Pearson, K. (1900). On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5}, 50(302), 157--175.
+Pearson, K. (1900) On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5} \bold{50}(302), 157--175.
 
 %Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 
@@ -117,8 +123,7 @@ Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks withou
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
-Zhong, H. (2014) \emph{An Exact and Fast Statistical Test for Nonparametric Functional Dependencies.} Unpublished M.S. thesis, Department of Computer Science, New Mexico State University, Las Cruces, USA.
-
+Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press.
 }
 
 \author{
@@ -132,6 +137,7 @@ Yang Zhang, Hua Zhong and Joe Song
 }
 
 \examples{
+\dontrun{
 # Example 1. Asymptotic functional chi-square test
 x <- matrix(c(20,0,20,0,20,0,5,0,5), 3)
 fun.chisq.test(x) # strong functional dependency
@@ -158,8 +164,13 @@ fun.chisq.test(x, method="exact")
 
 # Test the functional dependency CIMP -> p53 mutation
 fun.chisq.test(t(x), method="exact")
-}
 
+# Example 5. Asymptotic functional chi-square test with simulated distribution
+x <- matrix(c(20,0,20,0,20,0,5,0,5), 3)
+fun.chisq.test(x, method="simulate.p.value")
+fun.chisq.test(x, method="simulate.p.value", simulate.n = 1000)
+}
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 %\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
