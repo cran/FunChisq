@@ -15,7 +15,8 @@ fun.chisq.test(
              "normalized", "simulate.p.value"),
   alternative = c("non-constant", "all"), log.p=FALSE,
   index.kind = c("unconditional", "conditional"),
-  simulate.nruns = 2000
+  simulate.nruns = 2000,
+  exact.mode.bound=TRUE
 )
 }
 
@@ -40,6 +41,9 @@ fun.chisq.test(
   }
   \item{simulate.nruns}{
    A number to specify the number of tables generated to simulate the null distribution. Default is \code{2000}. Only used when \code{method="simulate.p.value"}.
+  }
+  \item{exact.mode.bound}{
+  logical; if \code{TRUE}, a fast branch-and-bound algorithm is used for the exact functional test (\code{method="exact"}). If \code{FALSE}, a slow brute-force enumeration method is used to provide a  reference for runtime analysis. Both options provide the same exact p-value. The default is \code{TRUE}.
   }
 }
 
@@ -106,15 +110,15 @@ A list with class "\code{htest}" containing the following components:
 \item{statistic}{the functional chi-square statistic if \code{method = "fchisq"}, \code{"default"}, or \code{"exact"}; or the normalized functional chi-square statistic if \code{method = "nfchisq"} or \code{"normalized"}.}
 \item{parameter}{degrees of freedom for the functional chi-square statistic.}
 \item{p.value}{p-value of the functional test. If \code{method = "fchisq"} (or \code{"default"}), it is computed by an asymptotic chi-square distribution; if \code{method = "nfchisq"} (or \code{"normalized"}), it is computed by the standard normal distribution; if \code{method} \code{= "exact"}, it is computed by an exact hypergeometric distribution.}
-\item{estimate}{an estimate of function index between 0 and 1. The value of 1 indicates a strictly mathematical function. It is asymmetrical with respect to transpose of the input contingency table, different from the symmetrical Cramer's V for Pearson's chi-square.}
+\item{estimate}{an estimate of function index between 0 and 1. The value of 1 indicates a strictly mathematical function. It is asymmetrical with respect to transpose of the input contingency table, different from the symmetrical Cramer's V for Pearson's chi-squares.}
 }
 
 \references{
 Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
 
-Fisher, R. A. (1922) On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society} \bold{85}(1), 87--94.
+%Fisher, R. A. (1922) On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society} \bold{85}(1), 87--94.
 
-Pearson, K. (1900) On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5} \bold{50}(302), 157--175.
+%Pearson, K. (1900) On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5} \bold{50}(302), 157--175.
 
 %Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 

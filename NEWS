@@ -1,5 +1,12 @@
 NEWS
 
+Version 2.4.5
+  2018-02-08
+  1. Added a parameter "exact.mode.bound" in the fun.chisq.test()
+  function to switch ON/OFF the fast branch-and-bound algorithm in
+  the exact functional test.
+  2. Updated testthat cases for exact functional test.
+
 Version 2.4.4
   2018-02-05
   1. Added a new reference (Zhong and Song, 2018) for exact

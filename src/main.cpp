@@ -20,7 +20,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double ExactFunctionalTest(const IntegerMatrix & nm) {
+double ExactFunctionalTest(const IntegerMatrix & nm, const LogicalVector & BoundSwitch) {
   // RcppExport SEXP ExactFunctionalTest(SEXP x){// x is a numeric matrix
   //RcppMatrix<int> nm(x);
   //vector< vector< int > > C = nm.stlMatrix();
@@ -37,13 +37,14 @@ double ExactFunctionalTest(const IntegerMatrix & nm) {
   }
 
   mydouble fc = 0.0;
-  mydouble pVal = exact_func_test_multi_hypergeometric
-    (C, fc, LBON, UB_BY_ROW, (enum PVAL) PVAL);
-
-  //     mydouble pVal = exact_func_test_multi_hypergeometric
-  //       (C, fc, LBOFF, UBOFF, (enum PVAL) PVAL);
-
-  //return wrap(pVal);
+  mydouble pVal = 1;
+  
+  if(BoundSwitch[0]){
+    pVal = exact_func_test_multi_hypergeometric(C, fc, LBON, UB_BY_ROW, (enum PVAL) PVAL);
+  }else{
+    pVal = exact_func_test_multi_hypergeometric(C, fc, LBOFF, UBOFF, (enum PVAL) PVAL);
+  }
+  
   return pVal;
 }
 

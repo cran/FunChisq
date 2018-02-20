@@ -20,6 +20,8 @@
 #   Listed all arguments
 # May 29, 2017 HZ:
 #   Added "simulate.p.value" method to calculate p-value with simulated distribution
+# Feb 08, 2018 HZ:
+#   Added exact functional test option "exact.mode.bound"
 
 fun.chisq.test <- function (
   x,
@@ -30,7 +32,8 @@ fun.chisq.test <- function (
 #               , "fix.row.sums", "fix.column.sums",
 #               "fix.marginal.sums"
                ),
-  simulate.nruns = 2000
+  simulate.nruns = 2000,
+  exact.mode.bound = TRUE
 )
 {
   if(!is.matrix(x) && !is.data.frame(x)) stop("input x must be matrix or data frame\n")
@@ -221,7 +224,7 @@ fun.chisq.test <- function (
     if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
        && nrow(x)<=5 && ncol(x)<=5) {
       # p.value <- exact.functional.test(x)
-      p.value <- ExactFunctionalTest(x)
+      p.value <- ExactFunctionalTest(x, exact.mode.bound)
       if(log.p) p.value <- log(p.value)
       names(fun.chisq) <- "statistic"
       return(structure(list(statistic = fun.chisq, p.value = p.value, estimate = estimate,

@@ -6,13 +6,14 @@
 using namespace Rcpp;
 
 // ExactFunctionalTest
-double ExactFunctionalTest(const IntegerMatrix& nm);
-RcppExport SEXP _FunChisq_ExactFunctionalTest(SEXP nmSEXP) {
+double ExactFunctionalTest(const IntegerMatrix& nm, const LogicalVector& BoundSwitch);
+RcppExport SEXP _FunChisq_ExactFunctionalTest(SEXP nmSEXP, SEXP BoundSwitchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const IntegerMatrix& >::type nm(nmSEXP);
-    rcpp_result_gen = Rcpp::wrap(ExactFunctionalTest(nm));
+    Rcpp::traits::input_parameter< const LogicalVector& >::type BoundSwitch(BoundSwitchSEXP);
+    rcpp_result_gen = Rcpp::wrap(ExactFunctionalTest(nm, BoundSwitch));
     return rcpp_result_gen;
 END_RCPP
 }

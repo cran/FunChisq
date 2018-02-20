@@ -5,13 +5,13 @@
 Chi-Square and Exact Tests for Model-Free Functional Dependency
 }
 \description{
-Statistical hypothesis testing methods for model-free functional dependency using asymptotic chi-square or exact distributions. Functional chi-squares are asymmetric and functionally optimal, different from other related statistical measures. Tests in this package reveal evidence for causality based on the causality-by-functionality principle (Simon and Rescher, 1966). The package implements asymptotic functional chi-square tests (Zhang and Song, 2013; Zhang, 2014), an exact functional test (Zhong and Song, 2018), a comparative functional chi-square test (Zhang, 2014), and also a comparative chi-square test (Song et al., 2014; Zhang et al., 2015). The tests require data from two or more variables be formatted as a contingency table. Continuous variables need to be discretized first, for example, using the R package Ckmeans.1d.dp. The normalized functional chi-square test was used by Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges (Hill et al., 2016). For continuous data, these tests offer an advantage over regression analysis when a parametric form cannot be reliably assumed for the underlying function. For categorical data, they provide a novel means to assess directional dependency not possible with symmetrical Pearson's chi-square or Fisher's exact tests.
+Statistical hypothesis testing and simulation methods for model-free functional dependency using asymptotic chi-square or exact distributions. Functional chi-squares are asymmetric and functionally optimal, different from other related statistical measures. Tests in this package reveal evidence for causality based on the causality-by-functionality principle (Simon and Rescher, 1966). The package implements asymptotic functional chi-square tests (Zhang and Song, 2013; Zhang, 2014), an exact functional test (Zhong and Song, 2018), a comparative functional chi-square test (Zhang, 2014), and also a comparative chi-square test (Song et al., 2014; Zhang et al., 2015). The tests require data from two or more variables be formatted as a contingency table. Continuous variables need to be discretized first, for example, using the R package Ckmeans.1d.dp. The normalized functional chi-square test was used by Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges (Hill et al., 2016). A simulator is provided to generate functional, dependent non-functional, and independent patterns (Sharma et al., 2017). For continuous data, these tests offer an advantage over regression analysis when a parametric form cannot be reliably assumed for the underlying function. For categorical data, they provide a novel means to assess directional dependency not possible with symmetrical Pearson's chi-square or Fisher's exact tests.
 }
 \details{
 \tabular{ll}{
 Package: \tab FunChisq\cr
 Type: \tab Package\cr
-Current version: \tab 2.4.4\cr
+Current version: \tab 2.4.5\cr
 Initial release version: \tab 1.0\cr
 Initial release date: \tab 2014-03-08\cr
 License: \tab LGPL (>= 3) \cr
@@ -30,6 +30,8 @@ Yang Zhang, Hua Zhong, Ruby Sharma, Sajal Kumar and Joe Song
 
 \references{
 Hill, S. M., Heiser, L. M., Cokelaer, T., Unger, M., Nesser, N. K., Carlin, D. E., Zhang, Y., Sokolov, A., Paull, E. O., Wong, C. K., Graim, K., Bivol, A., Wang, H., Zhu, F., Afsari, B., Danilova, L. V., Favorov, A. V., Lee, W. S., Taylor, D., Hu, C. W., Long, B. L., Noren, D. P., Bisberg, A. J., HPN-DREAM Consortium, Mills, G. B., Gray, J. W., Kellen, M., Norman, T., Friend, S., Qutub, A. A., Fertig, E. J., Guan, Y., Song, M., Stuart, J. M., Spellman, P. T., Koeppl, H., Stolovitzky, G., Saez-Rodriguez, J. and Mukherjee, S. (2016) Inferring causal molecular networks: empirical assessment through a community-based effort. \emph{Nature Methods} \bold{13}(4), 310--318.
+
+Sharma, R., Kumar, S., Zhong, H. and Song, M. (2017) Simulating noisy, nonparametric, and multivariate discrete patterns. \emph{The R Journal} \bold{9}(2), 366--377. Retrieved from \url{https://journal.r-project.org/archive/2017/RJ-2017-053/index.html}
 
 Simon, H. A. and Rescher, N. (1966) Cause and counterfactual. \emph{Philosophy of Science} \bold{33}(4), 323--340.
 
