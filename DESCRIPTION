@@ -1,7 +1,7 @@
 Package: FunChisq
 Type: Package
-Version: 2.4.5
-Date: 2018-02-20
+Version: 2.4.5-1
+Date: 2018-06-16
 Title: Chi-Square and Exact Tests for Model-Free Functional Dependency
 Authors@R: c(person("Yang", "Zhang", role = "aut"),
 	           person("Hua", "Zhong", role = "aut"),
@@ -40,6 +40,6 @@ NeedsCompilation: yes
 URL: https://www.cs.nmsu.edu/~joemsong/publications
 LazyData: TRUE
 VignetteBuilder: knitr
-Packaged: 2018-02-20 19:14:49 UTC; joemsong
+Packaged: 2018-06-16 04:46:33 UTC; joesong
 Repository: CRAN
-Date/Publication: 2018-02-20 19:26:28 UTC
+Date/Publication: 2018-06-16 05:15:32 UTC

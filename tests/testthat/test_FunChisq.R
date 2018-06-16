@@ -6,22 +6,22 @@ context("Testing the FunChisq package")
 test_that("Testing the exact functional test", {
 
   exact.functional.test <- ExactFunctionalTest
-  
+
   x1 <- matrix(c(12, 26, 18, 0, 8, 12), nrow=2, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x1, TRUE), 8), 0.042556227)
   expect_equal(signif(exact.functional.test(t(x1), TRUE), 8), 0.027271581)
-  expect_equal(signif(exact.functional.test(x1, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x1, TRUE), 8),
                signif(exact.functional.test(x1, FALSE), 8))
 
   x2 <- matrix(c(0,0,0,0,0,0,0,0,0), nrow=3, byrow = TRUE)
   expect_equal(exact.functional.test(x2, TRUE), 1)
-  expect_equal(signif(exact.functional.test(x2, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x2, TRUE), 8),
                signif(exact.functional.test(x2, FALSE), 8))
-  
+
   x3 <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
   expect_equal(signif(exact.functional.test(x3, TRUE), 8), 0.002997003)
   expect_equal(signif(exact.functional.test(t(x3), TRUE), 8), 0.0065490065)
-  expect_equal(signif(exact.functional.test(x3, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x3, TRUE), 8),
                signif(exact.functional.test(x3, FALSE), 8))
 
   if(0) { # This test case causes hang on windows. To be fixed.
@@ -31,31 +31,78 @@ test_that("Testing the exact functional test", {
 
   x5 <- matrix(c(4,0,0,0,4,0,0,0,4), nrow=3, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x5, TRUE), 8), 0.00017316017)
-  expect_equal(signif(exact.functional.test(x5, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x5, TRUE), 8),
                signif(exact.functional.test(x5, FALSE), 8))
-  
+
   x6 <- matrix(c(2,0,0,2), nrow=2, byrow = TRUE)
   expect_equivalent(signif(exact.functional.test(x6, TRUE), 8),
                signif(stats::fisher.test(x6)$p.value, 8))
-  expect_equal(signif(exact.functional.test(x6, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x6, TRUE), 8),
                signif(exact.functional.test(x6, FALSE), 8))
-  
+
   x7 <- matrix(c(2,2,2,2), nrow=2, byrow = TRUE)
   expect_equivalent(signif(exact.functional.test(x7, TRUE), 8),
                signif(stats::fisher.test(x7)$p.value, 8))
-  expect_equal(signif(exact.functional.test(x7, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x7, TRUE), 8),
                signif(exact.functional.test(x7, FALSE), 8))
-  
+
   x8 <- matrix(c(0,10,15,20,5,0,25,0,0), nrow=3, byrow = TRUE)
   expect_equivalent(signif(exact.functional.test(x8, TRUE), 8),
                     signif(fun.chisq.test(x8)$p.value, 8))
-  expect_equal(signif(exact.functional.test(x8, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x8, TRUE), 8),
                signif(exact.functional.test(x8, FALSE), 8))
-  
+
   x9 <- matrix(c(1,1,1,1,1,1,1,1,1), nrow=3, byrow = TRUE)
   expect_equal(exact.functional.test(x9, TRUE), 1)
-  expect_equal(signif(exact.functional.test(x9, TRUE), 8), 
+  expect_equal(signif(exact.functional.test(x9, TRUE), 8),
                signif(exact.functional.test(x9, FALSE), 8))
+
+  x10 = matrix(c(
+    6,    0,    8,    9,    6,
+    0,   11,    0,    0,    0,
+    0,    0,    0,    0,    0
+  ),
+  nrow=3, byrow=TRUE
+  )
+  expect_equal(signif(exact.functional.test(x10, TRUE), 8), 4.325631e-10)
+  expect_equal(signif(exact.functional.test(x10, TRUE), 8),
+               signif(exact.functional.test(x10, FALSE), 8))
+
+
+  x11 = matrix(c(
+    0, 0, 0, 10, 9,
+    0, 0, 0, 0, 0,
+    8, 3, 10, 0, 0
+  ),
+  nrow=3, byrow=TRUE
+  )
+  expect_equal(signif(exact.functional.test(x11, TRUE), 8), 1.523433e-11)
+  expect_equal(signif(exact.functional.test(x11, TRUE), 8),
+               signif(exact.functional.test(x11, FALSE), 8))
+
+  x12 = matrix(c(
+    8,    0,   11,    0,   11,
+    0,    4,    0,    0,    0,
+    0,    0,    0,    6,    0), nrow=3, byrow=TRUE
+  )
+  expect_equal(signif(exact.functional.test(x12, TRUE), 8), 5.617703e-12)
+  expect_equal(signif(exact.functional.test(x12, TRUE), 8),
+               signif(exact.functional.test(x12, FALSE), 8))
+
+  x13 = matrix( c(
+    0, 2, 0,
+    0, 2, 0,
+    0, 2, 0 ), nrow = 3, byrow =T)
+  expect_equal(signif(exact.functional.test(x13, TRUE), 8), 1)
+
+  expect_equal(signif(exact.functional.test(x13, TRUE), 8),
+               signif(exact.functional.test(x13, FALSE), 8))
+
+  expect_equal(signif(exact.functional.test(t(x13), TRUE), 8), 1)
+
+  expect_equal(signif(exact.functional.test(t(x13), TRUE), 8),
+               signif(exact.functional.test(t(x13), FALSE), 8))
+
 })
 
 

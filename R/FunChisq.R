@@ -222,7 +222,7 @@ fun.chisq.test <- function (
     #Hua added, Nov 13, 2014
     #Exact functional test
     if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
-       && nrow(x)<=5 && ncol(x)<=5) {
+       && nrow(x)<=10 && ncol(x)<=10) {
       # p.value <- exact.functional.test(x)
       p.value <- ExactFunctionalTest(x, exact.mode.bound)
       if(log.p) p.value <- log(p.value)
@@ -231,6 +231,7 @@ fun.chisq.test <- function (
                             data.name = DNAME, method = method.text),
                        class = "htest"))
     } else {
+      warning("Asymptotic test is used in place of exact test to save time.\n")
       return(fun.chisq.test(x, method="fchisq", alternative=alternative, log.p=log.p,
                             index.kind=index.kind))
     }

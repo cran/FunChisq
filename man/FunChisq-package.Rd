@@ -11,7 +11,7 @@ Statistical hypothesis testing and simulation methods for model-free functional 
 \tabular{ll}{
 Package: \tab FunChisq\cr
 Type: \tab Package\cr
-Current version: \tab 2.4.5\cr
+Current version: \tab 2.4.5-1\cr
 Initial release version: \tab 1.0\cr
 Initial release date: \tab 2014-03-08\cr
 License: \tab LGPL (>= 3) \cr
@@ -44,7 +44,7 @@ Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription 
 Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
 \url{https://arxiv.org/abs/1311.2707}
 
-Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press.
+Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press. \url{https://doi.org/10.1109/TCBB.2018.2809743}
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

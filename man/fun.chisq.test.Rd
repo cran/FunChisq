@@ -127,7 +127,7 @@ Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks withou
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
-Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press.
+Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press. \url{https://doi.org/10.1109/TCBB.2018.2809743}
 }
 
 \author{

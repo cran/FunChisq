@@ -28,7 +28,8 @@ bibentry(bibtype="Article",
   year = "2018",
   note = "In press",
   author = c(person("Hua", "Zhong"), person("Mingzhou", "Song")),
-  textVersion = "Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. IEEE/ACM Transactions on Computational Biology and Bioinformatics. In press"
+  url = "https://doi.org/10.1109/TCBB.2018.2809743",
+  textVersion = "Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. IEEE/ACM Transactions on Computational Biology and Bioinformatics. https://doi.org/10.1109/TCBB.2018.2809743"
 )
 
 bibentry(bibtype="Article",

@@ -1,5 +1,23 @@
 NEWS
 
+Version 2.4.5-1
+  2018-06-16
+  1. In the exact functional test C++ code, improved the numerical
+  precision of the FunChisq statistic using an equivalent
+  mathematical form already used in the R version. This fixed bugs
+  in the exact functional test when the table is of certain
+  dimension and sample size.
+
+  2. Added a few more test cases for the exact functional test.
+
+  3. Increased the maximum table size from 5x5 to 10x10 for the
+  exact functional test.
+
+  4. Added a warning message when asymptotic test is used in place
+  of the exact test to avoid long computational time.
+
+  5. Updated the DOI of the reference to exact functional test.
+
 Version 2.4.5
   2018-02-08
   1. Added a parameter "exact.mode.bound" in the fun.chisq.test()
