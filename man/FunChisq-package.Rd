@@ -11,7 +11,7 @@ Statistical hypothesis testing and simulation methods for model-free functional 
 \tabular{ll}{
 Package: \tab FunChisq\cr
 Type: \tab Package\cr
-Current version: \tab 2.4.5-1\cr
+Current version: \tab 2.4.5-2\cr
 Initial release version: \tab 1.0\cr
 Initial release date: \tab 2014-03-08\cr
 License: \tab LGPL (>= 3) \cr

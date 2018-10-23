@@ -1,6 +1,7 @@
 library(testthat)
 library(FunChisq)
-context("Testing the FunChisq package")
+
+context("Testing fun.chisq.test()")
 
 
 test_that("Testing the exact functional test", {
@@ -56,53 +57,6 @@ test_that("Testing the exact functional test", {
   expect_equal(exact.functional.test(x9, TRUE), 1)
   expect_equal(signif(exact.functional.test(x9, TRUE), 8),
                signif(exact.functional.test(x9, FALSE), 8))
-
-  x10 = matrix(c(
-    6,    0,    8,    9,    6,
-    0,   11,    0,    0,    0,
-    0,    0,    0,    0,    0
-  ),
-  nrow=3, byrow=TRUE
-  )
-  expect_equal(signif(exact.functional.test(x10, TRUE), 8), 4.325631e-10)
-  expect_equal(signif(exact.functional.test(x10, TRUE), 8),
-               signif(exact.functional.test(x10, FALSE), 8))
-
-
-  x11 = matrix(c(
-    0, 0, 0, 10, 9,
-    0, 0, 0, 0, 0,
-    8, 3, 10, 0, 0
-  ),
-  nrow=3, byrow=TRUE
-  )
-  expect_equal(signif(exact.functional.test(x11, TRUE), 8), 1.523433e-11)
-  expect_equal(signif(exact.functional.test(x11, TRUE), 8),
-               signif(exact.functional.test(x11, FALSE), 8))
-
-  x12 = matrix(c(
-    8,    0,   11,    0,   11,
-    0,    4,    0,    0,    0,
-    0,    0,    0,    6,    0), nrow=3, byrow=TRUE
-  )
-  expect_equal(signif(exact.functional.test(x12, TRUE), 8), 5.617703e-12)
-  expect_equal(signif(exact.functional.test(x12, TRUE), 8),
-               signif(exact.functional.test(x12, FALSE), 8))
-
-  x13 = matrix( c(
-    0, 2, 0,
-    0, 2, 0,
-    0, 2, 0 ), nrow = 3, byrow =T)
-  expect_equal(signif(exact.functional.test(x13, TRUE), 8), 1)
-
-  expect_equal(signif(exact.functional.test(x13, TRUE), 8),
-               signif(exact.functional.test(x13, FALSE), 8))
-
-  expect_equal(signif(exact.functional.test(t(x13), TRUE), 8), 1)
-
-  expect_equal(signif(exact.functional.test(t(x13), TRUE), 8),
-               signif(exact.functional.test(t(x13), FALSE), 8))
-
 })
 
 

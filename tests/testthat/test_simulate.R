@@ -6,6 +6,7 @@
 library(testthat)
 library(FunChisq)
 
+context("Testing simulate_tables()")
 
 #Attributes to test
 #1) y = f(x)

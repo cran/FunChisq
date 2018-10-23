@@ -1,7 +1,7 @@
 Package: FunChisq
 Type: Package
-Version: 2.4.5-1
-Date: 2018-06-16
+Version: 2.4.5-2
+Date: 2018-10-22
 Title: Chi-Square and Exact Tests for Model-Free Functional Dependency
 Authors@R: c(person("Yang", "Zhang", role = "aut"),
 	           person("Hua", "Zhong", role = "aut"),
@@ -32,6 +32,7 @@ Description: Statistical hypothesis testing methods for
  novel means to assess directional dependency not possible with
  symmetrical Pearson's chi-square or Fisher's exact tests.
 License: LGPL (>= 3)
+Encoding: UTF-8
 Depends: R (>= 3.0.0)
 Imports: Rcpp, stats
 LinkingTo: BH, Rcpp
@@ -40,6 +41,6 @@ NeedsCompilation: yes
 URL: https://www.cs.nmsu.edu/~joemsong/publications
 LazyData: TRUE
 VignetteBuilder: knitr
-Packaged: 2018-06-16 04:46:33 UTC; joesong
+Packaged: 2018-10-23 05:34:28 UTC; joemsong
 Repository: CRAN
-Date/Publication: 2018-06-16 05:15:32 UTC
+Date/Publication: 2018-10-23 05:50:03 UTC

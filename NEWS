@@ -1,5 +1,17 @@
 NEWS
 
+Version 2.4.5-2
+  2018-10-22
+  1. Reintroduced a test source code file test_FunChisq.R back,
+  which was accidentally deleted from the previous version.
+
+  2018-10-17
+  1. Added a plot_table() function to visualize a contingency table.
+
+  2018-10-16
+  1. Created version 2.4.5-2.
+  2. Included conditional FunChisq R code.
+
 Version 2.4.5-1
   2018-06-16
   1. In the exact functional test C++ code, improved the numerical
