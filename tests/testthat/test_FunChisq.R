@@ -144,7 +144,7 @@ test_that("Testing the functional chi-square test", {
   for(i in seq_along(ex)) {
     within(ex[[i]],
            {
-             h <- fun.chisq.test(x, method=method)
+             h <- fun.chisq.test(x, method=method, index.kind="unconditional")
              expect_equivalent(h$statistic, stat.truth)
              expect_equivalent(h$parameter, par.truth)
              expect_equivalent(signif(h$estimate, digits=digits), estimate.fun.index)

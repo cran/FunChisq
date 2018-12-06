@@ -14,7 +14,7 @@ fun.chisq.test(
   method = c("fchisq", "nfchisq", "exact", "default",
              "normalized", "simulate.p.value"),
   alternative = c("non-constant", "all"), log.p=FALSE,
-  index.kind = c("unconditional", "conditional"),
+  index.kind = c("conditional", "unconditional"),
   simulate.nruns = 2000,
   exact.mode.bound=TRUE
 )
@@ -37,7 +37,7 @@ fun.chisq.test(
   logical; if \code{TRUE}, the p-value is given as \code{log(p)}. Taking the log improves the accuracy when p-value is close to zero. The default is \code{FALSE}.
   }
   \item{index.kind}{
-  a character string to specify the kind of function index xi.f to be estimated. The options are \code{"unconditional"} (default) and \code{"conditional"}. See Details.
+  a character string to specify the kind of function index xi.f to be estimated. The options are \code{"conditional"} (default) and \code{"unconditional"}. See Details.
   }
   \item{simulate.nruns}{
    A number to specify the number of tables generated to simulate the null distribution. Default is \code{2000}. Only used when \code{method="simulate.p.value"}.

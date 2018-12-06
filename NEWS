@@ -1,5 +1,37 @@
 NEWS
 
+Version 2.4.5-3
+  2018-12-04
+  1. Updated simulate_tables() function to be more accurate when
+  generating small tables where row and column variables are
+  independent. Specifically, zero counts are now allowed.
+  2. Updated tests for simulate_tables() in test_simulate.R.
+  3. Introduced simulate_independent_tables() by reorganizing
+  preivous code. Noise is now applied along both rows and columns
+  (previously only along the rows). The funciton is in
+  simulate_tables.R.
+  4. Modified prelim.check() in simulate_tables.R.
+  5. Updated manual page for simulate_tables() accordingly.
+  6. Updated the examples in the manual of plot_tables().
+
+  2018-11-01
+  1. Added an argument in plot_table() to highlight row maxima with
+  a box.
+
+  2018-10-24
+  1. Created version 2.4.5-3.
+  2. Made "conditional function index" the default, previously
+  "unconditional", in fun.chisq.test(). Specifically, set the
+  default value of index.kind to "conditional". Previous "conditional
+  function index", specified by index.kind="conditional", is now
+  called "function index"; previous "function index", specified by
+  index.kind="unconditional" is now called "unconditional function
+  index". The "unconditional" option for function index will phase
+  out in future versions of the function.
+  3. Added a new vignette "Examples of discrete patterns".
+  4. Updated vignettes to include table visualization by
+  plot_table() function.
+
 Version 2.4.5-2
   2018-10-22
   1. Reintroduced a test source code file test_FunChisq.R back,

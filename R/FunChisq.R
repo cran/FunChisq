@@ -22,13 +22,16 @@
 #   Added "simulate.p.value" method to calculate p-value with simulated distribution
 # Feb 08, 2018 HZ:
 #   Added exact functional test option "exact.mode.bound"
+# Oct 24, 2018 MS:
+#   Default to (conditional) function index. The previous default was unconditional function
+#   index.
 
 fun.chisq.test <- function (
   x,
   method=c("fchisq", "nfchisq", "exact", "default",
            "normalized", "simulate.p.value"),
   alternative=c("non-constant", "all"), log.p=FALSE,
-  index.kind=c("unconditional", "conditional"
+  index.kind=c("conditional", "unconditional"
 #               , "fix.row.sums", "fix.column.sums",
 #               "fix.marginal.sums"
                ),
@@ -83,7 +86,7 @@ fun.chisq.test <- function (
     # Version 1: Current. Added June 11, 2017. Bound is maximum reachable
     if(index.kind == "unconditional") { # unconditional functional index
       max.fun.chisq <- n * ncol(x) * (1 - 1.0 / min(dim(x)))
-      estimate.label <- "function index xi.f"
+      estimate.label <- "unconditional function index xi.f"
     } else if(index.kind == "conditional" || index.kind == "fix.column.sums") {
       # functional index given the column marginal
 
@@ -92,7 +95,7 @@ fun.chisq.test <- function (
 
       max.fun.chisq <- n * ncol(x) - n - col.chisq
 
-      estimate.label <- "function index xi.f conditioned on column sums"
+      estimate.label <- "function index xi.f" # "function index xi.f conditioned on column sums"
 
     } else if(index.kind == "fix.row.sums") { # Y-conditional functional index
 

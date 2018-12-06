@@ -1,12 +1,12 @@
 ---
-title: "Which quantity to measure functional dependency?"
+title: "Measuring functional dependency model-free"
 author: "Joe Song"
-date: "`r Sys.Date()`"
+date: "Updated October 24, 2018; Created April 21, 2016"
 output: rmarkdown::html_vignette
   #pdf_document:
     #latex_engine: xelatex
 vignette: >
-  %\VignetteIndexEntry{Which quantity to measure functional dependency?}
+  %\VignetteIndexEntry{Measuring functional dependency model-free}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -35,31 +35,3 @@ The $p$-value of $\chi^2_f$ overcomes the table size factor and making tables of
 
 The function index $\xi_f$ measures *only* the strength of functional dependency normalized by sample and table sizes without considering statistical significance. When the sample size is small, the index can be unreliable; when the sample size is large, it is a direct measure of functional dependency and is comparable across tables. It is analogous to the role of correlation coefficient in `cor.test()`, or fold change in $t$-test for differential gene expression analysis.
 
-## Examples
-
-We provide four examples to illustrate the differences among the statistics. `x1` and `x4` represent the same non-monotonic function pattern in different sample sizes; `x2` is the transpose of `x1`, no longer functional; and `x3` is another non-functional pattern. Among the first three examples, `x3` is the most statistically significant, but `x1` has the highest function index $\xi_f$. This can be explained by a larger sample size but a smaller effect in `x3` than `x1`. However, when `x1` is linearly scaled to `x4` to have exactly the same sample size with `x3`, both the $p$-value and the function index $\xi_f$ favor `x4` over `x3` for representing a stronger function.
-
-```{r}
-require(FunChisq)
-x1=matrix(c(5,1,5,1,5,1,1,0,1), nrow=3)
-x1
-fun.chisq.test(x1)
-```
-
-```{r}
-x2=matrix(c(5,1,1,1,5,0,5,1,1), nrow=3)
-x2
-fun.chisq.test(x2)
-```
-
-```{r}
-x3=matrix(c(5,1,1,1,5,0,9,1,1), nrow=3)
-x3
-fun.chisq.test(x3)
-```
-
-```{r}
-x4=x1*sum(x3)/sum(x1)
-x4
-fun.chisq.test(x4)
-```

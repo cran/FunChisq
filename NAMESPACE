@@ -10,7 +10,14 @@ export(simulate_tables)
 export(cond.fun.chisq.test)
 export(plot_table)
 useDynLib(FunChisq)
+
 import(Rcpp)
-importFrom("stats", "pnorm", "pchisq", "chisq.test", "runif", "rmultinom")
-importFrom("graphics", "image", "text", "grid")
+
+importFrom("stats", "pnorm", "pchisq",
+           "chisq.test", "runif", "rmultinom",
+           "rpois", "rbinom")
+
+importFrom("graphics", "grid", "image", "par",
+           "polygon", "rect", "text")
+
 importFrom("grDevices", "colorRampPalette")

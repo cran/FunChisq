@@ -1,7 +1,11 @@
-# tests simulate_tables.R
+# test_simulate.R
 # Created by: Sajal Kumar
+#
 # Modified by : Ruby Sharma
 # Date : February 27 2017
+#
+# Modified by : Ruby Sharma
+# Date : December 2 2018
 
 library(testthat)
 library(FunChisq)
@@ -304,50 +308,6 @@ Test_Independent_table = function(iter)
     {
       ind.flag = TRUE
       failure.summary = check.all.samples$failure.table
-      break
-    }
-
-    # check for all non zero cells
-
-    check.all.non.zero = All.Non.Zero.Check(conti.table)
-
-    if(check.all.non.zero$flag)
-    {
-      ind.flag = TRUE
-      failure.summary = check.all.non.zero$failure.table
-      break
-    }
-
-    # check for no dependency (x and y are independent)
-
-    check.dependency = Dependency.check(conti.table)
-
-    if(!check.dependency$flag)
-    {
-      ind.flag = TRUE
-      failure.summary = check.dependency$failure.table
-      break
-    }
-
-    # check y != f(x)
-
-    check.non.functional = Non.functional.check(conti.table)
-
-    if(check.non.functional$flag)
-    {
-      non.func.flag = TRUE
-      failure.summary = conti.table
-      break
-    }
-
-    # check x != f(y)
-
-    check.non.functional.invert = Non.functional.check(t(conti.table))
-
-    if(check.non.functional.invert$flag)
-    {
-      ind.flag = TRUE
-      failure.summary = conti.table
       break
     }
   }
