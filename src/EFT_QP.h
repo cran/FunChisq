@@ -1,10 +1,15 @@
 //
-//  ExactFunctionalTest.h
+//  EFT_QP.h
 //  eft-mhg
 //
 //  Created by Joe Song on 4/18/15.
 //  Copyright (c) 2015 New Mexico State University. All rights reserved.
 //
+//  Revision history:
+//  2019-02-25 (Hien Nguyen): the file name changed from
+//     ExactFunctionalTest.h to EFT_QP.h to distinguish from other
+//     implementations of the exact functional test.
+
 
 //#include <iostream>
 #include "define.h"
@@ -34,7 +39,7 @@ mydouble funchisq(const vector<vector<int> > & O, mydouble & estimate,
 
 mydouble funchisq(const vector<vector<int> > & O, const vector<int> & rowsums,
                 const vector<int> & colsums, int n);
-                
+
 mydouble upper_bound(const vector<vector<int> > &A, size_t i,
                         const mydouble A_running_stat,
                         const vector<vector<int> > & A_running_rowsums,
@@ -105,7 +110,7 @@ mydouble traverse_ge_observed_stat
                              enum LBOUND lb_method,
                              enum UBOUND ub_method
                              );
- 
+
 mydouble traverse_lt_observed_stat
                             (vector<vector<int> > &A,
                              size_t i, size_t j,
@@ -119,10 +124,10 @@ mydouble traverse_lt_observed_stat
                              enum LBOUND lb_method,
                              enum UBOUND ub_method
                              );
- 
+
 mydouble exact_func_test_multi_hypergeometric
                             (const vector<vector<int> > &O, mydouble & fc,
                              enum LBOUND lb_method, enum UBOUND ub_method,
                              enum PVAL pval_method);
- 
- 
+
+

@@ -204,6 +204,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -212,13 +215,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 <h1 class="title toc-ignore">Measuring functional dependency model-free</h1>
-<h4 class="author"><em>Joe Song</em></h4>
-<h4 class="date"><em>Updated October 24, 2018; Created April 21, 2016</em></h4>
+<h4 class="author">Joe Song</h4>
+<h4 class="date">Updated September 5, 2019; October 24, 2018; Created April 21, 2016</h4>
 
 
 
-<p>Given an input contingency table, <code>fun.chisq.test()</code> offers three quantities to evaluate non-parametric functional dependency of the column variable <span class="math inline">\(Y\)</span> on the row variable <span class="math inline">\(X\)</span>. They include test statistic (functional chi-square <span class="math inline">\(\chi^2_f\)</span>), statistical significance (<span class="math inline">\(p\)</span>-value), and effect size (function index <span class="math inline">\(\xi_f\)</span>).</p>
-<p>We explain their differences in analogy to those statistics returned from <code>cor.test()</code>, the R function for the test of correlation, and the <span class="math inline">\(t\)</span>-test. We chose both tests because they are widely used and well understood. Another choice could be the Pearson’s chi-square test plus a statistic called Cramer’s V, analogous to correlation coefficient, but not as popularly used. The table below summarizes the differences among the quantities and their analogous counterparts in correlation and <span class="math inline">\(t\)</span> tests.</p>
+<p>Given an input contingency table, <code>fun.chisq.test()</code> offers three quantities to evaluate non-parametric functional dependency of the column variable <span class="math inline">\(Y\)</span> on the row variable <span class="math inline">\(X\)</span>. They include the functional chi-squared test statistic (<span class="math inline">\(\chi^2_f\)</span>), statistical significance (<span class="math inline">\(p\)</span>-value), and effect size (function index <span class="math inline">\(\xi_f\)</span>).</p>
+<p>We explain their differences in analogy to those statistics returned from <code>cor.test()</code>, the R function for the test of correlation, and the <span class="math inline">\(t\)</span>-test. We chose both tests because they are widely used and well understood. Another choice could be the Pearson’s chi-squared test plus a statistic called Cramer’s V, analogous to correlation coefficient, but not as popularly used. The table below summarizes the differences among the quantities and their analogous counterparts in correlation and <span class="math inline">\(t\)</span> tests.</p>
 <table>
 <caption><strong>Comparison of the three quantities returned from <code>fun.chisq.test()</code>.</strong></caption>
 <colgroup>
@@ -272,7 +275,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tbody>
 </table>
 <p>The test statistic <span class="math inline">\(\chi^2_f\)</span> measures deviation of <span class="math inline">\(Y\)</span> from a uniform distribution contributed by <span class="math inline">\(X\)</span>. It is maximized when there is a functional relationship from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span>. This statistic is also affected by sample size and the size of the contingency table. It summarizes the strength of both functional dependency and support from the sample. A strong function supported by few samples may have equal <span class="math inline">\(\chi^2_f\)</span> to a weak function supported by many samples. It is analogous to the test statistic (not to be confused with correlation coefficient) in <code>cor.test()</code>, or the <span class="math inline">\(t\)</span> statistic from the <span class="math inline">\(t\)</span>-test.</p>
-<p>The <span class="math inline">\(p\)</span>-value of <span class="math inline">\(\chi^2_f\)</span> overcomes the table size factor and making tables of different sizes or sample sizes comparable. However, its null distribution (chi-square or normalized) is only asymptotically true. It is analogous to the role of the <span class="math inline">\(p\)</span>-value of <code>cor.test()</code>.</p>
+<p>The <span class="math inline">\(p\)</span>-value of <span class="math inline">\(\chi^2_f\)</span> overcomes the table size factor and making tables of different sizes or sample sizes comparable. However, its null distribution (chi-squared or normalized) is only asymptotically true. It is analogous to the role of the <span class="math inline">\(p\)</span>-value of <code>cor.test()</code>.</p>
 <p>The function index <span class="math inline">\(\xi_f\)</span> measures <em>only</em> the strength of functional dependency normalized by sample and table sizes without considering statistical significance. When the sample size is small, the index can be unreliable; when the sample size is large, it is a direct measure of functional dependency and is comparable across tables. It is analogous to the role of correlation coefficient in <code>cor.test()</code>, or fold change in <span class="math inline">\(t\)</span>-test for differential gene expression analysis.</p>
 
 

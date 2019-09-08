@@ -9,6 +9,8 @@ export(simulate_tables)
 #export(ExactFunctionalTest)
 export(cond.fun.chisq.test)
 export(plot_table)
+export(EFTDP)
+export(EFTDQP)
 useDynLib(FunChisq)
 
 import(Rcpp)

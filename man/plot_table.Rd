@@ -2,7 +2,7 @@
 \alias{plot_table}
 
 \title{
-Plot a contingency table
+Plot a Contingency Table
 }
 \description{
 The input table is visualized as matrix by shades of a given color for better understanding of the underlying pattern. The values in the table must be real. Thus non-integers or negative numbers are acceptable.

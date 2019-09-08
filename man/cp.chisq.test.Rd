@@ -1,10 +1,10 @@
 \name{cp.chisq.test}
 \alias{cp.chisq.test}
 \title{
-Comparative Chi-Square Test for Association Heterogeneity
+Comparative Chi-Squared Test for Association Heterogeneity
 }
 \description{
-Comparative chi-square tests on two or more contingency tables. This test does not consider functional dependencies.
+Comparative chi-squared tests on two or more contingency tables. This test does not consider functional dependencies.
 }
 
 \usage{
@@ -20,7 +20,7 @@ cp.chisq.test(
 }
 
   \item{method}{
-  a character string to specify the method to compute the chi-square statistic and its p-value. The default is \code{"chisq"}. See Details.
+  a character string to specify the method to compute the chi-squared statistic and its p-value. The default is \code{"chisq"}. See Details.
 
     Note: \code{"default"} and \code{"normalized"} are deprecated.
 }
@@ -30,17 +30,17 @@ cp.chisq.test(
 }
 
 \details{
-The comparative chi-square heterogeneity test determines whether the patterns underlying multiple contingency tables are heterogeneous. Its null test statistic is proved to asymptotically follow the chi-square distribution (Song et al., 2014; Zhang et al., 2015), different from the widely used chi-square heterogeneity test (Zar, 2010).
+The comparative chi-squared heterogeneity test determines whether the patterns underlying multiple contingency tables are heterogeneous. Its null test statistic is proved to asymptotically follow the chi-squared distribution (Song et al., 2014; Zhang et al., 2015), different from the widely used chi-squared heterogeneity test (Zar, 2010).
 
-Two methods are provided to compute the chi-square statistic and its p-value. When \code{method = "chisq"} (or \code{"default"}), the p-value is computed using the chi-square distribution; when \code{method =} \code{"nchisq"} (or \code{"normalized"}) a normalized chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
+Two methods are provided to compute the chi-squared statistic and its p-value. When \code{method = "chisq"} (or \code{"default"}), the p-value is computed using the chi-squared distribution; when \code{method =} \code{"nchisq"} (or \code{"normalized"}) a normalized statistic is obtained by shifting and scaling the original chi-squared and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
 }
 
 \value{
 A list with class "\code{htest}" containing the following components:
 
-\item{statistic}{heterogeneity chi-square if \code{method = "chisq"} (equivalent to \code{"default"}), or normalized chi-square if \code{method = "nchisq"} (equivalent to \code{"normalized"}).}
-\item{parameter}{degrees of freedom of the chi-square statistic.}
-\item{p.value}{p-value of the comparative chi-square test. By default, it is computed by the chi-square distribution (\code{method = "chisq"} or \code{"default"}). If \code{method = "nchisq"} (or \code{"normalized"}), it is the p-value of the normalized chi-square statistic using the standard normal distribution.}
+\item{statistic}{heterogeneity statistic if \code{method = "chisq"} (equivalent to \code{"default"}), or normalized statistic if \code{method = "nchisq"} (equivalent to \code{"normalized"}).}
+\item{parameter}{degrees of freedom of the chi-squared statistic.}
+\item{p.value}{p-value of the comparative chi-squared test. By default, it is computed by the chi-squared distribution (\code{method = "chisq"} or \code{"default"}). If \code{method = "nchisq"} (or \code{"normalized"}), it is the p-value of the normalized chi-squared statistic using the standard normal distribution.}
 }
 
 \references{
@@ -58,7 +58,7 @@ Joe Song
 }
 
 \seealso{
-For comparative \emph{functional} chi-square test, \code{\link[FunChisq]{cp.fun.chisq.test}}.
+For comparative \emph{functional} chi-squared test, \code{\link[FunChisq]{cp.fun.chisq.test}}.
 }
 
 \examples{

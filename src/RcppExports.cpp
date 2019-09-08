@@ -5,6 +5,28 @@
 
 using namespace Rcpp;
 
+// EFTDP
+double EFTDP(const IntegerMatrix& nm);
+RcppExport SEXP _FunChisq_EFTDP(SEXP nmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type nm(nmSEXP);
+    rcpp_result_gen = Rcpp::wrap(EFTDP(nm));
+    return rcpp_result_gen;
+END_RCPP
+}
+// EFTDQP
+double EFTDQP(const IntegerMatrix& nm);
+RcppExport SEXP _FunChisq_EFTDQP(SEXP nmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerMatrix& >::type nm(nmSEXP);
+    rcpp_result_gen = Rcpp::wrap(EFTDQP(nm));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ExactFunctionalTest
 double ExactFunctionalTest(const IntegerMatrix& nm, const LogicalVector& BoundSwitch);
 RcppExport SEXP _FunChisq_ExactFunctionalTest(SEXP nmSEXP, SEXP BoundSwitchSEXP) {

@@ -1,7 +1,7 @@
 \name{simulate_tables}
 \alias{simulate_tables}
 \title{
-Simulate Diverse Discrete Patterns via Noisy Contingency Tables
+Simulate Noisy Contingency Tables to Represent Diverse Discrete Patterns
 }
 
 \description{

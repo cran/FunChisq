@@ -1,15 +1,14 @@
 \name{test.interactions}
 \alias{test.interactions}
-\title{
-  Fast Test of Directional Interactions by Functional Chi-Squares
+\title{Functional Chi-Squared Test of Functional Dependency among Many Variables in a Data Set
 }
 \description{
-  \code{test.interactions} efficiently performs functional chi-square tests on combinatorial interactions using multivariate discrete data.
+  Apply functional chi-squared tests on many-to-one combinatorial relationships for functional dependency using multivariate discrete data.
 }
 \usage{
 test.interactions(
   x, list.ind.vars, dep.vars, var.names = rownames(x),
-  index.kind = c("unconditional", "conditional")
+  index.kind = c("conditional", "unconditional")
 )
 }
 %- maybe also 'usage' for other objects documented here.
@@ -37,10 +36,10 @@ The function automatically creates contingency tables for interactions of intere
 
 \code{test.interactions} implements only the \code{method="fchisq"} option in \code{fun.chisq.test}.
 
-When a contingency table is created for each interaction, all combinations of unique values of the independent variables (parents) form the rows and the unique values of dependent variable (child) form the columns in the contingency table. The table entries are the counts of the corresponding combination of parent and child values. Either rows or columns with all zero counts are removed from the contingency table before functional chi-square test is applied.
+When a contingency table is created for each interaction, all combinations of unique values of the independent variables (parents) form the rows and the unique values of dependent variable (child) form the columns in the contingency table. The table entries are the counts of the corresponding combination of parent and child values. Either rows or columns with all zero counts are removed from the contingency table before functional chi-squared test is applied.
 }
 \value{
-  A data frame with five columns. Each row represents the testing result of each directional interaction. The 1st column is either the indices or names (if \code{var.names} is not \code{NULL}) of independent variables (parents); The 2nd column is the indices or names of the dependent variable (child); The 3rd column named \code{p.value} are p-values; The 4th column named \code{statistic} is chi-square values; and the 5th column named \code{estimate} is the function indices for each interaction.
+  A data frame with five columns. Each row represents the testing result of each directional interaction. The 1st column is either the indices or names (if \code{var.names} is not \code{NULL}) of independent variables (parents); The 2nd column is the indices or names of the dependent variable (child); The 3rd column named \code{p.value} are p-values; The 4th column named \code{statistic} is chi-squared values; and the 5th column named \code{estimate} is the function indices for each interaction.
 }
 %\references{
 %% ~put references to the literature/web site here ~
@@ -49,7 +48,7 @@ When a contingency table is created for each interaction, all combinations of un
   Hua Zhong and Joe Song
 }
 \seealso{
-  This function calls functional chi-square test implemented in C++ and is thus much faster than the R version \code{\link{fun.chisq.test}}.
+  This function calls functional chi-squared test implemented in C++ and is thus much faster than the R version \code{\link{fun.chisq.test}}.
 
   For data discretization by optimal univariate \var{k}-means clustering, see \pkg{Ckmeans.1d.dp}.
 }

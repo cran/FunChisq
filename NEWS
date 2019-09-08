@@ -1,17 +1,82 @@
 NEWS
 
+Version 2.4.8-1
+
+  2019-09-08
+  1. Revised 'DESCRITION'.
+  2. Revised 'README.md'.
+
+  2019-09-07
+  1. Fixed a bug in the exact.dqp option of the exact functional
+  test. Added a new test case that had given this bug in the test
+  functions.
+  2. Re-organized the test cases into more R files based on
+  'testthat'.
+  3. Added 'README.md'.
+  4. Included references into DESCRIPTION.
+
+  2019-09-06
+  1. Default index.kind is changed from uncoditional to function
+  index in function test.interactions(). (API change)
+  2. Edited documentation.
+  3. Changed the package title to "Model-Free Functional Chi-Squared
+  and Exact Tests"
+
+  2019-09-05
+  1. Created version 2.4.8-1.
+  2. Updated package documentation (DESCRIPTION, CITATION). Now
+  included a reference to Hien Nguyen's unpublished dissertation.
+  3. Updated manuals for the package,
+  4. Updated vignette for fun.chisq.test.Rmd.
+  5. Commented out std::cout usage in Node::show() function
+  defined in Node.cpp.
+  6. Changed to use chi-squared test instead of chi-square
+  test.
+  7. Created a new manual (EFT.Rd) for exact functional test
+  functions EFTDP() and EFTDQP().
+  8. Updated the table and sample size restrictions to the exact
+  test options in function fun.chisq.test().
+
+Version 2.4.8 (not publicly released)
+  2018-12-25
+  1. Provide new method options "exact.qp", "exact.dp", and
+  "exact.dqp" for fun.chisq.test().
+
+  2018-12-06
+  1. Created version 2.4.8 to merge the exact tests in 2.4.6 and
+  2.4.7.
+
+Version 2.4.7 (not publicly released)
+  2018-07-24
+  1. Improved the runtime of the exact functional test by applying
+  the quadratic lower bound and upper bounds for each node at the
+  step of network construction during branch-and-bound. This sped up
+  the test thousands of times from the quadratic-programming-only or
+  dynamic-programming-only option on all contingency tables.
+
+Version 2.4.6 (not publicly released)
+  2018-06-17
+  1. Added an alternative implementation of the exact functional
+  test using branch-and-bound with dynamic programming. This reduced
+  runtime on some contigency tables with large table size or sample
+  size by thousands of times.
+
+  2. Added a new method option (method = "exact.dp") to function
+  fun.chisq.test() in "R/FunChisq.R" for the above new exact
+  functional test implementation.
+
 Version 2.4.5-3
   2018-12-04
   1. Updated simulate_tables() function to be more accurate when
   generating small tables where row and column variables are
   independent. Specifically, zero counts are now allowed.
-  2. Updated tests for simulate_tables() in test_simulate.R.
-  3. Introduced simulate_independent_tables() by reorganizing
-  preivous code. Noise is now applied along both rows and columns
+  2. Tests for simulate_tables() in test_simulate.R is also updated.
+  3. Introduced simulate_independent_tables() from the preivous
+  code, where noise is applied along both rows and columns
   (previously only along the rows). The funciton is in
   simulate_tables.R.
   4. Modified prelim.check() in simulate_tables.R.
-  5. Updated manual page for simulate_tables() accordingly.
+  5. The manual page for simulate_tables() is updated accordingly.
   6. Updated the examples in the manual of plot_tables().
 
   2018-11-01
@@ -20,17 +85,12 @@ Version 2.4.5-3
 
   2018-10-24
   1. Created version 2.4.5-3.
-  2. Made "conditional function index" the default, previously
-  "unconditional", in fun.chisq.test(). Specifically, set the
-  default value of index.kind to "conditional". Previous "conditional
-  function index", specified by index.kind="conditional", is now
-  called "function index"; previous "function index", specified by
-  index.kind="unconditional" is now called "unconditional function
-  index". The "unconditional" option for function index will phase
-  out in future versions of the function.
+  2. Make "conditional function index" to be the default, previously
+  "unconditional".
   3. Added a new vignette "Examples of discrete patterns".
-  4. Updated vignettes to include table visualization by
-  plot_table() function.
+  4. Set the default function index.kind to "conditional". The
+  "unconditional" option for function index will phase out.
+  5. Updated vignettes.
 
 Version 2.4.5-2
   2018-10-22

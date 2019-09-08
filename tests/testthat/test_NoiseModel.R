@@ -4,7 +4,7 @@
 library(testthat)
 library(FunChisq)
 
-context("Testing add.house.noise() and add.candle.noise()")
+context("Testing house and candle noise models")
 
 test_that("Testing the function of adding house noise", {
 

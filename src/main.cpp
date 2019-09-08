@@ -13,11 +13,43 @@
 #include <R_ext/Rdynload.h>
 
 //#include <classic/RcppMatrix.h>
-#include "ExactFunctionalTest.h"
+//#include "ExactFunctionalTest.h"
 #include "StatDistributions.h"
+
+#include "EFT_QP.h"
+#include "EFT_DP.h"
+#include "EFT_DQP.h"
+
 
 //using namespace std;
 using namespace Rcpp;
+
+// [[Rcpp::export]]
+double EFTDP(const IntegerMatrix &nm) {
+
+  vector< vector< int > > C(nm.ncol(), vector<int>(nm.nrow()));
+  for(size_t i = 0; i < (size_t) nm.ncol(); ++i) {
+    for(size_t j = 0; j < (size_t) nm.nrow(); ++j) {
+      C[i][j] = nm(j, i);
+    }
+  }
+
+  double pVal = DP::EFTNetwork(C);
+  return pVal;
+}
+// [[Rcpp::export]]
+double EFTDQP(const IntegerMatrix &nm) {
+
+  vector< vector< int > > C(nm.ncol(), vector<int>(nm.nrow()));
+  for(size_t i = 0; i < (size_t) nm.ncol(); ++i) {
+    for(size_t j = 0; j < (size_t) nm.nrow(); ++j) {
+      C[i][j] = nm(j, i);
+    }
+  }
+
+  double pVal = DQP::EFTNetwork(C);
+  return pVal;
+}
 
 // [[Rcpp::export]]
 double ExactFunctionalTest(const IntegerMatrix & nm, const LogicalVector & BoundSwitch) {
@@ -38,13 +70,13 @@ double ExactFunctionalTest(const IntegerMatrix & nm, const LogicalVector & Bound
 
   mydouble fc = 0.0;
   mydouble pVal = 1;
-  
+
   if(BoundSwitch[0]){
     pVal = exact_func_test_multi_hypergeometric(C, fc, LBON, UB_BY_ROW, (enum PVAL) PVAL);
   }else{
     pVal = exact_func_test_multi_hypergeometric(C, fc, LBOFF, UBOFF, (enum PVAL) PVAL);
   }
-  
+
   return pVal;
 }
 

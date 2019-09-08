@@ -28,8 +28,9 @@
 
 fun.chisq.test <- function (
   x,
-  method=c("fchisq", "nfchisq", "exact", "default",
-           "normalized", "simulate.p.value"),
+  method=c("fchisq", "nfchisq",
+           "exact", "exact.qp", "exact.dp", "exact.dqp",
+           "default","normalized", "simulate.p.value"),
   alternative=c("non-constant", "all"), log.p=FALSE,
   index.kind=c("conditional", "unconditional"
 #               , "fix.row.sums", "fix.column.sums",
@@ -74,7 +75,7 @@ fun.chisq.test <- function (
                                 })) * ncol(x) - n
   }
 
-  if(alternative == "non-constant") { # non-constant functional chi-square
+  if(alternative == "non-constant") { # non-constant functional chi-squared
     # col.expected <- n / ncol(x)
     # col.chisq <- sum((col.sums - col.expected)^2 / col.expected)
 
@@ -127,7 +128,7 @@ fun.chisq.test <- function (
       stop("unrecognized function index kind ", index.kind)
     }
 
-  } else if(alternative == "all") { # functional chi-square
+  } else if(alternative == "all") { # functional chi-squared
 
     fun.chisq <- row.chisq.sum
     df <- nrow(x) * (ncol(x) - 1)
@@ -180,7 +181,7 @@ fun.chisq.test <- function (
   DNAME <- deparse(substitute(x))
 
   if(method=="fchisq") {
-    method.text <- "Functional chi-square test"
+    method.text <- "Functional chi-squared test"
     names(fun.chisq) <- "statistic"
     names(df) <- "parameter"
     p.value <- pchisq( fun.chisq, df = df, lower.tail=FALSE, log.p=log.p )
@@ -190,7 +191,7 @@ fun.chisq.test <- function (
                      class = "htest"))
 
   } else if(method=="nfchisq") {
-    method.text <- "Normalized functional chi-square test"
+    method.text <- "Normalized functional chi-squared test"
     if(df > 0) {
       normalized <- as.numeric((fun.chisq-df)/sqrt(2*df))
     } else {
@@ -203,7 +204,7 @@ fun.chisq.test <- function (
                           estimate = estimate, data.name = DNAME, method = method.text),
                      class = "htest"))
   } else if(method=="simulate.p.value"){
-    method.text <- "Functional chi-square test with simulated p value"
+    method.text <- "Functional chi-squared test with simulated p value"
     names(fun.chisq) <- "statistic"
     names(df) <- "parameter"
     #p.value <- pchisq( fun.chisq, df = df, lower.tail=FALSE, log.p=log.p )
@@ -213,7 +214,7 @@ fun.chisq.test <- function (
                            estimate = estimate, data.name=DNAME,
                            method = method.text),
                      class = "htest"))
-  } else if(method=="exact") {
+  } else if(method=="exact.qp") {
 
     method.text <- "Exact functional test"
     if(sum(x%%1!=0)>=1) { # Check whether numbers in x are all integers
@@ -221,9 +222,6 @@ fun.chisq.test <- function (
     }
     ####
 
-    ####
-    #Hua added, Nov 13, 2014
-    #Exact functional test
     if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
        && nrow(x)<=10 && ncol(x)<=10) {
       # p.value <- exact.functional.test(x)
@@ -238,9 +236,53 @@ fun.chisq.test <- function (
       return(fun.chisq.test(x, method="fchisq", alternative=alternative, log.p=log.p,
                             index.kind=index.kind))
     }
+  } else if(method=="exact.dp") {
 
+    method.text <- "Exact functional test"
+    if(sum(x%%1!=0)>=1) { # Check whether numbers in x are all integers
+      stop("ERROR: Exact test requires integer contingency tables!", call. = TRUE)
+    }
     ####
-  } else {
+
+    if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
+       && nrow(x)<=10 && ncol(x)<=10) {
+
+      p.value <- EFTDP(x)
+      if(log.p) p.value <- log(p.value)
+      names(fun.chisq) <- "statistic"
+      return(structure(list(statistic = fun.chisq, p.value = p.value, estimate = estimate,
+                            data.name = DNAME, method = method.text),
+                       class = "htest"))
+    } else {
+      return(fun.chisq.test(x, method="fchisq", alternative=alternative, log.p=log.p,
+                            index.kind=index.kind))
+    }
+    ####
+  } else if(method=="exact" || method=="exact.dqp") {
+
+    method.text <- "Exact functional test"
+    if(sum(x%%1!=0)>=1) { # Check whether numbers in x are all integers
+      stop("ERROR: Exact test requires integer contingency tables!", call. = TRUE)
+    }
+    ####
+
+    # if((sum(x) <= 200 || sum(x)/nrow(x)/ncol(x) <=5)
+    #   && nrow(x)<=10 && ncol(x)<=10)
+    {
+
+      p.value <- EFTDQP(x)
+      if(log.p) p.value <- log(p.value)
+      names(fun.chisq) <- "statistic"
+      return(structure(list(statistic = fun.chisq, p.value = p.value, estimate = estimate,
+                            data.name = DNAME, method = method.text),
+                       class = "htest"))
+    } ## else {
+      ## return(fun.chisq.test(x, method="fchisq", alternative=alternative, log.p=log.p,
+      ##                      index.kind=index.kind))
+    ## }
+    ####
+  }
+  else {
     stop("ERROR: unrecognized method argument", method)
   }
 }

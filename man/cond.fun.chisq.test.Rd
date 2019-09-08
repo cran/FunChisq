@@ -2,10 +2,10 @@
 \alias{cond.fun.chisq.test}
 
 \title{
-Conditional Functional Chi-Square Test for Model-Free Conditional Functional Dependency
+Conditional Functional Chi-Squared Test for Model-Free Conditional Functional Dependency
 }
 \description{
-Asymptotic chi-square test to determine the model-free functional dependency of effect variable Y on a cause variable X, conditioned on a third variable Z.
+Asymptotic chi-squared test to determine the model-free functional dependency of effect variable Y on a cause variable X, conditioned on a third variable Z.
 }
 
 \usage{
@@ -33,19 +33,19 @@ vector or character; either a discrete random variable (condition) represented a
   }
 
   \item{method}{
-  a character string to specify the method to compute the conditional functional chi-square test statistic and its p-value. The options are \code{"fchisq"} (default) and \code{"nfchisq"}. See Details.
+  a character string to specify the method to compute the conditional functional chi-squared test statistic and its p-value. The options are \code{"fchisq"} (default) and \code{"nfchisq"}. See Details.
 }
 
 }
 \details{
-Conditional functional chi-square introduces the concept of conditional functional depedency, where the functional association between two variables (\code{x} and \code{y}) is tested conditioned on a third variable (\code{z}). Two methods are provided to compute the chi-square statistic and its p-value. When \code{method = "fchisq"}, the p-value is computed using the chi-square distribution; when \code{method = "nfchisq"} a normalized chi-square is obtained by shifting and scaling the original chi-square and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
+Conditional functional chi-squared introduces the concept of conditional functional depedency, where the functional association between two variables (\code{x} and \code{y}) is tested conditioned on a third variable (\code{z}). Two methods are provided to compute the chi-squared statistic and its p-value. When \code{method = "fchisq"}, the p-value is computed using the chi-squared distribution; when \code{method = "nfchisq"} a normalized statistic is obtained by shifting and scaling the original chi-squared statistic and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
 }
 
 \value{
 A list with class "\code{htest}" containing the following components:
-\item{statistic}{the conditional functional chi-square statistic if \code{method = "fchisq"}; or the normalized conditional functional chi-square statistic if \code{method = "nfchisq"}.}
-\item{parameter}{degrees of freedom for the conditionalfunctional chi-square statistic.}
-\item{p.value}{p-value of the conditional functional test. If \code{method = "fchisq"} the p-value is computed by an asymptotic chi-square distribution; if \code{method = "nfchisq"} the p-value is computed by the standard normal distribution.}
+\item{statistic}{the conditional functional chi-squared statistic if \code{method = "fchisq"}; or the normalized conditional functional chi-squared statistic if \code{method = "nfchisq"}.}
+\item{parameter}{degrees of freedom for the conditionalfunctional chi-squared statistic.}
+\item{p.value}{p-value of the conditional functional test. If \code{method = "fchisq"} the p-value is computed by an asymptotic chi-squared distribution; if \code{method = "nfchisq"} the p-value is computed by the standard normal distribution.}
 \item{estimate}{an estimate of the conditional function index between 0 and 1. The value of 1 indicates strong functional dependency between \code{x} and \code{y}, given \code{z}. It is asymmetrical with respect to whether \code{x} was chosen as the cause of effect \code{y} or vice versa.}
 }
 \references{

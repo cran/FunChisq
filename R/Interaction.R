@@ -3,8 +3,9 @@
 #HZ
 #Created: Apr 14, 2016
 
-test.interactions <- function(x, list.ind.vars, dep.vars, var.names = rownames(x),
-                              index.kind = c("unconditional", "conditional"))
+test.interactions <- function(
+  x, list.ind.vars, dep.vars, var.names = rownames(x),
+  index.kind = c("conditional", "unconditional"))
 {
   if(is.null(x) ||  nrow(x)<=0 || ncol(x)<=0)stop("x must not be empty!")
   if(is.data.frame(x)){
@@ -17,12 +18,6 @@ test.interactions <- function(x, list.ind.vars, dep.vars, var.names = rownames(x
     stop("dep.vars must be a numerical vector!")
 
   index.kind <- match.arg(index.kind)
-
-  if(is.null(index.kind) || is.na(index.kind) ||
-     (index.kind != "conditional" && index.kind != "unconditional")){
-    warning("The index.kind must be conditional or unconditional! Using default \"unconditional\"!")
-    index.kind = "unconditional"
-  }
 
   output <- interactions(expression_matrix = x,
                          parent_index = list.ind.vars,

@@ -1,18 +1,19 @@
 \name{fun.chisq.test}
 \alias{fun.chisq.test}
 \title{
-Chi-Square and Exact Tests for Model-Free Functional Dependency
+Model-Free Functional Chi-Squared and Exact Tests
 }
 
 \description{
-Asymptotic chi-square, normalized chi-square or exact tests on contingency tables to determine model-free functional dependency of the column variable on the row variable.
+Asymptotic chi-squared, normalized chi-squared or exact tests on contingency tables to determine model-free functional dependency of the column variable on the row variable.
 }
 
 \usage{
 fun.chisq.test(
   x,
-  method = c("fchisq", "nfchisq", "exact", "default",
-             "normalized", "simulate.p.value"),
+  method = c("fchisq", "nfchisq",
+             "exact", "exact.qp", "exact.dp", "exact.dqp",
+             "default", "normalized", "simulate.p.value"),
   alternative = c("non-constant", "all"), log.p=FALSE,
   index.kind = c("conditional", "unconditional"),
   simulate.nruns = 2000,
@@ -26,7 +27,7 @@ fun.chisq.test(
 }
 
   \item{method}{
-  a character string to specify the method to compute the functional chi-square test statistic and its p-value. The options are \code{"fchisq"} (equivalent to \code{"default"}, the default), \code{"nfchisq"} (equivalent to \code{"normalized"}), \code{"exact"} or \code{"simulate.p.value"}. See Details.
+  a character string to specify the method to compute the functional chi-squared test statistic and its p-value. The options are \code{"fchisq"} (equivalent to \code{"default"}, the default), \code{"nfchisq"} (equivalent to \code{"normalized"}), \code{"exact"}, \code{"exact.qp"}, \code{"exact.dp"}, \code{"exact.dqp"} or \code{"simulate.p.value"}. See Details.
 
   Note: \code{"default"} and \code{"normalized"} are deprecated.
 }
@@ -49,17 +50,25 @@ fun.chisq.test(
 
 \details{
 
-The functional chi-square test determines whether the column variable is a function of the row variable in contingency table \code{x} (Zhang and Song, 2013; Zhang, 2014). This function supports three hypothesis testing methods:
+The functional chi-squared test determines whether the column variable is a function of the row variable in contingency table \code{x} (Zhang and Song, 2013; Zhang, 2014). This function supports three hypothesis testing methods:
 
 \code{index.kind} specifies the kind of function index to be computed. If the experimental design controls neither the row nor column marginal sums, \code{index.kind = "unconditional"} (default) is recommended; If the column marginal sums are controlled, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the function index xi.f value, but not the test statistic or p-value.
 
-When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in (Zhang and Song, 2013; Zhang, 2014) and the p-value is computed using the chi-square distribution.
+When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in (Zhang and Song, 2013; Zhang, 2014) and the p-value is computed using the chi-squared distribution.
 
-When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is a normalized functional chi-square obtained by shifting and scaling the original chi-square (Zhang and Song, 2013; Zhang, 2014); and the p-value is computed using the standard normal distribution (Box et al., 2005). The normalized chi-square, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
+When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is obtained by shifting and scaling the original test statistic (Zhang and Song, 2013; Zhang, 2014); and the p-value is computed using the standard normal distribution (Box et al., 2005). The normalized chi-squared, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
 
-When \code{method="exact"}, an exact functional test (Zhong and Song, 2018) is performed. It computes an exact p-value and is fast when both the sample and table sizes are small. If the sample size is greater than 200 or the table size is larger than 5 by 5,  the exact test may not complete within a reasonable amount of time and the asymptotic functional chi-square test (\code{method="fchisq"}) is used instead. %When the sample size of an input contingency table is large, the exact functional test and the functional chi-square test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
+When \code{method="exact"}, \code{"exact.qp"} (quadratic programming), \code{"exact.dp"} (dynamic programming), or \code{"exact.dqp"} (dynamic and quadratic programming), an exact functional test is performed. The option of \code{"exact"} uses \code{"exact.dqp"}, the fastest method. The methods compute an exact p-value, as described in (Zhong and Song, 2019; Nguyen, 2018).
+
+For the \code{"exact.qp"} and \code{"exact.dp"} options, if the sample size is no more than 200 or the average cell count is less than five, and the table size is no more than 10 in either row or column, the exact test will not be called and the asymptotic functional chi-squared test (\code{method="fchisq"}) is used instead.  %When the sample size of an input contingency table is large, the exact functional test and the functional chi-squared test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
 % On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied.
-For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq"} or \code{"nfchisq"}) are recommended to test functional dependency.
+
+For \code{"exact.dqp"}, the exact functional test will always be performed.
+
+
+For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq"} or \code{"nfchisq"}) are recommended to test functional dependency, instead of the exact functional test.
+
+
 
 When \code{method="simulate.p.value"}, a simulated null distribution is used to calculate \code{p-value}. The null distribution is a multinomial distribution that is the product of two marginal distributions. Like other Monte Carlo based methods, this method is slower but may be more accurate than other methods based on asymptotic distributions.
 
@@ -107,14 +116,16 @@ When \code{method="simulate.p.value"}, a simulated null distribution is used to 
 
 \value{
 A list with class "\code{htest}" containing the following components:
-\item{statistic}{the functional chi-square statistic if \code{method = "fchisq"}, \code{"default"}, or \code{"exact"}; or the normalized functional chi-square statistic if \code{method = "nfchisq"} or \code{"normalized"}.}
-\item{parameter}{degrees of freedom for the functional chi-square statistic.}
-\item{p.value}{p-value of the functional test. If \code{method = "fchisq"} (or \code{"default"}), it is computed by an asymptotic chi-square distribution; if \code{method = "nfchisq"} (or \code{"normalized"}), it is computed by the standard normal distribution; if \code{method} \code{= "exact"}, it is computed by an exact hypergeometric distribution.}
-\item{estimate}{an estimate of function index between 0 and 1. The value of 1 indicates a strictly mathematical function. It is asymmetrical with respect to transpose of the input contingency table, different from the symmetrical Cramer's V for Pearson's chi-squares.}
+\item{statistic}{the functional chi-squared statistic if \code{method = "fchisq"}, \code{"default"}, or \code{"exact"}; or the normalized functional chi-squared statistic if \code{method = "nfchisq"} or \code{"normalized"}.}
+\item{parameter}{degrees of freedom for the functional chi-squared statistic.}
+\item{p.value}{p-value of the functional test. If \code{method = "fchisq"} (or \code{"default"}), it is computed by an asymptotic chi-squared distribution; if \code{method = "nfchisq"} (or \code{"normalized"}), it is computed by the standard normal distribution; if \code{method} \code{= "exact"}, it is computed by an exact hypergeometric distribution.}
+\item{estimate}{an estimate of function index between 0 and 1. The value of 1 indicates a strictly mathematical function. It is asymmetrical with respect to transpose of the input contingency table, different from the symmetrical Cramer's V based on the Pearson's chi-squared test statistic.}
 }
 
 \references{
 Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
+
+Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
 %Fisher, R. A. (1922) On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society} \bold{85}(1), 87--94.
 
@@ -127,7 +138,7 @@ Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks withou
 
 Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
-Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press. \url{https://doi.org/10.1109/TCBB.2018.2809743}
+Zhong, H. and Song, M. (2019) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics} \bold{16}(3), 818--826.  Retrieved from \url{https://doi.org/10.1109/TCBB.2018.2809743}
 }
 
 \author{
@@ -137,27 +148,27 @@ Yang Zhang, Hua Zhong and Joe Song
 \seealso{
   For data discretization by optimal univariate \var{k}-means clustering, see \pkg{Ckmeans.1d.dp}.
 
-  For symmetrical dependency tests on discrete data, see Pearson's chi-square test \code{\link[stats]{chisq.test}}, Fisher's exact test \code{\link[stats]{fisher.test}}, and mutual information \pkg{entropy}.
+  For symmetrical dependency tests on discrete data, see Pearson's chi-squared test \code{\link[stats]{chisq.test}}, Fisher's exact test \code{\link[stats]{fisher.test}}, and mutual information \pkg{entropy}.
 }
 
 \examples{
 \dontrun{
-# Example 1. Asymptotic functional chi-square test
+# Example 1. Asymptotic functional chi-squared test
 x <- matrix(c(20,0,20,0,20,0,5,0,5), 3)
 fun.chisq.test(x) # strong functional dependency
 fun.chisq.test(t(x)) # weak functional dependency
 
-# Example 2. Normalized functional chi-square test
+# Example 2. Normalized functional chi-squared test
 x <- matrix(c(8,0,8,0,8,0,2,0,2), 3)
 fun.chisq.test(x, method="nfchisq") # strong functional dependency
 fun.chisq.test(t(x), method="nfchisq") # weak functional dependency
 
-# Example 3. Exact functional chi-square test
+# Example 3. Exact functional chi-squared test
 x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
 fun.chisq.test(x, method="exact") # strong functional dependency
 fun.chisq.test(t(x), method="exact") # weak functional dependency
 
-# Example 4. Exact functional chi-square test on a real data set
+# Example 4. Exact functional chi-squared test on a real data set
 #            (Shen et al., 2002)
 # x is a contingency table with row variable for p53 mutation and
 #   column variable for CIMP
@@ -169,7 +180,7 @@ fun.chisq.test(x, method="exact")
 # Test the functional dependency CIMP -> p53 mutation
 fun.chisq.test(t(x), method="exact")
 
-# Example 5. Asymptotic functional chi-square test with simulated distribution
+# Example 5. Asymptotic functional chi-squared test with simulated distribution
 x <- matrix(c(20,0,20,0,20,0,5,0,5), 3)
 fun.chisq.test(x, method="simulate.p.value")
 fun.chisq.test(x, method="simulate.p.value", simulate.n = 1000)
