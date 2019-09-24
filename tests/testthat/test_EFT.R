@@ -18,10 +18,8 @@ test_that("Testing the EFT-DQP Dynamic and Quadratic Programming", {
   expect_equal(signif(exact.functional.test(x3), 8), 0.002997003)
   expect_equal(signif(exact.functional.test(t(x3)), 8), 0.0065490065)
 
-  if (1) {
-    x4 <- matrix(rep(10,25), nrow=5)
-    expect_equal(exact.functional.test(x4), 1)
-  }
+  x4 <- matrix(rep(10,25), nrow=5)
+  expect_equal(exact.functional.test(x4), 1)
 
   x5 <- matrix(c(4,0,0,0,4,0,0,0,4), nrow=3, byrow = TRUE)
   expect_equal(signif(exact.functional.test(x5), 8), 0.00017316017)
@@ -81,6 +79,22 @@ test_that("Testing the EFT-DQP Dynamic and Quadratic Programming", {
   ), nrow = 3, byrow =T)
   expect_equal(exact.functional.test(x14), 1)
   expect_equal(exact.functional.test(t(x14)), 0.8321678322)
+
+  x15 = matrix( c(
+    1, 0, 0,
+    8, 2, 0,
+    0, 1, 1
+  ), nrow = 3, byrow =T)
+  expect_equal(exact.functional.test(x15), 0.1818181818)
+  expect_equal(exact.functional.test(t(x15)), 0.1818181818)
+
+  x16 = matrix( c(0,    0,    0,    7,
+                  7,    0,    0,    0,
+                  0,    0,    0,    20,
+                  0,    0,    0,    6
+  ), nrow = 4, byrow =T)
+  expect_equal(exact.functional.test(x16), 1.072756491e-07)
+  expect_equal(exact.functional.test(t(x16)), 1.072756491e-07)
 
 })
 
@@ -162,6 +176,22 @@ test_that("Testing the EFT-DP Dynamic Programming", {
   ), nrow = 3, byrow =T)
   expect_equal(exact.functional.test(x14), 1)
   expect_equal(exact.functional.test(t(x14)), 0.8321678322)
+
+  x15 = matrix( c(
+    1, 0, 0,
+    8, 2, 0,
+    0, 1, 1
+  ), nrow = 3, byrow =T)
+  expect_equal(exact.functional.test(x15), 0.1818181818)
+  expect_equal(exact.functional.test(t(x15)), 0.1818181818)
+
+  x16 = matrix( c(0,    0,    0,    7,
+                  7,    0,    0,    0,
+                  0,    0,    0,    20,
+                  0,    0,    0,    6
+  ), nrow = 4, byrow =T)
+  expect_equal(exact.functional.test(x16), 1.072756491e-07)
+  expect_equal(exact.functional.test(t(x16)), 1.072756491e-07)
 
 })
 

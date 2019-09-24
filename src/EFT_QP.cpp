@@ -582,7 +582,7 @@ mydouble enumerate_next (vector<vector<int> > &A,
                   O_colsums[j] - (i > 0 ? A_running_colsums[i-1][j]:0));
 
 
-    mydouble eij = O_rowsums[i] / (mydouble) ncols;
+    // mydouble eij = O_rowsums[i] / (mydouble) ncols;
 
     // mydouble A_running_stat_before = A_running_stat;
 
@@ -602,10 +602,11 @@ mydouble enumerate_next (vector<vector<int> > &A,
 
         mydouble stat_ij = 0;
 
-        if(0) {
+        /* if(0) {
             mydouble d = A[i][j] - eij;
             if(eij>0) stat_ij = d * d / eij;
-        } else {
+        } else */
+        {
             if(O_rowsums[i] > 0) {
                 stat_ij = ncols * A[i][j] * A[i][j] / (mydouble) O_rowsums[i];
             }
@@ -821,16 +822,17 @@ mydouble exact_func_test_multi_hypergeometric
         n += O_rowsums[i];
     }
 
-    mydouble ej = n / (mydouble) ncols;
+    // mydouble ej = n / (mydouble) ncols;
+    
     for (size_t j=0; j<ncols; ++j) {
         for (size_t i=0; i<nrows; ++i) {
             O_colsums[j] += O[i][j];
         }
         A_running_prob *= factorial<mydouble>(O_colsums[j]);
 
-        if(0) {
+        /* if(0) {
             if(ej>0) A_running_stat -= (O_colsums[j]-ej) * (O_colsums[j]-ej) / ej;
-        } else {
+        } else */ {
             if(n>0) A_running_stat -= ncols * O_colsums[j] * O_colsums[j] / (mydouble) n;
         }
     }

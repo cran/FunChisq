@@ -1,5 +1,21 @@
 NEWS
 
+Version 2.4.9.1
+  2019-09-20
+  1. Created version 2.4.9.1.
+  2. Fixed a bug in trimming all-zero rows or columns from the
+     input table in EFT DQP and DP. Added a new test case x16 for
+     this bug.
+  3. Eliminated the use of static array in the EFT DP and DQP
+     code.
+
+Version 2.4.9 (not publicly released)
+  2019-09-08
+  1. Created version 2.4.9.
+  2. Revised README.md.
+  3. Fixed a bug for EFT DQP. Included the table that caused the
+  bug as test case table x15.
+
 Version 2.4.8-1
 
   2019-09-08

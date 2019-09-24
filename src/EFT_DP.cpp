@@ -4,8 +4,6 @@
 //  Created by Hien Nguyen on 6/17/2018.
 //
 //  Revision history:
-//  2019-09-07 (Hien Nguyen): use 'unsigned int' intead of 'int' to avoid warnings when compiled
-//
 //  2019-02-25 (Hien Nguyen): insulate code into the namespace DP.
 //
 //  2019-02-25 (Hien Nguyen): the file name changed from
@@ -15,6 +13,7 @@
 
 //#include "Node.h"
 #include "EFT_DP.h"
+#include "trimTable.h"
 #include <iostream>
 #include <array>
 #include <vector>
@@ -43,7 +42,7 @@ int DP::convertToInt(vector<int> Rs) {
 
 int DP::isMember(int &eInt, vector<Node> &layer) {
 	for (size_t x = 0; x < layer.size(); x++) {
-		if (eInt == layer[x].getEquiInt()) return x;
+		if (eInt == layer[x].getEquiInt()) return (int) x;
 	}
 	return -1;
 }
@@ -57,7 +56,7 @@ int DP::searchHashTable(vector<vector< pair<int, int>>> &hashTable, int element)
 }
 
 // compute the weight between two nodes
-double DP::colChisq(Node &node, vector<int> &Rs2, int &sum, int squares[], int &COLMARGIN) {
+double DP::colChisq(Node &node, vector<int> &Rs2, int &sum, const vector<int> & squares, double &COLMARGIN) {
   if (sum  > 0) {
   	double colchisq = 0.0;
 	  for (size_t x = 0; x < Rs2.size(); x++) {
@@ -70,7 +69,7 @@ double DP::colChisq(Node &node, vector<int> &Rs2, int &sum, int squares[], int &
 }
 
 // compute the length from the current node to the end node
-double DP::length(Node &node, int &sum, int &layer, vector<int> &Cs, double factorials[]) {
+double DP::length(Node &node, int &sum, int &layer, vector<int> &Cs, const vector<double> & factorials) {
 	double length = factorials[sum];
 	for (size_t x = 0; x < node.getRsum().size(); x++) {
 		length /= factorials[node.getRsum().at(x)];
@@ -82,7 +81,7 @@ double DP::length(Node &node, int &sum, int &layer, vector<int> &Cs, double fact
 }
 
 // compute the length between two nodes
-double DP::length(Node &node, vector<int> &Rs2, double factorials[]) {
+double DP::length(Node &node, vector<int> &Rs2, const vector<double> & factorials) {
 	double length = 1.0;
 	for (size_t x = 0; x < Rs2.size(); x++) {
 		length /= factorials[node.getRsum().at(x)- Rs2[x]];
@@ -92,7 +91,7 @@ double DP::length(Node &node, vector<int> &Rs2, double factorials[]) {
 
 // compute the funchisq without the fixed marginals
 double DP::funchisqByCol(vector<vector<int>> &observedTable,
-                       vector<int> &CSUM, int squares[], int &COLMARGIN) {
+                       vector<int> &CSUM, const vector<int> & squares, double &COLMARGIN) {
 	double funchisq = 0.0;
 	double colchisq = 0.0;
 	for (size_t j = 0; j < observedTable[0].size(); j++) {
@@ -110,10 +109,11 @@ double DP::funchisqByCol(vector<vector<int>> &observedTable,
 
 // enumerate the children nodes given the current node, the formula is given in Network Algorithm (Mehta and Patel) paper
 void DP::createNode(Node &node, vector<int> &Cs, int &layer, vector<int> &currRs, int &nrows, int sum1, int sum2,
-                vector<int> &S, const int &i, int squares[], double factorials[], vector<Node> &Layer, int &COLMARGIN, vector<vector<pair<int, int>>> &hashTable) {
+                    vector<int> &S, const int &i, const vector<int> & squares, const vector<double> & factorials,
+                    vector<Node> &Layer, double &COLMARGIN, vector<vector<pair<int, int>>> &hashTable) {
   if (i == nrows) {
     double len = DP::length(node, currRs, factorials);
-    int colchisq = DP::colChisq(node, currRs, Cs[layer - 1], squares, COLMARGIN);
+    double colchisq = DP::colChisq(node, currRs, Cs[layer - 1], squares, COLMARGIN);
 
     int eInt = DP::convertToInt(currRs);
     int index = DP::searchHashTable(hashTable, eInt);
@@ -121,7 +121,7 @@ void DP::createNode(Node &node, vector<int> &Cs, int &layer, vector<int> &currRs
     // if the child node does not exist yet, insert it to the next layer as a new node
     if (index < 0) {
       Layer.push_back(Node(currRs, eInt));
-      node.addChildLink(Layer.size() - 1, len, colchisq);
+      node.addChildLink((int) Layer.size() - 1, len, colchisq);
       //update hashTable by insertion
       hashTable[eInt % hashTable.size()].push_back(make_pair(eInt,Layer.size() - 1));
     }
@@ -150,9 +150,15 @@ void DP::createNode(Node &node, vector<int> &Cs, int &layer, vector<int> &currRs
 
 double DP::EFTNetwork(vector<vector<int>> observedTable) {
 
-	int nrows = observedTable.size();
-	int ncols = observedTable[0].size();
-
+    observedTable = trimTable(observedTable);
+    
+    int nrows = (int) observedTable.size();
+    int ncols = nrows > 0 ? (int) observedTable[0].size() : 0;
+    
+    if(nrows == 0 && ncols == 0) {
+        return 1.0;
+    }
+    
 	int N = 0;
 	vector<int> GlobalRowSums(nrows, 0);
 	vector<int> ColSums(ncols, 0);
@@ -165,22 +171,10 @@ double DP::EFTNetwork(vector<vector<int>> observedTable) {
 		}
 	}
 
-	for (int j = 0; j < ncols; j++) {
-	  if (ColSums[j] == 0) {
-	    for (int i = 0; i < nrows; i++) {
-	      observedTable[i].erase(observedTable[i].begin() + j);
-	    }
-	    if (j < ncols-1) {
-	      for (int k = j ; k < ncols -1; k++ ) ColSums[k] = ColSums[k + 1];
-	    }
-	    ncols--;
-	  }
-	}
-
-	int squares[500];
+	vector<int> squares(N);
 	for (int x = 0; x < N; x++) squares[x] = x*x;
 
-	double factorials[500];
+	vector<double> factorials(N+1);
 	factorials[0] = 1.0;
 	for (int x = 1; x <= N; x++) factorials[x] = x*factorials[x - 1];
 
@@ -198,7 +192,7 @@ double DP::EFTNetwork(vector<vector<int>> observedTable) {
 		S[x] = S[x - 1] + ColSums[x];
 	}
 
-	int COLMARGIN = 1;
+	double COLMARGIN = 1.0;
 	for (int i = 0; i < ncols; i++) {
 	  if (ColSums[i]  > 0 ) COLMARGIN *= ColSums[i];
 	}
@@ -226,8 +220,6 @@ double DP::EFTNetwork(vector<vector<int>> observedTable) {
 	}
 
 
-
-
 	// compute upperbound and lowerbound for Layer1
 	for (size_t x = 0; x < network[1].size(); x++) {
 		network[1][x].setLB(network[1][x].getColChisqToChildren(0));
@@ -236,9 +228,9 @@ double DP::EFTNetwork(vector<vector<int>> observedTable) {
 	}
 
 	// compute upperbound and lowerbound for higher layer
-	int minLB = 0;
-	int maxUB = 0;
-	int tempBound, colchisq;
+	double minLB = 0;
+	double maxUB = 0;
+	double tempBound, colchisq;
 
 	for (int layer = 2; layer <= ncols; layer++) {
 		for (size_t node = 0; node < network[layer].size(); node++) {
@@ -264,14 +256,14 @@ double DP::EFTNetwork(vector<vector<int>> observedTable) {
 	}
 
 	double lengthSoFar = 1;
-	int chisqSoFar = 0;
+	double chisqSoFar = 0;
 	double pvalue = 0;
 	int pastSize = 0;
 
 	// compute the adjusted funchisq
-	unsigned int funchisq = DP::funchisqByCol(observedTable, ColSums, squares,COLMARGIN);
+	double funchisq = DP::funchisqByCol(observedTable, ColSums, squares,COLMARGIN);
 
-	// traverse the network in a breadth-first strategy
+		// traverse the network in a breadth-first strategy
 	for (int layer = ncols; layer >= 1; layer--) {
 	  for (size_t node = 0; node < network[layer].size(); node++) {
 	    pastSize = network[layer][node].getPastSize();

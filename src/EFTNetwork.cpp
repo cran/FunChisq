@@ -28,7 +28,7 @@ int convertToInt(vector<int> Rs) {
 
 int isMember(int &eInt, vector<Node> &layer) {
 	for (size_t x = 0; x < layer.size(); x++) {
-		if (eInt == layer[x].getEquiInt()) return x;
+		if (eInt == layer[x].getEquiInt()) return (int) x;
 	}
 	return -1;
 }
@@ -213,7 +213,7 @@ void createNode(Node &node, vector<int> Rs, vector<int> &Cs, int layer, vector<i
     // if the child node does not exist yet, insert it to the next layer as a new node
     if (index < 0) {
       Layer.push_back(Node(currRs, eInt));
-      node.addChildLink(Layer.size() - 1, len, colchisq);
+      node.addChildLink((int) Layer.size() - 1, len, colchisq);
       //update hashTable by insertion
       hashTable[eInt % hashTable.size()].push_back(make_pair(eInt,Layer.size() - 1));
       
@@ -254,8 +254,8 @@ void createNode(Node &node, vector<int> Rs, vector<int> &Cs, int layer, vector<i
 
 double EFTNetwork(vector<vector<int>> observedTable) {
 
-	int nrows = observedTable.size();
-	int ncols = observedTable[0].size();
+	int nrows = (int) observedTable.size();
+	int ncols = (int) observedTable[0].size();
 
 	int N = 0;
 	vector<int> GlobalRowSums(nrows, 0);

@@ -18,68 +18,68 @@ public:
 	void addRsum (int Rs);
 	vector<int> getRsum();
 
-	int getChildrenIndex(int x);
-	int isChildInList(int x);
+	int getChildrenIndex(int ind);
+	int isChildInList(int ind);
 
-	void addLength(double x, int index);
-	double getLengthToChildren(int x);
+	void addLength(double val, int ind);
+	double getLengthToChildren(int ind);
 
-	void setColChisqToChildren(int x,  int colchisq);
-	int getColChisqToChildren(int x);
+	void setColChisqToChildren(int ind,  double colchisq);
+	double getColChisqToChildren(int ind);
 
-	void addPastLen(double x,  int y);
-	double getPastLen(int x);
+	void addPastLen(double len,  double chisq);
+	double getPastLen(int ind);
 
-	//void addPastChisq(int x);
-	int getPastChisq(int x);
+	double getPastChisq(int ind);
 	int bSearch(int chisq);
 	int getPastChisqSize();
 
 	int getPastSize();
 
-	void setUB(unsigned int x);
-	unsigned int getUB();
+	void setUB(double val);
+	double getUB();
 
-	void setLB(unsigned int x);
-	unsigned int getLB();
+	void setLB(double val);
+	double getLB();
 
 	void setEquiInt(int x);
 	int getEquiInt();
 
 	int getSize();
 
-	void setLengthToEnd(double x);
+	void setLengthToEnd(double val);
 	double getLengthToEnd();
 
 	void quicksort(int left, int right);
 
-	void addChildLink(int index, double len, int colchisq);
+	void addChildLink(int index, double len, double colchisq);
 
-	void setMinPastChisq( int x);
-	 int getMinPastChisq();
+	void setMinPastChisq(double val);
+	double getMinPastChisq();
 
-	void setMaxPastChisq( int x);
-	 int getMaxPastChisq();
+	void setMaxPastChisq(double val);
+	double getMaxPastChisq();
 
 private:
 	vector<int> Rsum;	// the remaining rowsums after the previous columns are enumerated
 	int equiInt;		// the equivalent integer converted from Rsum to compare the nodes faster
 	double lengthToEnd; // the length from this node to the end node, used when the whole branch is counted
 
-	unsigned int ub;			// the upper bound for this node
-	unsigned int lb;			// the lower bound for this node
+	double ub;			// the upper bound for this node
+	double lb;			// the lower bound for this node
 
 	vector<int> ChildrenIndex;			// to store the indices of the children node
 	vector<double> lengthToChildren;	// to store the lenghths to the children node
-	vector< int> colChisqToChildren;	// to store the weights to the children node (weight = partial funchisq for the column enumerated)
+	vector<double> colChisqToChildren;	// to store the weights to the children node (weight = partial funchisq for the column enumerated)
 
 	vector<double> pastLen;		// the cummulative lengths from the start node to this node, each entry of this list will be called lengthSoFar
-	vector<int> pastChisq;	// the cummulative weights from the start node to this node, each entry of this list will be called chisqSoFar or weightSoFar
+	vector<double> pastChisq;	// the cummulative weights from the start node to this node, each entry of this list will be called chisqSoFar or weightSoFar
 
-	vector<vector<pair <int, int>>> nodeTable;
+	vector<vector<pair <long long int, int>>> nodeTable;
+	// first long long int is the chisq, second int is the index of pastLen
 
-	int minPastChisq;
-	int maxPastChisq;
+	double minPastChisq;
+	double maxPastChisq;
 };
 
 #endif

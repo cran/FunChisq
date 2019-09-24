@@ -35,7 +35,7 @@ Node::Node(vector<int> Rs)
 
 void Node::show()
 {
-  /*
+    /*
 	for (size_t i = 0; i < Rsum.size(); i++) {
 		cout << Rsum[i] << " ";
 	}
@@ -44,7 +44,7 @@ void Node::show()
 		cout << ChildrenIndex[i] << " ";
 	}
 	cout << "::" << ub << " :: " << lb << endl;
-  */
+    */ 
 }
 
 void Node::addRsum(int Rs)
@@ -57,31 +57,31 @@ vector<int> Node::getRsum()
 	return Rsum;
 }
 
-int Node::getChildrenIndex(int x)
+int Node::getChildrenIndex(int ind)
 {
-	return ChildrenIndex[x];
+	return ChildrenIndex[ind];
 }
 
-double Node::getLengthToChildren(int x) {
-	return lengthToChildren[x];
+double Node::getLengthToChildren(int ind) {
+	return lengthToChildren[ind];
 }
 
-int Node::getColChisqToChildren(int x) {
-	return colChisqToChildren[x];
+double Node::getColChisqToChildren(int ind) {
+	return colChisqToChildren[ind];
 }
 
-void Node::setUB(unsigned int x) {
-	ub = x;
+void Node::setUB(double val) {
+	ub = val;
 }
-void Node::setLB(unsigned int x) {
-	lb = x;
+void Node::setLB(double val) {
+	lb = val;
 }
 
-unsigned int Node::getLB() {
+double Node::getLB() {
 	return lb;
 }
 
-unsigned int Node::getUB() {
+double Node::getUB() {
 	return ub;
 }
 
@@ -94,20 +94,20 @@ int Node::getEquiInt() {
 }
 
 int Node::getSize() {
-	return ChildrenIndex.size();
+	return (int) ChildrenIndex.size();
 }
 
-void Node::addPastLen(double x, int y) {
+void Node::addPastLen(double len, double chisq) {
+	long long int y = (long long int) chisq;
 
-
-	int i = y % nodeTable.size();
+	int i = (int) y % nodeTable.size();
 	size_t j = 0;
 	while (j < nodeTable[i].size() && nodeTable[i][j].first != y) j++;
 
-	if (j < nodeTable[i].size()) pastLen[nodeTable[i][j].second] += x;
+	if (j < nodeTable[i].size()) pastLen[nodeTable[i][j].second] += len;
 
 	else {
-		pastLen.push_back(x);
+		pastLen.push_back(len);
 		pastChisq.push_back(y);
 
 		//update hash table:
@@ -128,20 +128,20 @@ void Node::addPastLen(double x, int y) {
 	*/
 }
 
-double Node::getPastLen(int x) {
-	return pastLen[x];
+double Node::getPastLen(int ind) {
+	return pastLen[ind];
 }
 
 int Node::getPastSize() {
-	return pastLen.size();
+	return (int) pastLen.size();
 }
 
-int Node::getPastChisq(int x) {
-	return pastChisq[x];
+double Node::getPastChisq(int ind) {
+	return pastChisq[ind];
 }
 
-void Node::setLengthToEnd(double x) {
-	lengthToEnd = x;
+void Node::setLengthToEnd(double val) {
+	lengthToEnd = val;
 }
 
 double Node::getLengthToEnd() {
@@ -149,7 +149,7 @@ double Node::getLengthToEnd() {
 }
 
 int Node::getPastChisqSize() {
-	return pastChisq.size();
+	return (int) pastChisq.size();
 }
 
 void Node::quicksort(int left, int right) {
@@ -181,14 +181,14 @@ void Node::quicksort(int left, int right) {
 int Node::bSearch(int chisq) {
 	auto it = std::lower_bound(pastChisq.begin(), pastChisq.end(), chisq);
 	std::size_t index = std::distance(pastChisq.begin(), it);
-	return index;
+	return (int) index;
 }
 
 
 int Node::isChildInList(int x) {
 	size_t i = 0;
 	while (i < ChildrenIndex.size() && x != ChildrenIndex[i]) i++;
-	if (i < ChildrenIndex.size()) 	return i;
+	if (i < ChildrenIndex.size()) 	return (int) i;
 	return -1;
 }
 
@@ -197,27 +197,29 @@ void Node::addLength(double x, int index) {
 }
 
 
-void Node::addChildLink(int index, double len, int colchisq) {
+void Node::addChildLink(int index, double len, double colchisq) {
 	ChildrenIndex.push_back(index);
 	lengthToChildren.push_back(len);
 	colChisqToChildren.push_back(colchisq);
 }
 
-void Node::setColChisqToChildren(int x, int colchisq) {
-	colChisqToChildren[x] = colchisq;
+void Node::setColChisqToChildren(int ind, double colchisq) {
+	colChisqToChildren[ind] = colchisq;
 }
 
 
-void Node::setMinPastChisq(int x) {
-  minPastChisq = x;
-}
-int Node::getMinPastChisq() {
-  return (minPastChisq);
+void Node::setMinPastChisq(double val) {
+  minPastChisq = val;
 }
 
-void Node::setMaxPastChisq(int x) {
-  maxPastChisq = x;
+double Node::getMinPastChisq() {
+  return minPastChisq;
 }
-int Node::getMaxPastChisq() {
+
+void Node::setMaxPastChisq(double val) {
+  maxPastChisq = val;
+}
+
+double Node::getMaxPastChisq() {
   return maxPastChisq;
 }
