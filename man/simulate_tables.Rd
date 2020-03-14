@@ -76,7 +76,7 @@ The fifth \code{type} \code{"independent"} represents patterns where \eqn{X}{X} 
 Random noise can be optionally applied to the tables using either the house or the candle noise model. See \code{\link{add.noise}} for details.
 %(Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.
 
-The paper by Sharma et al. (2017) provides full mathematical and statistical details of the simulation strategies for the above table types except the "discontinuous" type.
+\insertCite{sharma2017simulating;textual}{FunChisq} provide full mathematical and statistical details of the simulation strategies for the above table types except the "discontinuous" type.
 }
 
 \value{
@@ -88,17 +88,21 @@ A list containing the following components:
 
 \item{noise.list}{a list of tables after applying noise to the corresponding tables in \code{sample.list}. Each table is the noisy version of the corresponding sampled contingency table. Due to the added noise, each table may no longer strictly satisfy the required mathematical or statistical relationships. These tables are the main output to be used for the evaluation of a discrete pattern discovery algorithm.}
 
-\item{pvalue.list}{a list of p-values reporting the statistical significance of the generated tables for the required type. When the pattern type specifies a functional relationship, the p-values are computed by the  functional chi-square test (Zhang and Song, 2013); otherwise, the Pearson's chi-square test of independence is used to calculate the p-value.}
+\item{pvalue.list}{a list of p-values reporting the statistical significance of the generated tables for the required type. When the pattern type specifies a functional relationship, the p-values are computed by the functional chi-square test \insertCite{zhang2013deciphering}{FunChisq}; otherwise, the Pearson's chi-square test of independence is used to calculate the p-value.}
 }
 
 \references{
 %% ~put references to the literature/web site here ~
-Sharma, R., Kumar, S., Zhong, H. and Song, M. (2017) Simulating noisy, nonparametric, and multivariate discrete patterns. \emph{The R Journal} \bold{9}(2), 366--377. Retrieved from \url{https://journal.r-project.org/archive/2017/RJ-2017-053/index.html}
+%Sharma, R., Kumar, S., Zhong, H. and Song, M. (2017) Simulating noisy, nonparametric, and multivariate discrete patterns. \emph{The R Journal} \bold{9}(2), 366--377. Retrieved from \url{https://journal.r-project.org/archive/2017/RJ-2017-053/index.html}
 
-Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
+%Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
 
-Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
-\url{https://arxiv.org/abs/1311.2707}
+%Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707, \url{https://arxiv.org/abs/1311.2707}
+
+\insertRef{sharma2017simulating}{FunChisq}
+
+\insertRef{zhang2013deciphering}{FunChisq}
+
 }
 
 \author{

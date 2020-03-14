@@ -10,6 +10,10 @@
 cp.chisq.test <- function(x, method=c("chisq", "nchisq", "default", "normalized"),
                           log.p=FALSE)
 {
+  .Deprecated(new = "'cp.chisq.test'",
+              package = "DiffXTables",
+              msg = "'cp.chisq.test' is deprecated. Use 'DiffXTables::cp.chisq.test' instead.")
+
   DNAME <- deparse(substitute(x))
   if(mode(x)!="list" || length(x)<2 )
   {

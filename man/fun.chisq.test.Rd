@@ -50,25 +50,22 @@ fun.chisq.test(
 
 \details{
 
-The functional chi-squared test determines whether the column variable is a function of the row variable in contingency table \code{x} (Zhang and Song, 2013; Zhang, 2014). This function supports three hypothesis testing methods:
+The functional chi-squared test determines whether the column variable is a function of the row variable in contingency table \code{x} \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq}. This function supports three hypothesis testing methods:
 
 \code{index.kind} specifies the kind of function index to be computed. If the experimental design controls neither the row nor column marginal sums, \code{index.kind = "unconditional"} (default) is recommended; If the column marginal sums are controlled, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the function index xi.f value, but not the test statistic or p-value.
 
-When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in (Zhang and Song, 2013; Zhang, 2014) and the p-value is computed using the chi-squared distribution.
+When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq} and the p-value is computed using the chi-squared distribution.
 
-When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is obtained by shifting and scaling the original test statistic (Zhang and Song, 2013; Zhang, 2014); and the p-value is computed using the standard normal distribution (Box et al., 2005). The normalized chi-squared, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
+When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is obtained by shifting and scaling the original test statistic \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq}; and the p-value is computed using the standard normal distribution \insertCite{Box2005}{FunChisq}. The normalized chi-squared, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
 
-When \code{method="exact"}, \code{"exact.qp"} (quadratic programming), \code{"exact.dp"} (dynamic programming), or \code{"exact.dqp"} (dynamic and quadratic programming), an exact functional test is performed. The option of \code{"exact"} uses \code{"exact.dqp"}, the fastest method. The methods compute an exact p-value, as described in (Zhong and Song, 2019; Nguyen, 2018).
+When \code{method="exact"}, \code{"exact.qp"} (quadratic programming) \insertCite{zhong2019eft,zhong2019modelfree}{FunChisq}, \code{"exact.dp"} (dynamic programming) \insertCite{nguyen2018modelfree}{FunChisq}, or \code{"exact.dqp"} (dynamic and quadratic programming) \insertCite{nguyen2018modelfree}{FunChisq}, an exact functional test is performed. The option of \code{"exact"} uses \code{"exact.dqp"}, the fastest method. All methods compute an exact p-value.
 
 For the \code{"exact.qp"} and \code{"exact.dp"} options, if the sample size is no more than 200 or the average cell count is less than five, and the table size is no more than 10 in either row or column, the exact test will not be called and the asymptotic functional chi-squared test (\code{method="fchisq"}) is used instead.  %When the sample size of an input contingency table is large, the exact functional test and the functional chi-squared test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
 % On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied.
 
 For \code{"exact.dqp"}, the exact functional test will always be performed.
 
-
 For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq"} or \code{"nfchisq"}) are recommended to test functional dependency, instead of the exact functional test.
-
-
 
 When \code{method="simulate.p.value"}, a simulated null distribution is used to calculate \code{p-value}. The null distribution is a multinomial distribution that is the product of two marginal distributions. Like other Monte Carlo based methods, this method is slower but may be more accurate than other methods based on asymptotic distributions.
 
@@ -119,13 +116,13 @@ A list with class "\code{htest}" containing the following components:
 \item{statistic}{the functional chi-squared statistic if \code{method = "fchisq"}, \code{"default"}, or \code{"exact"}; or the normalized functional chi-squared statistic if \code{method = "nfchisq"} or \code{"normalized"}.}
 \item{parameter}{degrees of freedom for the functional chi-squared statistic.}
 \item{p.value}{p-value of the functional test. If \code{method = "fchisq"} (or \code{"default"}), it is computed by an asymptotic chi-squared distribution; if \code{method = "nfchisq"} (or \code{"normalized"}), it is computed by the standard normal distribution; if \code{method} \code{= "exact"}, it is computed by an exact hypergeometric distribution.}
-\item{estimate}{an estimate of function index between 0 and 1. The value of 1 indicates a strictly mathematical function. It is asymmetrical with respect to transpose of the input contingency table, different from the symmetrical Cramer's V based on the Pearson's chi-squared test statistic.}
+\item{estimate}{an estimate of function index between 0 and 1. The value of 1 indicates a strictly mathematical function. It is asymmetrical with respect to transpose of the input contingency table, different from the symmetrical Cramer's V based on the Pearson's chi-squared test statistic. See \insertCite{Zhong2019FANTOM5,KumarZSLS18}{FunChisq} for the definition of function index.}
 }
 
 \references{
-Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
+% Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
 
-Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
+%Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
 %Fisher, R. A. (1922) On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society} \bold{85}(1), 87--94.
 
@@ -133,16 +130,33 @@ Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Op
 
 %Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
 
-Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
-\url{https://arxiv.org/abs/1311.2707}
+%Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707, \url{https://arxiv.org/abs/1311.2707}
 
-Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
+%Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 
-Zhong, H. and Song, M. (2019) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics} \bold{16}(3), 818--826.  Retrieved from \url{https://doi.org/10.1109/TCBB.2018.2809743}
+
+%Zhong, H. and Song, M. (2019) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics} \bold{16}(3), 818--826.  Retrieved from \url{https://doi.org/10.1109/TCBB.2018.2809743}
+
+\insertRef{Box2005}{FunChisq}
+
+\insertRef{KumarZSLS18}{FunChisq}
+
+\insertRef{nguyen2018modelfree}{FunChisq}
+
+\insertRef{zhang2013deciphering}{FunChisq}
+
+\insertRef{zhang2014nonparametric}{FunChisq}
+
+\insertRef{zhong2019eft}{FunChisq}
+
+\insertRef{Zhong2019FANTOM5}{FunChisq}
+
+\insertRef{zhong2019modelfree}{FunChisq}
 }
 
+
 \author{
-Yang Zhang, Hua Zhong and Joe Song
+Yang Zhang, Hua Zhong, Hien Nguyen, and Joe Song
 }
 
 \seealso{

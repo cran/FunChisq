@@ -35,7 +35,10 @@ The exact P-value of the test.
 }
 \references{
 %% ~put references to the literature/web site here ~
-Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
+% Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
+
+\insertRef{nguyen2018modelfree}{FunChisq}
+
 }
 \author{
 %%  ~~who you are~~

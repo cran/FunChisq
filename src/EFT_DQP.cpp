@@ -15,6 +15,7 @@
 
 //#include "Node.h"
 #include "EFT_DQP.h"
+#include "EFT_QP.h"
 #include "trimTable.h"
 #include <iostream>
 #include <array>
@@ -263,14 +264,14 @@ void DQP::createNode(Node &node, vector<int> Rs, vector<int> &Cs, int layer, vec
 double DQP::EFTNetwork(vector<vector<int>> observedTable)
 {
   observedTable = trimTable(observedTable);
-    
+
   int nrows = (int) observedTable.size();
   int ncols = nrows > 0 ? (int) observedTable[0].size() : 0;
 
   if(nrows == 0 && ncols == 0) {
     return 1.0;
   }
-    
+
   int N = 0;
   vector<int> GlobalRowSums(nrows, 0);
   vector<int> ColSums(ncols, 0);
@@ -289,6 +290,7 @@ double DQP::EFTNetwork(vector<vector<int>> observedTable)
   vector<double> factorials(N+1);
   factorials[0] = 1.0;
   for (int x = 1; x <= N; x++) factorials[x] = x*factorials[x - 1];
+  //for (int x = 1; x <= N; x++)  factorials[x] = factorial<double>(x);
 
   double marginal = factorials[N];
   for (int x = 0; x < nrows; x++) {

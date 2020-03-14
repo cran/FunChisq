@@ -1,5 +1,25 @@
 NEWS
 
+Version 2.4.9.2
+  2020-03-13
+  1. Updated CITATION, DESCRIPTION, README.md
+  2. Introduced the Rdpack to manage references
+
+  2020-02-13
+  1. Added ORCID for author Sajal Kumar.
+
+  2019-11-10
+  1. Updated the REAMDE.md file of the package.
+
+  2019-11-04
+  2. Fixed "page" entry to "pages" entry in the CITATION file.
+  3. Deprecated 'cp.chisq.test'. The function has been moved to R
+     package 'DiffXTables'.
+
+  2019-09-28
+  1. Created version 2.4.9.2.
+  2. Fixed signed / unsigned mismatch in trimTable.cpp.
+
 Version 2.4.9.1
   2019-09-20
   1. Created version 2.4.9.1.
