@@ -38,7 +38,7 @@ vector or character; either a discrete random variable (condition) represented a
 
 }
 \details{
-Conditional functional chi-squared introduces the concept of conditional functional depedency, where the functional association between two variables (\code{x} and \code{y}) is tested conditioned on a third variable (\code{z}). Two methods are provided to compute the chi-squared statistic and its p-value. When \code{method = "fchisq"}, the p-value is computed using the chi-squared distribution; when \code{method = "nfchisq"} a normalized statistic is obtained by shifting and scaling the original chi-squared statistic and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
+Conditional functional chi-squared introduces the concept of conditional functional depedency, where the functional association between two variables (\code{x} and \code{y}) is tested conditioned on a third variable (\code{z}) \insertCite{zhang2014nonparametric}{FunChisq}. Two methods are provided to compute the chi-squared statistic and its p-value. When \code{method = "fchisq"}, the p-value is computed using the chi-squared distribution; when \code{method = "nfchisq"} a normalized statistic is obtained by shifting and scaling the original chi-squared statistic and a p-value is computed using the standard normal distribution \insertCite{Box2005}{FunChisq}. The normalized test is more conservative on the degrees of freedom.
 }
 
 \value{
@@ -49,15 +49,16 @@ A list with class "\code{htest}" containing the following components:
 \item{estimate}{an estimate of the conditional function index between 0 and 1. The value of 1 indicates strong functional dependency between \code{x} and \code{y}, given \code{z}. It is asymmetrical with respect to whether \code{x} was chosen as the cause of effect \code{y} or vice versa.}
 }
 \references{
-Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
 
-Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707,
-\url{https://arxiv.org/abs/1311.2707}
+\insertAllCited{}
 
-Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
+% Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
 
-Zhong, H. and Song, M. (2018) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics.} In press. \url{https://doi.org/10.1109/TCBB.2018.2809743}
+% Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707, \url{https://arxiv.org/abs/1311.2707}
+
+% Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
 }
+
 \author{
 Sajal Kumar and Mingzhou Song
 }

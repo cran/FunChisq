@@ -23,7 +23,7 @@ A matrix of nonnegative integers representing a contingency table.
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
-The functional exact test is performed using branch-and-bound with two algorithms (DP and DQP) to avoid re-calculation of bounds.
+The functional exact test is performed using branch-and-bound with two algorithms (DP and DQP) to avoid re-calculation of bounds \insertCite{nguyen2018modelfree,Nguyen2020EFT}{FunChisq}.
 }
 \value{
 %%  ~Describe the value returned
@@ -34,11 +34,7 @@ The functional exact test is performed using branch-and-bound with two algorithm
 The exact P-value of the test.
 }
 \references{
-%% ~put references to the literature/web site here ~
-% Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
-
-\insertRef{nguyen2018modelfree}{FunChisq}
-
+\insertAllCited{}
 }
 \author{
 %%  ~~who you are~~
@@ -46,7 +42,7 @@ Hien Nguyen, Hua Zhong, Joe Song
 }
 \note{
 %%  ~~further notes~~
-The functions provide a direct entry into the C++ implementations of the exact functional test.
+The functions provide a direct entry into the C++ implementations of the exact functional test \insertCite{nguyen2018modelfree,Nguyen2020EFT}{FunChisq}.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -63,6 +59,7 @@ EFTDQP(t(x))
 EFTDP(x)
 EFTDP(t(x))
 }
+
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ htest }% use one of RShowDoc("KEYWORDS")

@@ -11,8 +11,7 @@ A *function index* (Zhong & Song, 2019) [<10.1186/s12920-019-0565-9>](https://do
 
 ### When to use the package
 
-Tests in this package can be used to reveal evidence for causality based on the causality-by-functionality principle. They target model-free inference without assuming a parametric model. For continuous data, these tests offer an advantage over regression analysis when a parametric functional form cannot be assumed. Data can be first discretized, e.g., by the R package ['Ckmeans.1d.dp'](https://cran.r-project.org/package=Ckmeans.1d.dp). For categorical data, they provide a novel means to assess
-directional dependency not possible with symmetrical Pearson's chi-squared or Fisher's exact tests. They are a better alternative to conditional entropy in many aspects.
+Tests in this package can be used to reveal evidence for causality based on the causality-by-functionality principle. They target model-free inference without assuming a parametric model. For continuous data, these tests offer an advantage over regression analysis when a parametric functional form cannot be assumed. Data can be first discretized, e.g., by R packages ['Ckmeans.1d.dp'](https://cran.r-project.org/package=Ckmeans.1d.dp) or ['GridOnClusters'](https://cran.r-project.org/package=GridOnClusters). For categorical data, they provide a novel means to assess directional dependency not possible with symmetrical Pearson's chi-squared or Fisher's exact tests. They are a better alternative to conditional entropy in many aspects.
 
 ### To download and install the package
 

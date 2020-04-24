@@ -58,7 +58,7 @@ When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the t
 
 When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is obtained by shifting and scaling the original test statistic \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq}; and the p-value is computed using the standard normal distribution \insertCite{Box2005}{FunChisq}. The normalized chi-squared, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
 
-When \code{method="exact"}, \code{"exact.qp"} (quadratic programming) \insertCite{zhong2019eft,zhong2019modelfree}{FunChisq}, \code{"exact.dp"} (dynamic programming) \insertCite{nguyen2018modelfree}{FunChisq}, or \code{"exact.dqp"} (dynamic and quadratic programming) \insertCite{nguyen2018modelfree}{FunChisq}, an exact functional test is performed. The option of \code{"exact"} uses \code{"exact.dqp"}, the fastest method. All methods compute an exact p-value.
+When \code{method="exact"}, \code{"exact.qp"} (quadratic programming) \insertCite{zhong2019eft,zhong2019modelfree}{FunChisq}, \code{"exact.dp"} (dynamic programming) \insertCite{nguyen2018modelfree,Nguyen2020EFT}{FunChisq}, or \code{"exact.dqp"} (dynamic and quadratic programming) \insertCite{nguyen2018modelfree,Nguyen2020EFT}{FunChisq}, an exact functional test is performed. The option of \code{"exact"} uses \code{"exact.dqp"}, the fastest method. All methods compute an exact p-value.
 
 For the \code{"exact.qp"} and \code{"exact.dp"} options, if the sample size is no more than 200 or the average cell count is less than five, and the table size is no more than 10 in either row or column, the exact test will not be called and the asymptotic functional chi-squared test (\code{method="fchisq"}) is used instead.  %When the sample size of an input contingency table is large, the exact functional test and the functional chi-squared test will return similar p-values. When the expected values for all entries in a contingency table are greater than 5, the asymptotic tests will perform similarly with the exact test.
 % On a 2-by-2 contingency tables, Fisher's exact test (Fisher, 1922) will be applied.
@@ -120,38 +120,7 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
-% Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd ed., New York: Wiley-Interscience.
-
-%Nguyen, H. H. (2018) \emph{Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
-
-%Fisher, R. A. (1922) On the interpretation of chi-square from contingency tables, and the calculation of P. \emph{Journal of the Royal Statistical Society} \bold{85}(1), 87--94.
-
-%Pearson, K. (1900) On the criterion that a given system of deviations from the probable in the case of a correlated system of variables is such that it can be reasonably supposed to have arisen from random sampling. \emph{Philosophical Magazine Series 5} \bold{50}(302), 157--175.
-
-%Shen, L., Ahuja, N., Shen, Y., Habib, N. A., Toyota, M., Rashid, A., and Issa, J.-P. J. (2002). DNA methylation and environmental exposures in human hepatocellular carcinoma. \emph{Journal of the National Cancer Institute}, 94(10), 755-761.
-
-%Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707, \url{https://arxiv.org/abs/1311.2707}
-
-%Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
-
-
-%Zhong, H. and Song, M. (2019) A fast exact functional test for directional association and cancer biology applications. \emph{IEEE/ACM Transactions on Computational Biology and Bioinformatics} \bold{16}(3), 818--826.  Retrieved from \url{https://doi.org/10.1109/TCBB.2018.2809743}
-
-\insertRef{Box2005}{FunChisq}
-
-\insertRef{KumarZSLS18}{FunChisq}
-
-\insertRef{nguyen2018modelfree}{FunChisq}
-
-\insertRef{zhang2013deciphering}{FunChisq}
-
-\insertRef{zhang2014nonparametric}{FunChisq}
-
-\insertRef{zhong2019eft}{FunChisq}
-
-\insertRef{Zhong2019FANTOM5}{FunChisq}
-
-\insertRef{zhong2019modelfree}{FunChisq}
+\insertAllCited{}
 }
 
 

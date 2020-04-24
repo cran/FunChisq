@@ -56,7 +56,8 @@ add.candle.noise(tables, u, margin=0)
 %% ~put references to the literature/web site here ~
 %Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
 
-\insertRef{zhang2015chinet}{FunChisq}
+\insertAllCited{}
+
 }
 
 \author{

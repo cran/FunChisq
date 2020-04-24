@@ -1,6 +1,28 @@
 NEWS
 
+Version 2.5.0
+
+  2020-04-23
+  1. API change: simulate_tables() now includes a margin parameter to
+     specify how noise model will be applied. The default noise for
+     functional patterns has now been changed to apply along both row
+     and column. In previous versions, the noise was only applied
+     along the column direction.
+  2. Test_Functional_table() has been modified to not check for
+     equal row sums before and after adding noise, which is true only
+     if the noise is applied along the column.
+  3. Updated references, CITATION, and manuals to reflect a newly
+     accepted manuscript (Nguyen et al. 2020).
+
+  2020-03-15
+  1. Fixed a NOTE in 2.4.9.2 Rdpack was not imported in NAMESPACE.
+  2. Updated references in FunChisq-package.Rd and REFERENCES.bib.
+
+  2020-03-14
+  1. Created version 2.5.0 from 2.4.9.2.
+
 Version 2.4.9.2
+
   2020-03-13
   1. Updated CITATION, DESCRIPTION, README.md
   2. Introduced the Rdpack to manage references
@@ -21,6 +43,7 @@ Version 2.4.9.2
   2. Fixed signed / unsigned mismatch in trimTable.cpp.
 
 Version 2.4.9.1
+
   2019-09-20
   1. Created version 2.4.9.1.
   2. Fixed a bug in trimming all-zero rows or columns from the
@@ -30,6 +53,7 @@ Version 2.4.9.1
      code.
 
 Version 2.4.9 (not publicly released)
+
   2019-09-08
   1. Created version 2.4.9.
   2. Revised README.md.
@@ -74,6 +98,7 @@ Version 2.4.8-1
   test options in function fun.chisq.test().
 
 Version 2.4.8 (not publicly released)
+
   2018-12-25
   1. Provide new method options "exact.qp", "exact.dp", and
   "exact.dqp" for fun.chisq.test().
@@ -83,6 +108,7 @@ Version 2.4.8 (not publicly released)
   2.4.7.
 
 Version 2.4.7 (not publicly released)
+
   2018-07-24
   1. Improved the runtime of the exact functional test by applying
   the quadratic lower bound and upper bounds for each node at the
@@ -91,6 +117,7 @@ Version 2.4.7 (not publicly released)
   dynamic-programming-only option on all contingency tables.
 
 Version 2.4.6 (not publicly released)
+
   2018-06-17
   1. Added an alternative implementation of the exact functional
   test using branch-and-bound with dynamic programming. This reduced
@@ -102,6 +129,7 @@ Version 2.4.6 (not publicly released)
   functional test implementation.
 
 Version 2.4.5-3
+
   2018-12-04
   1. Updated simulate_tables() function to be more accurate when
   generating small tables where row and column variables are
@@ -129,6 +157,7 @@ Version 2.4.5-3
   5. Updated vignettes.
 
 Version 2.4.5-2
+
   2018-10-22
   1. Reintroduced a test source code file test_FunChisq.R back,
   which was accidentally deleted from the previous version.
@@ -141,6 +170,7 @@ Version 2.4.5-2
   2. Included conditional FunChisq R code.
 
 Version 2.4.5-1
+
   2018-06-16
   1. In the exact functional test C++ code, improved the numerical
   precision of the FunChisq statistic using an equivalent
@@ -159,6 +189,7 @@ Version 2.4.5-1
   5. Updated the DOI of the reference to exact functional test.
 
 Version 2.4.5
+
   2018-02-08
   1. Added a parameter "exact.mode.bound" in the fun.chisq.test()
   function to switch ON/OFF the fast branch-and-bound algorithm in
@@ -166,6 +197,7 @@ Version 2.4.5
   2. Updated testthat cases for exact functional test.
 
 Version 2.4.4
+
   2018-02-05
   1. Added a new reference (Zhong and Song, 2018) for exact
   functional test.
@@ -195,6 +227,7 @@ Version 2.4.4
   2. Updated manuals.
 
 Version 2.4.3
+
   2017-04-27
   1. Fixed a bug in specifying the margin to apply noise in
   simulate_tables().
@@ -207,6 +240,7 @@ Version 2.4.3
   1. Revised package description and manuals.
 
 Version 2.4.2
+
   2017-04-20
   1. Renamed pattern type "nonmonotonic" to "many.to.one" in
      simulate_tables(). The latter is mathematically correct.
@@ -216,6 +250,7 @@ Version 2.4.2
   vectorized multinomial distribution R function.
 
 Version 2.4.1
+
   2017-04-02
   1. Revised the manual for function simulate_tables()
 
@@ -227,24 +262,24 @@ Version 2.4.1
      reference format.
 
 Version 2.4.0
+
   2017-02-26
-  Changes
   1. Added a new R function simulate_tables() with supporting test functions.
   2. Added a new R function add.house.noise() with supporting test functions.
   3. Introduced the use of 'R_registerRoutines' and 'R_useDynamicSymbols'.
 
 Version 2.3.4
-  Changes
+
   2016-10-01
   1. Added keywords to the package manual.
 
 Version 2.3.3
-  Changes
+
   2016-09-02
   1. Updated the vignettes.
 
 Version 2.3.2
-  Changes
+
   2016-08-29
   1. Updated the reference section to fix the year of Pearson's chi-square test
      paper which was published in 1900 not 1990.
@@ -254,13 +289,13 @@ Version 2.3.2
     methods are allowed.
 
 Version 2.3.1
-  Changes
+
   2016-05-01
   1. Expanded test.interactions() to test many-to-one combinatorial
      interactions in C++ via Rcpp.
 
 Version 2.3.0 (not deposited to CRAN)
-  Changes
+
   2016-04-30
   1. Data frame input is now converted to numeric matrix before exact
      functional test.
@@ -268,14 +303,14 @@ Version 2.3.0 (not deposited to CRAN)
      interactions, implemented in C++ via Rcpp for computational efficiency.
 
 Version 2.2.4
-  Changes
+
   2016-04-21
   1. Added vignette "Which statistic to use for functional dependency
      from fun.chisq.test()?"
   2. Updated references and description.
 
 Version 2.2.3
-  Changes
+
   2016-03-31
   1. Use [[Rcpp::export]] to automatically generate R interface.
 
@@ -286,7 +321,7 @@ Version 2.2.3
   1. Revised help documentation and included new references.
 
 Version 2.2.2
-  Changes
+
   2016-02-07
   1. Handled a special case for the normalized FunChisq when the degrees of
      freedom are zero.
@@ -307,14 +342,14 @@ Version 2.2.2
   1. Fixed a bug in cp.chisq.test().
 
 Version 2.2.1
-  Changes
+
   2016-01-25
   1. Fixed a bug introduced in the previous version.
   2. Updated package description to be more reflective of recent additions.
   3. Included missing references.
 
 Version 2.2.0
-  Changes
+
   2016-01-23
   1. Improved code efficiency for fun.chisq.test().
   2. Now fun.chisq.test() returns an estimate of function index between
@@ -333,8 +368,9 @@ Version 2.2.0
      functional dependencies.
   2. Added test examples for cp.chisq.test().
 
-Version 2.1.0 2015-06-29
-  Changes
+Version 2.1.0
+
+  2015-06-29
   1. Substantially reduced the run time of exact functional test by designing a
      better branch and bound strategy.
   2. Enabled C++11 compling by adding two files (Makevars and Makevars.win).
@@ -343,13 +379,15 @@ Version 2.1.0 2015-06-29
   4. Increased float comparison precision by considering a tolerance.
   5. Imported pnorm() and pchisq() from the "stats" package.
 
-Version 2.0.2 2015-03-03
-  Changes
+Version 2.0.2
+
+  2015-03-03
   1. Updated documentation for the package and its functions.
   2. Fixed a testing issue under r-release-linux-ix86 flavor.
 
-Version 2.0.1 2015-02-23
-  Changes
+Version 2.0.1
+
+  2015-02-23
   1. Removed assert() function from StatDistribution.cpp.
   2. Removed Makevar and Makevar.win files.
   3. Removed all iostream and sstream and cassert.
@@ -358,8 +396,9 @@ Version 2.0.1 2015-02-23
      digits of the results.
   6. Added a normalized functional chi-square test example.
 
-Version 2.0.0 2015-02-12
-  Changes
+Version 2.0.0
+
+  2015-02-12
   1. Added a new exact functional test as a method option to fun.chisq.test().
      The exact functional test is an exact version of FunChisq test, it is
      more precise to detect functional dependencies in small sample-sized
@@ -370,7 +409,8 @@ Version 2.0.0 2015-02-12
   4. Added automated test cases into the package.
   5. Started the NEWS file.
 
-Version 1.0 2014-03-08
-  Changes
+Version 1.0
+
+  2014-03-08
   1. The first release of this package implements the functional chi-square
      test and a normalized version.

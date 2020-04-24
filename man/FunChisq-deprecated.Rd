@@ -15,7 +15,7 @@
   the replacement indicated below:
   \itemize{
 
-    \item{cp.chisq.test: \code{\link[DiffXTables]{cp.chisq.test}}} in package \sQuote{DiffXTables}
+    \item{\code{cp.chisq.test}: now available as \code{\link[DiffXTables]{cp.chisq.test}}} in package \sQuote{DiffXTables}
 
   }
 }

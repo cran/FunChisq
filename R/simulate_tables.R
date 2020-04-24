@@ -13,8 +13,7 @@
 # n.tables       : number of tables to be generated.[DEFAULT = 1].
 # row.marginal   : A vector of row probabilities [DEFAULT = Equally likely].
 # col.marginal   : A vector of column probabilities (Only required for type = "independent") [DEFAULT = Equally likely].
-# noise          : Factor of noise to be added to the table between 0 and 1 (uses House noise model, 0 means no noise) [DEFAULT = 0].
-#
+
 # Created by     : Ruby Sharma
 # Date           : October 16 2016
 #
@@ -35,6 +34,13 @@
 #                : rows and columns (previously only along the rows).
 #                : Modified prelim.check()
 
+# Modified       : Ruby Sharma April 20, 2020
+# Version        : 0.0.5
+# Updates        : parameter margin has been added to apply noise
+#                : along the rows or columns or both ways.
+
+
+
 simulate_tables <- function(
   n=100, nrow=3, ncol=3,
   type = c(
@@ -43,15 +49,16 @@ simulate_tables <- function(
     "discontinuous",
     "independent",
     "dependent.non.functional"),
-  noise.model = c("house","candle"),
-  noise=0.0, n.tables=1,
+  n.tables=1,
   row.marginal=rep(1/nrow, nrow),
-  col.marginal= rep(1/ncol, ncol))
+  col.marginal= rep(1/ncol, ncol),
+  noise=0.0, noise.model = c("house", "candle"),
+  margin = 0)
 {
   type <- match.arg(type)
   noise.model <- match.arg(noise.model)
 
-  prelim.check(nrow, ncol, n, noise, row.marginal, col.marginal,
+  prelim.check(nrow, ncol, n, row.marginal, col.marginal,
                n.tables)
 
   if(ncol < 2 || nrow < 2)
@@ -77,8 +84,7 @@ simulate_tables <- function(
 
     for(i in seq(n.tables))
     {
-      alltables = table.generate(nrow, ncol, type, n, noise,
-                                 noise.model, row.marginal, col.marginal)
+      alltables = table.generate(nrow, ncol, type, n, row.marginal, col.marginal, noise, noise.model, margin)
       pattern.list[[i]] = alltables$pattern.table
       sample.list[[i]] = alltables$sampled.table
       noise.list[[i]] = alltables$noise.table
@@ -90,8 +96,9 @@ simulate_tables <- function(
 
   } else {
     tbls <- simulate_independent_tables(
-      n, nrow, ncol, noise.model, noise,
-      n.tables, row.marginal, col.marginal
+      n, nrow, ncol,
+      n.tables, row.marginal, col.marginal,
+      noise, noise.model, margin
     )
   }
 
@@ -101,8 +108,9 @@ simulate_tables <- function(
 }
 
 simulate_independent_tables <- function(
-  n, nrow, ncol, noise.model, noise,
-  n.tables, p.row.marginal, p.col.marginal
+  n, nrow, ncol,
+  n.tables, p.row.marginal, p.col.marginal,
+  noise, noise.model, margin
 )
 {
   if(length(p.col.marginal) < ncol) {
@@ -129,10 +137,11 @@ simulate_independent_tables <- function(
     return(mat)
   })
 
+
   # apply noise along both row and columns
   noise.list <- add.noise(
     tables = sample.list, u = noise,
-    noise.model = noise.model, margin = 0)
+    noise.model = noise.model, margin = margin)
 
   p.value.list = lapply(1:n.tables, function(k) {
     return(chisq.test.pval(sample.list[[k]]))
@@ -145,7 +154,7 @@ simulate_independent_tables <- function(
 }
 
 #generating pattern table, sampled contingency table and noise table
-table.generate=function(nrow, ncol, type, n, noise, noise.model, row.marginal, col.marginal)
+table.generate=function(nrow, ncol, type, n, row.marginal, col.marginal, noise, noise.model, margin)
 {
 
   if(type=="dependent.non.functional"){
@@ -196,12 +205,10 @@ table.generate=function(nrow, ncol, type, n, noise, noise.model, row.marginal, c
 
   }
 
-  if(noise==0){
-    noise.table = sampled.table
-  } else {
-    noise.table = add.noise(tables = sampled.table, u = noise, noise.model = noise.model, margin = 1)
-  }
-
+  noise.table = add.noise(
+    tables = sampled.table, u = noise,
+    noise.model = noise.model, margin = margin
+  )
 
   # return singular tables
   list(pattern.table = pattern.table, sampled.table = sampled.table, noise.table = noise.table, p.value = p.val)
@@ -593,7 +600,7 @@ sample.sec.col.ind=function(index, ncol)
 }
 
 prelim.check <- function(
-  nrow, ncol, n, noise, row.marginal, col.marginal, n.tables)
+  nrow, ncol, n, row.marginal, col.marginal, n.tables)
 {
   if(class(nrow)!="numeric" && class(nrow)!="integer")
     stop("ERROR: nrow must be numeric!\n")
@@ -603,9 +610,6 @@ prelim.check <- function(
 
   if(class(n)!="numeric" && class(n)!="integer")
     stop("ERROR: n must be numeric!\n")
-
-  if(class(noise)!="numeric" && class(noise)!="integer")
-    stop("ERROR: noise must be numeric!\n")
 
   if(class(row.marginal)!="numeric" && class(row.marginal)!="integer")
     stop("ERROR: row.marginal must be numeric!\n")

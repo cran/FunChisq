@@ -21,7 +21,7 @@ Test_Functional_table = function(iter)
 
   func.flag = FALSE
 
-  for(i in 1:iter)
+  for(i in seq(iter))
   {
     Get.Stats = Construct_Table("functional")
 
@@ -72,15 +72,13 @@ Test_Functional_table = function(iter)
       break
     }
 
-    check.margin = margin.check(conti.table, noise.table)
-    if(check.margin$flag)
-    {
-      func.flag = TRUE
-      failure.summary = check.margin$failure.table
-      break
-    }
-
-
+    # check.margin = margin.check(conti.table, noise.table)
+    # if(check.margin$flag)
+    # {
+    #  func.flag = TRUE
+    #  failure.summary = check.margin$failure.table
+    #  break
+    # }
   }
 
   #if any table was flagged, the test failed.
@@ -96,7 +94,7 @@ Test_Functional_Discontinuous_table = function(iter)
 
   func.flag = FALSE
 
-  for(i in 1:iter)
+  for(i in seq(iter))
   {
     Get.Stats = Construct_Table("discontinuous")
 
@@ -161,7 +159,7 @@ Test_Functional_Many_to_one_table = function(iter)
 
   non.mono.func.flag = FALSE
 
-  for(i in 1:iter)
+  for(i in seq(iter))
   {
 
     Get.Stats = Construct_Table("many.to.one")
@@ -238,7 +236,7 @@ Test_Non_Functional_table = function(iter)
 
   non.func.flag = FALSE
 
-  for(i in 1:iter)
+  for(i in seq(iter))
   {
 
     Get.Stats = Construct_Table("dependent.non.functional")
@@ -293,7 +291,7 @@ Test_Independent_table = function(iter)
 
   ind.flag = FALSE
 
-  for(i in 1:iter)
+  for(i in seq(iter))
   {
 
     Get.Stats = Construct_Table("independent")
@@ -491,8 +489,7 @@ margin.check = function(conti.table, noise.table)
   flag=FALSE
   failure.summary = NULL
 
-
-    if(any(rowSums(conti.table)!= rowSums(noise.table)))
+  if(any(rowSums(conti.table)!= rowSums(noise.table)))
     {
       flag = TRUE
       failure.summary = noise.table

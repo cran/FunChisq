@@ -10,14 +10,15 @@ Generate random contingency tables representing various functional, non-function
 
 \usage{
 simulate_tables(
-  n=100, nrow=3, ncol=3,
+  n = 100, nrow = 3, ncol = 3,
   type = c("functional", "many.to.one",
            "discontinuous", "independent",
            "dependent.non.functional"),
-  noise.model = c("house", "candle"), noise=0.0,
-  n.tables=1,
-  row.marginal=rep(1/nrow, nrow),
-  col.marginal=rep(1/ncol, ncol)
+  n.tables = 1,
+  row.marginal = rep(1/nrow, nrow),
+  col.marginal = rep(1/ncol, ncol),
+  noise = 0.0, noise.model = c("house", "candle"),
+  margin = 0
 )
 }
 
@@ -39,13 +40,6 @@ simulate_tables(
   a character string to specify the type of pattern underlying the table. The options are \code{"functional"} (default),  \code{"many.to.one"}, \code{"discontinuous"}, \code{"independent"}, and \code{"dependent.non.functional"}. See Details.
 %The options are \code{"functional"} (default, where y=f(x) but x may or may not be function of y),  \code{"many.to.one"} (where y=f(x) but x != f(y)), \code{"independent"} (x and y are statistically independent),  \code{"dependent.non.functional"} (x and y are statistically dependent but y!=f(x) and x!=f(y)).
   }
-  \item{noise.model}{
-  a character string indicating the noise model of either \code{"house"} for ordinal variables (Zhang et al., 2015) or \code{"candle"} for categorical variables. See \code{\link{add.noise}} for details.
-  }
-
-   \item{noise}{
-  a numeric value between 0 and 1 specifying the noise level to be added to the table using function \code{\link{add.noise}}. The noise is applied along the rows of the table, except \code{"independent"} tables where noise is applied along both row and coloumn. See \code{\link{add.noise}} for details.
-  }
   \item{n.tables}{
   a positive integer value specifying the number of tables to be generated.
   }
@@ -58,6 +52,21 @@ simulate_tables(
   a non-negative numeric vector of length \code{ncol} specifying column marginal probabilities. The vector is linearly scaled so that the sum is 1. The vector is used only in generating \code{"independent"} tables. The default is a uniform distribution.
   }
 
+   \item{noise}{
+  a numeric value between 0 and 1 specifying the noise level to be added to a table using function \code{\link{add.noise}}. The noise can be applied along row, column, or both, which can be specified by the \code{margin} argument. See \code{\link{add.noise}} for details.
+  }
+
+   \item{noise.model}{
+  a character string indicating the noise model of either \code{"house"} for ordinal variables \insertCite{zhang2015chinet}{FunChisq} or \code{"candle"} for categorical variables. See \code{\link{add.noise}} for details.
+  }
+
+  \item{margin}{
+  a numeric value of either 0, 1 or 2. Default is 0.
+  0: noise is applied along both rows and columns.
+  1: noise is applied along each row.
+  2: noise is applied along each column.
+  See \code{\link{add.noise}} for details.
+  }
 }
 
 \details{
@@ -76,7 +85,7 @@ The fifth \code{type} \code{"independent"} represents patterns where \eqn{X}{X} 
 Random noise can be optionally applied to the tables using either the house or the candle noise model. See \code{\link{add.noise}} for details.
 %(Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.
 
-\insertCite{sharma2017simulating;textual}{FunChisq} provide full mathematical and statistical details of the simulation strategies for the above table types except the "discontinuous" type.
+\insertCite{sharma2017simulating;textual}{FunChisq} provide full mathematical and statistical details of the simulation strategies for the above table types except the \code{"discontinuous"} type which was introduced later.
 }
 
 \value{
@@ -92,17 +101,7 @@ A list containing the following components:
 }
 
 \references{
-%% ~put references to the literature/web site here ~
-%Sharma, R., Kumar, S., Zhong, H. and Song, M. (2017) Simulating noisy, nonparametric, and multivariate discrete patterns. \emph{The R Journal} \bold{9}(2), 366--377. Retrieved from \url{https://journal.r-project.org/archive/2017/RJ-2017-053/index.html}
-
-%Zhang, Y., Liu, Z. L. and Song, M. (2015) ChiNet uncovers rewired transcription subnetworks in tolerant yeast for advanced biofuels conversion. \emph{Nucleic Acids Research} \bold{43}(9), 4393--4407. Retrieved from \url{https://nar.oxfordjournals.org/content/43/9/4393.long}
-
-%Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707, \url{https://arxiv.org/abs/1311.2707}
-
-\insertRef{sharma2017simulating}{FunChisq}
-
-\insertRef{zhang2013deciphering}{FunChisq}
-
+\insertAllCited{}
 }
 
 \author{
