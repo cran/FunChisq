@@ -2,11 +2,13 @@
 \alias{plot_table}
 
 \title{
-Plot a Contingency Table
+Plot a Table Using Color Intensity for Counts
 }
+
 \description{
-The input table is visualized as matrix by shades of a given color for better understanding of the underlying pattern. The values in the table must be real. Thus non-integers or negative numbers are acceptable.
+A table is visualized as a matrix whose cells are shown with intensity of a given color proportional to the count in each cell. The count in a cell must be real: negative numbers or non-integers are acceptable. It provides a global understanding of the underlying pattern.
 }
+
 \usage{
 plot_table(table, xlab = "Column", ylab = "Row", col = "green3",
            xaxt = "n", yaxt = "n", main = NULL,

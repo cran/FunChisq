@@ -7,6 +7,11 @@
 # Modified by : Ruby Sharma
 # Date : December 2 2018
 
+# Modified Update : Dr. Joe Song and Ruby Sharma
+# Date            : May 26 2020
+#                 : Added new test cases to test marginal
+#                 : distribution
+
 library(testthat)
 library(FunChisq)
 
@@ -172,6 +177,7 @@ Test_Functional_Many_to_one_table = function(iter)
 
     if(check.all.samples$flag)
     {
+
       non.mono.func.flag = TRUE
       failure.summary = check.all.samples$failure.table
       break
@@ -249,6 +255,7 @@ Test_Non_Functional_table = function(iter)
 
     if(check.all.samples$flag)
     {
+
       non.func.flag = TRUE
       failure.summary = check.all.samples$failure.table
       break
@@ -343,7 +350,7 @@ Construct_Table = function(type)
   if(row.marginal.set){
     row.marginal = runif(nrows)
     row.marginal = row.marginal/sum(row.marginal)
-    conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, row.marginal = row.marginal, noise = 0.2)
+    conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, row.marginal = row.marginal, col.marginal = NULL, noise = 0.2)
   } else {
     conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, noise =0.2)
   }
@@ -498,7 +505,7 @@ margin.check = function(conti.table, noise.table)
 
 }
 
-test_that("Testing the Simulate_tables()", {
+test_that("Testing simulate_tables()", {
   Test_Functional_table(2)
   Test_Independent_table(2)
   Test_Non_Functional_table(2)
@@ -506,3 +513,153 @@ test_that("Testing the Simulate_tables()", {
   Test_Functional_Discontinuous_table(2)
 })
 
+test_that("Testing marginals in simulate_tables()", {
+
+  col.mar <- c(4, 2, 15)
+  col.mar <- col.mar / sum(col.mar)
+  row.mar <- c(15, 1, 1)
+  row.mar <- row.mar / sum(row.mar)
+
+  # Testing for row marginals for functional tables
+  tables <- simulate_tables(
+    100, type="fun", n.tables = 10,
+    row.marginal=row.mar
+  )
+
+  p.values <- vector("numeric", 10)
+  for(i in 1:10) {
+    p.values[i] <- chisq.test(rowSums(tables$sample.list[[i]]), p=row.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+
+
+  # Testing for column marginals, this would fail everytime
+  # because of zero column, so only comparing probabities where the observed
+  # colsum is non-zero.
+
+  tables <- simulate_tables(
+    100, type="fun", n.tables = 10,
+    col.marginal = col.mar
+  )
+
+  for(i in 1:10) {
+    sumcols = colSums(tables$sample.list[[i]])
+    nonzero.sum = which(sumcols!=0)
+    sumcols = sumcols[nonzero.sum]
+    scaled.mar = col.mar[nonzero.sum]/sum(col.mar[nonzero.sum])
+    p.values[i] <- chisq.test(sumcols, p=scaled.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+
+  # Testing for indepdendent tables, both row and column row marginal are begin tested
+  col.mar <- c(10, 20, 15)
+  col.mar <- col.mar / sum(col.mar)
+  row.mar <- c(15, 1, 30)
+  row.mar <- row.mar / sum(row.mar)
+
+  tables <- simulate_tables(
+    100, type="in", n.tables = 10,
+    row.marginal=row.mar, col.marginal = col.mar
+  )
+
+  p.values <- vector("numeric", 10)
+  for(i in 1:10) {
+    p.values[i] <- suppressWarnings(
+      chisq.test(
+        rowSums(tables$sample.list[[i]]), p=row.mar
+      )$p.value
+    )
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+  for(i in 1:10) {
+    p.values[i] <- chisq.test(colSums(tables$sample.list[[i]]), p=col.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+
+  # Testing for many.to.one tables, row marginal test
+  row.mar <- c(15, 1, 30)
+  row.mar <- row.mar / sum(row.mar)
+  col.mar <- c(20, 40, 30)
+  col.mar <- col.mar / sum(col.mar)
+
+  tables <- simulate_tables(
+    100, type="many.to.one", n.tables = 10,
+    row.marginal=row.mar
+  )
+  p.values <- vector("numeric", 10)
+  for(i in 1:10) {
+    p.values[i] <- suppressWarnings(
+      chisq.test(
+        rowSums(tables$sample.list[[i]]), p=row.mar
+      )$p.value
+    )
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+
+  # Testing for many.to.one tables, column marginal test
+  tables <- simulate_tables(
+    100, type="many.to.one", n.tables = 10,
+    col.marginal = col.mar
+  )
+  for(i in 1:10) {
+    sumcols = colSums(tables$sample.list[[i]])
+    nonzero.sum = which(sumcols!=0)
+    sumcols = sumcols[ nonzero.sum]
+    scaled.mar = col.mar[nonzero.sum]/sum(col.mar[nonzero.sum])
+    p.values[i] <- chisq.test(sumcols, p=scaled.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+  # Testing for discontinuous tables, row marginal test
+  row.mar <- c(10, 25, 30)
+  row.mar <- row.mar / sum(row.mar)
+  col.mar <- c(20, 40, 30)
+  col.mar <- col.mar / sum(col.mar)
+
+  tables <- simulate_tables(
+    100, type="discontinuous", n.tables = 10,
+    row.marginal=row.mar
+  )
+  p.values <- vector("numeric", 10)
+  for(i in 1:10) {
+    p.values[i] <- chisq.test(rowSums(tables$sample.list[[i]]), p=row.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+  # Testing for discontinuous tables, column marginal test
+  tables <- simulate_tables(
+    100, type="discontinuous", n.tables = 10,
+    col.marginal = col.mar
+  )
+  for(i in 1:10) {
+    sumcols = colSums(tables$sample.list[[i]])
+    nonzero.sum = which(sumcols!=0)
+    sumcols = sumcols[ nonzero.sum]
+    scaled.mar = col.mar[nonzero.sum]/sum(col.mar[ nonzero.sum])
+    p.values[i] <- chisq.test(sumcols, p=scaled.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+
+  # Testing for dependent.non.functional tables, row marginal test
+  row.mar <- c(10, 25, 30)
+  row.mar <- row.mar / sum(row.mar)
+  col.mar <- c(20, 40, 30)
+  col.mar <- col.mar / sum(col.mar)
+
+  tables <- simulate_tables(
+    100, type="dep", n.tables = 10,
+    row.marginal=row.mar
+  )
+  p.values <- vector("numeric", 10)
+  for(i in 1:10) {
+    p.values[i] <- chisq.test(rowSums(tables$sample.list[[i]]), p=row.mar)$p.value
+  }
+  expect_equal(sum(p.values > 0.05) > 5, TRUE)
+
+})

@@ -61,7 +61,7 @@ add.candle.noise(tables, u, margin=0)
 }
 
 \author{
-    Hua Zhong, Yang Zhang and Joe Song.
+    Hua Zhong, Yang Zhang, and Joe Song.
 }
 
 %%\note{

@@ -52,8 +52,6 @@ fun.chisq.test(
 
 The functional chi-squared test determines whether the column variable is a function of the row variable in contingency table \code{x} \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq}. This function supports three hypothesis testing methods:
 
-\code{index.kind} specifies the kind of function index to be computed. If the experimental design controls neither the row nor column marginal sums, \code{index.kind = "unconditional"} (default) is recommended; If the column marginal sums are controlled, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the function index xi.f value, but not the test statistic or p-value.
-
 When \code{method="fchisq"} (equivalent to \code{"default"}, the default), the test statistic is computed as described in \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq} and the p-value is computed using the chi-squared distribution.
 
 When \code{method="nfchisq"} (equivalent to \code{"normalized"}), the test statistic is obtained by shifting and scaling the original test statistic \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq}; and the p-value is computed using the standard normal distribution \insertCite{Box2005}{FunChisq}. The normalized chi-squared, more conservative on the degrees of freedom, was used by the Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges.
@@ -69,46 +67,7 @@ For 2-by-2 contingency tables, the asymptotic test options (\code{method="fchisq
 
 When \code{method="simulate.p.value"}, a simulated null distribution is used to calculate \code{p-value}. The null distribution is a multinomial distribution that is the product of two marginal distributions. Like other Monte Carlo based methods, this method is slower but may be more accurate than other methods based on asymptotic distributions.
 
-%The following is an example suitable for the exact functional test. An epigenetic indicator called CpG island methylator phenotype (CIMP) is strongly associated with liver cancers. Specimens (Shen et al, 2002) to study CIMP were collected and divided into three groups with different CIMP status: negative (no methylation gene), intermediate (1~2 methylated genes) and positive (>2 methylated genes). The following table represents the frequencies of observed tumor protein p53 mutations and CIMP status:
-%\tabular{lcccc}{
-%  \tab \tab  CpG Island Methylator\cr
-%  \tab \tab Phenotype (CIMP)\cr
-%  \tab  Negative  \tab  Intermediate	\tab	Positive\cr
-%%	\bold{Cirrhosis} \tab  \tab  \tab  \tab  0.038 (Pearson`s chisq)\cr
-%%	  Negative  \tab	12	\tab	16	\tab	10\cr
-%%	  Positive	\tab	5	\tab	18	\tab	21\cr
-%%    \cr
-%%	\bold{Hepatitis} \tab \tab  \tab  \tab 0.010 (Pearson`s chisq$)\cr
-%%	  Negative	\tab	12	\tab	12	\tab	8\cr
-%%	  Positive	\tab	 5	\tab	22	\tab	22\cr
-%%    \cr
-%%	\bold{Country risk} \tab  \tab  \tab \tab  0.021 (Fisher`s exact)\cr
-%%	  Low risk	\tab	14	\tab	17	\tab	14\cr
-%%	  High risk	\tab	 3	\tab	19	\tab	18\cr
-%%    \cr
-%	\bold{p53 mutation}\cr
-%    No	\tab	12	\tab	26	\tab	18\cr
-%	  Yes	\tab	 0	\tab	 8	\tab	12
-%}
-%Example 4 below performs the exact functional test on this table.
-
-%\tabular{lccc}{
-%\tab  Exact functional test\cr
-%Cirrhosis->CIMP \tab  0.0706  \tab  0.0702  \tab  \bold{0.038*(P)}\cr
-%CIMP->Cirrhosis \tab  \bold{0.0424*} \tab  \bold{0.0395*} \tab  \bold{0.038*(P)}\cr
-%\cr
-%Hepatitis->CIMP \tab  \bold{0.0301*} \tab  \bold{0.0311*} \tab  \bold{0.010*(P)}\cr
-%CIMP->Hepatitis \tab  \bold{0.0103*} \tab  \bold{0.0123*} \tab  \bold{0.010*(P)}\cr
-%\cr
-%Country risk->CIMP  \tab  0.0706  \tab  0.0683  \tab  \bold{0.021*(F)}\cr
-%CIMP->Country risk  \tab  \bold{0.0243*} \tab  \bold{0.0243*} \tab  \bold{0.021*(F)}\cr
-%\cr
-%\bold{Interactions}\tab  p-value\cr
-
-%p53 -> CIMP \tab  0.0426\cr% \tab  0.0595  \tab  \bold{0.017*(F)}\cr
-%CIMP -> p53 \tab  0.0273% \tab  0.0585  \tab  \bold{0.017*(F)}
-%}
-
+\code{index.kind} specifies the kind of function index to be computed. If the experimental design controls neither the row nor column marginal sums, \code{index.kind = "unconditional"} is recommended; If the column marginal sums are controlled, \code{index.kind = "conditional"} is recommended. The choice of \code{index.kind} affects only the function index xi.f value, but not the test statistic or p-value.
 }
 
 \value{
@@ -129,13 +88,13 @@ Yang Zhang, Hua Zhong, Hien Nguyen, and Joe Song
 }
 
 \seealso{
-  For data discretization by optimal univariate \var{k}-means clustering, see \pkg{Ckmeans.1d.dp}.
+For data discretization, an option is optimal univariate clustering via package \pkg{Ckmeans.1d.dp}. A second option is joint multivariate discretization via package \pkg{GridOnClusters}.
 
-  For symmetrical dependency tests on discrete data, see Pearson's chi-squared test \code{\link[stats]{chisq.test}}, Fisher's exact test \code{\link[stats]{fisher.test}}, and mutual information \pkg{entropy}.
+For symmetrical dependency tests on discrete data, see Pearson's chi-squared test \code{\link[stats]{chisq.test}}, Fisher's exact test \code{\link[stats]{fisher.test}}, and mutual information methods in package \pkg{entropy}.
 }
 
 \examples{
-\dontrun{
+\donttest{
 # Example 1. Asymptotic functional chi-squared test
 x <- matrix(c(20,0,20,0,20,0,5,0,5), 3)
 fun.chisq.test(x) # strong functional dependency

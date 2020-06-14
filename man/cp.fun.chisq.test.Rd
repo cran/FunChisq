@@ -31,9 +31,10 @@ cp.fun.chisq.test(
 }
 
 \details{
-The comparative functional chi-squared test determines whether the patterns underlying the contingency tables are heterogeneous in a functional way. Specifically, it evaluates whether the column variable is a changed function of the row variable across the contingency tables.
+The comparative functional chi-squared test determines whether the patterns underlying the contingency tables are heterogeneous in a functional way \insertCite{zhang2014nonparametric}{FunChisq}. Specifically, it evaluates whether the column variable is a changed function of the row variable across the contingency tables.
 
-Two methods are provided to compute the functional chi-squared statistic and its p-value. When \code{method = "fchisq"} (or \code{"default"}), the p-value is computed using the chi-squared distribution; when \code{method =} \code{"nfchisq"} (or \code{"normalized"}) a normalized statistic is obtained by shifting and scaling the original statistic and a p-value is computed using the standard normal distribution (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
+Two methods are provided to compute the functional chi-squared statistic and its p-value. When \code{method = "fchisq"} (or \code{"default"}), the p-value is computed using the chi-squared distribution; when \code{method =} \code{"nfchisq"} (or \code{"normalized"}) a normalized statistic is obtained by shifting and scaling the original statistic and a p-value is computed using the standard normal distribution \insertCite{Box2005}{FunChisq}
+ (Box et al., 2005). The normalized test is more conservative on the degrees of freedom.
 }
 
 \value{
@@ -45,19 +46,7 @@ A list with class "\code{htest}" containing the following components:
 }
 
 \references{
-
-%Box, G. E., Hunter, J. S. and Hunter, W. G. (2005) \emph{Statistics for Experimenters: Design, Innovation and Discovery}, 2nd Ed., New York: Wiley-Interscience.
-
-%Zhang, Y. (2014) \emph{Nonparametric Statistical Methods for Biological Network Inference.} Unpublished doctoral dissertation, Department of Computer Science, New Mexico State University, Las Cruces, USA.
-
-%Zhang, Y. and Song, M. (2013) Deciphering interactions in causal networks without parametric assumptions. \emph{arXiv Molecular Networks}, arXiv:1311.2707. \url{https://arxiv.org/abs/1311.2707}
-
-\insertRef{Box2005}{FunChisq}
-
-\insertRef{zhang2014nonparametric}{FunChisq}
-
-\insertRef{zhang2013deciphering}{FunChisq}
-
+\insertAllCited{}
 }
 
 \author{
@@ -65,11 +54,11 @@ Yang Zhang and Joe Song
 }
 
 \seealso{
-For comparative chi-squared test that does not consider functional dependencies, \code{\link{cp.chisq.test}}.
+For comparative chi-squared test that does not consider functional dependencies, \code{\link[DiffXTables]{cp.chisq.test}}.
 }
 
 \examples{
-\dontrun{
+\donttest{
 x <- matrix(c(4,0,4,0,4,0,1,0,1), 3)
 y <- t(x)
 z <- matrix(c(1,0,1,4,0,4,0,4,0), 3)

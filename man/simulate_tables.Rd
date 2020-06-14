@@ -15,8 +15,8 @@ simulate_tables(
            "discontinuous", "independent",
            "dependent.non.functional"),
   n.tables = 1,
-  row.marginal = rep(1/nrow, nrow),
-  col.marginal = rep(1/ncol, ncol),
+  row.marginal = NULL,
+  col.marginal = NULL,
   noise = 0.0, noise.model = c("house", "candle"),
   margin = 0
 )
@@ -46,10 +46,12 @@ simulate_tables(
   \item{row.marginal}{
   a non-negative numeric vector of length \code{nrow} specifying row marginal probabilities. The vector is linearly scaled so that the sum is 1. The default is a uniform distribution.
   %For \code{"functional table"}, \code{"dependent.non.functional"} and \code{"independent"} tables, \code{row.marginal} must be greater than or equal to 2.
-  For \code{"many.to.one"} tables, the length of \code{row.marginal} vector must be no less than 3.
+%For \code{"many.to.one"} tables, the length of \code{row.marginal} vector must be no less than 3.
   }
   \item{col.marginal}{
-  a non-negative numeric vector of length \code{ncol} specifying column marginal probabilities. The vector is linearly scaled so that the sum is 1. The vector is used only in generating \code{"independent"} tables. The default is a uniform distribution.
+  a non-negative numeric vector of length \code{ncol} specifying column marginal probabilities. The vector is linearly scaled so that the sum is 1.
+This argument is ignored by \code{"dependent.non.functional"} tables.
+  % The vector is used only in generating \code{"Functional"} and \code{"independent"} tables. The default is a uniform distribution.
   }
 
    \item{noise}{
@@ -72,20 +74,20 @@ simulate_tables(
 \details{
 This function generates five types of table representing different interaction patterns between row and column discrete random variables \eqn{X}{X} and \eqn{Y}{Y}. Three of the five types are non-constant functional patterns (\eqn{Y}{Y} is a non-constant function of \eqn{X}{X}):
 
-\code{type="functional"}: \eqn{Y}{Y} is a function of \eqn{X}{X} but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities.
+\code{type="functional"}: \eqn{Y}{Y} is a function of \eqn{X}{X} but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using either the given row or column marginal probabilities. If both marginals are provided, randomly select one for each table. If neither is provided, randomly select one of them with uniform marginal for each table.
 
-\code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} but \eqn{X}{X} is not a function of \eqn{Y}{Y}. The samples are distributed on the basis of row probabilities.
+\code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} but \eqn{X}{X} is not a function of \eqn{Y}{Y}. The samples are distributed using either the given row or column marginal probabilities. If both marginals are provided, randomly select one for each table. If neither is provided, randomly select one of them with uniform marginal for each table.
 
-\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using the given row marginal probabilities. A discontinuous function forms a contrast with those that are close to constant functions.
+\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using either the given row or column marginal probabilities. If both marginals are provided, randomly select one for each table. If neither is provided, randomly select one of them with uniform marginal for each table. A discontinuous function forms a contrast with those that are close to constant functions.
 
-The fourth \code{type} \code{"dependent.non.functional"} is non-functional patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically dependent but not function of each other.
+The fourth \code{type} \code{"dependent.non.functional"} is non-functional patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically dependent but not function of each other. The samples are distributed according to \code{row.marginal} probabilities.
 
 The fifth \code{type} \code{"independent"} represents patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically independent whose joint probability mass function is the product of their marginal probability mass functions.
 
 Random noise can be optionally applied to the tables using either the house or the candle noise model. See \code{\link{add.noise}} for details.
 %(Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.
 
-\insertCite{sharma2017simulating;textual}{FunChisq} provide full mathematical and statistical details of the simulation strategies for the above table types except the \code{"discontinuous"} type which was introduced later.
+\insertCite{sharma2017simulating;textual}{FunChisq} provide full mathematical and statistical details of the simulation strategies for the above table types except the \code{"discontinuous"} type which was introduced after the publication.
 }
 
 \value{
@@ -105,7 +107,7 @@ A list containing the following components:
 }
 
 \author{
-Ruby Sharma, Sajal Kumar, Hua Zhong and Joe Song
+Ruby Sharma, Sajal Kumar, Hua Zhong, and Joe Song
 }
 
 \seealso{
@@ -114,12 +116,12 @@ Ruby Sharma, Sajal Kumar, Hua Zhong and Joe Song
 }
 
 \examples{
-\dontrun{
+\donttest{
 # In all examples, x is the row variable and y is the column
 #    variable of a table.
 
 # Example 1. Simulating a noisy function where y=f(x),
-#            x may or may not be g(y)
+#            x may or may not be g(y) with given row.marginal.
 
 tbls <- simulate_tables(n=100, nrow=4, ncol=5, type="functional",
                 noise=0.2, n.tables = 1,
@@ -132,7 +134,7 @@ plot_table(tbls$noise.list[[1]], main="Ex 1. Sampled pattern with 0.2 noise")
 plot.new()
 
 # Example 2. Simulating a noisy functional pattern where
-#            y=f(x), x may or may not be g(y)
+#            y=f(x), x may or may not be g(y) with given row.marginal.
 
 tbls <- simulate_tables(n=100, nrow=4, ncol=5, type="functional",
                 noise=0.5, n.tables = 1,
@@ -145,8 +147,8 @@ plot_table(tbls$noise.list[[1]], main="Ex 2. Sampled pattern with 0.5 noise", co
 plot.new()
 
 
-# Example 3. Simulating a noise free many.to.one function where
-#            y=f(x), x!=f(y).
+# Example 3. Simulating a noisy many.to.one function where
+#            y=f(x), x!=f(y) with given row.marginal.
 
 tbls <- simulate_tables(n=100, nrow=4, ncol=5, type="many.to.one",
                 noise=0.2, n.tables = 1,
@@ -157,8 +159,8 @@ plot_table(tbls$sample.list[[1]], main="Ex 3. Sampled pattern (noise free)", col
 plot_table(tbls$noise.list[[1]], main="Ex 3. Sampled pattern with 0.2 noise", col="limegreen")
 plot.new()
 
-# Example 4. Simulating noise-free discontinuous
-#   pattern where y=f(x), x may or may not be g(y)
+# Example 4. Simulating noisy discontinuous
+#   pattern where y=f(x), x may or may not be g(y) with given row.marginal.
 
 tbls <- simulate_tables(n=100, nrow=4, ncol=5,
                 type="discontinuous", noise=0.2,
@@ -171,7 +173,7 @@ plot_table(tbls$noise.list[[1]], main="Ex 4. Sampled pattern with 0.2 noise", co
 plot.new()
 
 
-# Example 5. Simulating noise-free dependent.non.functional
+# Example 5. Simulating noisy dependent.non.functional
 #            pattern where y!=f(x) and x and y are statistically
 #            dependent.
 
@@ -204,6 +206,51 @@ col="cornflowerblue", highlight="none")
 plot_table(tbls$noise.list[[1]], main="Ex 6. Sampled pattern with 0.3 noise",
 col="cornflowerblue", highlight="none")
 plot.new()
+
+
+# Example 7. Simulating a noisy function where y=f(x),
+#            x may or may not be g(y), with given column marginal
+
+
+tbls <- simulate_tables(n=100, nrow=4, ncol=5, type="functional",
+                noise=0.2, n.tables = 1,
+                col.marginal = c(0.2,0.1,0.4,0.2,0.1))
+
+par(mfrow=c(2,2))
+plot_table(tbls$pattern.list[[1]], main="Ex 7. Functional pattern")
+plot_table(tbls$sample.list[[1]], main="Ex 7. Sampled pattern (noise free)")
+plot_table(tbls$noise.list[[1]], main="Ex 7. Sampled pattern with 0.2 noise")
+plot.new()
+
+
+# Example 8. Simulating a noisy many.to.one function where
+#            y=f(x), x!=f(y) with given column marginal.
+
+tbls <- simulate_tables(n=100, nrow=4, ncol=4, type="many.to.one",
+                noise=0.2, n.tables = 1,
+                col.marginal = c(0.4,0.3,0.1,0.2))
+par(mfrow=c(2,2))
+plot_table(tbls$pattern.list[[1]], main="Ex 8. Many-to-one pattern", col="limegreen")
+plot_table(tbls$sample.list[[1]], main="Ex 8. Sampled pattern (noise free)", col="limegreen")
+plot_table(tbls$noise.list[[1]], main="Ex 8. Sampled pattern with 0.2 noise", col="limegreen")
+plot.new()
+
+
+# Example 9. Simulating noisy discontinuous
+#   pattern where y=f(x), x may or may not be g(y) with given column marginal
+
+tbls <- simulate_tables(n=100, nrow=4, ncol=4,
+                type="discontinuous", noise=0.2,
+                n.tables = 1, col.marginal = c(0.1,0.4,0.2,0.3))
+
+par(mfrow=c(2,2))
+plot_table(tbls$pattern.list[[1]], main="Ex 9. Discontinuous pattern", col="springgreen3")
+plot_table(tbls$sample.list[[1]], main="Ex 9. Sampled pattern (noise free)", col="springgreen3")
+plot_table(tbls$noise.list[[1]], main="Ex 9. Sampled pattern with 0.2 noise", col="springgreen3")
+plot.new()
+
+
+
 
 }
 

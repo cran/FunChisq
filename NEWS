@@ -1,5 +1,43 @@
 NEWS
 
+Version 2.5.1
+
+  2020-06-13
+  1. Created 2.5.1 from 2.5.0.1
+
+Version 2.5.0.1 (not publicly released)
+
+  2020-06-13
+  1. Updated the README file to include badges about the package.
+  2. Replaced \dontrun by \donttest for examples in manuals.
+
+  2020-05-31
+  1. API change to simulate_tables(). For functional patterns, if
+     both row and column marginal distributions are specified, each
+     marginal is observed half of the time with the other marginal
+     not strictly observed. In the past, only the row marginal
+     distribution was observed.
+  2. The simulate_tables() function now can generate functional
+     patterns for a given column marginal distribution
+  3. simulate_tables(): Default row and column marginals are changed
+     to NULL at the parameter. Any NULL is replaced by uniform
+     distribution if not specified by user.
+  4. simulate_tables(): Introduced decide.marginal() to select the
+     marginal type if both are provided or none of them are provided.
+  5. simulate_tables(): Changed the name of functional.table()
+     function to disc.functional.pattern().
+  6. simulate_tables(): Functional 0/1 pattern table is no longer
+     dependent on either row and column marginal.
+  7. Added new testthat tests for simulate_tables() to check for
+     marginal distribution of simulated tables.
+  8. Added three more examples of functional tables in the
+     simulate_tables() manual with user specified column marginals.
+  9. Updated simulate_tables() manual.
+
+  2020-04-24
+  1. Created version 2.5.0.1 from 2.5.0.
+  2. Updated manuals of most functions in the package.
+
 Version 2.5.0
 
   2020-04-23
@@ -7,7 +45,7 @@ Version 2.5.0
      specify how noise model will be applied. The default noise for
      functional patterns has now been changed to apply along both row
      and column. In previous versions, the noise was only applied
-     along the column direction.
+     along columns within each row such that row sums do not change.
   2. Test_Functional_table() has been modified to not check for
      equal row sums before and after adding noise, which is true only
      if the noise is applied along the column.
