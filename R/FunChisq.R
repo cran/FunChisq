@@ -25,17 +25,27 @@
 # Oct 24, 2018 MS:
 #   Default to (conditional) function index. The previous default was unconditional function
 #   index.
+# March 24, 2021 MS:
+#   Bug fix 1: if an input table is empty with all zeros,
+#   the test quits with an error message. This is a
+#   divide-by-zero error in computing col.chisq. Now fixed.
+#   Bug fix 2: if an input table has small non-integer values,
+#   round-off error can result in calculating function index (estimate),
+#   now the issue has been fixed. A test case is added.
+# March 26, 2021 MS:
+#   Further improved numerical stability for calculating
+#   function index (estimate) when alternative="non-constant"
 
 fun.chisq.test <- function (
   x,
-  method=c("fchisq", "nfchisq",
+  method=c("fchisq", "nfchisq", "adapted",
            "exact", "exact.qp", "exact.dp", "exact.dqp",
            "default","normalized", "simulate.p.value"),
   alternative=c("non-constant", "all"), log.p=FALSE,
   index.kind=c("conditional", "unconditional"
-#               , "fix.row.sums", "fix.column.sums",
-#               "fix.marginal.sums"
-               ),
+               #               , "fix.row.sums", "fix.column.sums",
+               #               "fix.marginal.sums"
+  ),
   simulate.nruns = 2000,
   exact.mode.bound = TRUE
 )
@@ -79,7 +89,7 @@ fun.chisq.test <- function (
     # col.expected <- n / ncol(x)
     # col.chisq <- sum((col.sums - col.expected)^2 / col.expected)
 
-    col.chisq <- sum(col.sums^2) / n * ncol(x) - n
+    col.chisq <- ifelse(n > 0, sum(col.sums^2) / n * ncol(x) - n, 0) # MS 3/24/2021
 
     fun.chisq <- row.chisq.sum - col.chisq
     df <- nrow(x) * (ncol(x) - 1) - (ncol(x) - 1)
@@ -170,10 +180,19 @@ fun.chisq.test <- function (
 
   estimate.label <- paste(alternative, estimate.label)
 
-  if(max.fun.chisq > 0) {
-    estimate <- sqrt(abs(fun.chisq) / max.fun.chisq)
-  } else {
-    estimate <- 0
+  estimate <- sqrt(abs(fun.chisq) / max.fun.chisq)
+
+  if(alternative == "non-constant") {
+    # Numerical correction for constant functions. MS 3/26/2021
+    # Round-off errors occur when counts are not integers.
+    if(
+      sum(col.sums != 0) <= 1 # MS 3/24/2021
+      ||
+      max.fun.chisq < .Machine$double.eps # MS 3/24/2021
+    ) {
+      fun.chisq <- 0
+      estimate <- 0
+    }
   }
 
   names(estimate) <- estimate.label
@@ -182,9 +201,9 @@ fun.chisq.test <- function (
 
   if(method=="fchisq") {
     method.text <- "Functional chi-squared test"
+    p.value <- pchisq( fun.chisq, df = df, lower.tail=FALSE, log.p=log.p )
     names(fun.chisq) <- "statistic"
     names(df) <- "parameter"
-    p.value <- pchisq( fun.chisq, df = df, lower.tail=FALSE, log.p=log.p )
     return(structure(list( statistic=fun.chisq, parameter=df, p.value=p.value,
                            estimate = estimate, data.name=DNAME,
                            method = method.text),
@@ -205,11 +224,11 @@ fun.chisq.test <- function (
                      class = "htest"))
   } else if(method=="simulate.p.value"){
     method.text <- "Functional chi-squared test with simulated p value"
-    names(fun.chisq) <- "statistic"
-    names(df) <- "parameter"
     #p.value <- pchisq( fun.chisq, df = df, lower.tail=FALSE, log.p=log.p )
     p.value <- simulate.p.value(x, simulate.nruns)
 
+    names(fun.chisq) <- "statistic"
+    names(df) <- "parameter"
     return(structure(list( statistic=fun.chisq, parameter=df, p.value=p.value,
                            estimate = estimate, data.name=DNAME,
                            method = method.text),
@@ -277,10 +296,14 @@ fun.chisq.test <- function (
                             data.name = DNAME, method = method.text),
                        class = "htest"))
     } ## else {
-      ## return(fun.chisq.test(x, method="fchisq", alternative=alternative, log.p=log.p,
-      ##                      index.kind=index.kind))
+    ## return(fun.chisq.test(x, method="fchisq", alternative=alternative, log.p=log.p,
+    ##                      index.kind=index.kind))
     ## }
     ####
+  } else if(method == "adapted"){ ### added by Sajal Kumar on 17th May 2021
+
+    # return the adapted functional chi-squared test statistic
+    return(AdpFunChisq(x, log.p = log.p))
   }
   else {
     stop("ERROR: unrecognized method argument", method)

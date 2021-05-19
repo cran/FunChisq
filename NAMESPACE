@@ -19,6 +19,8 @@ importFrom("stats", "pnorm", "pchisq",
            "chisq.test", "runif", "rmultinom",
            "rpois", "rbinom")
 
+importFrom("dqrng", "dqrunif", "dqsample")
+
 importFrom("graphics", "grid", "image", "par",
            "polygon", "rect", "text")
 

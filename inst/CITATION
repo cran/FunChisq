@@ -1,6 +1,6 @@
 bibentry(bibtype="Article",
   key = "zhang2013deciphering",
-  header = "To cite the functional chi-square test in publications use:",
+  header = "To cite the functional chi-squared test in publications, use",
   title = "Deciphering interactions in causal networks without parametric assumptions",
   journal = "arXiv Molecular Networks",
   year = "2013",
@@ -9,30 +9,22 @@ bibentry(bibtype="Article",
   url = "https://arxiv.org/abs/1311.2707"
 )
 
-bibentry(bibtype="PhdThesis",
-  key = "nguyen2018modelfree",
-  header = "To cite the exact functional test using dynamic and quadratic programming in publications use:",
-  author = person(c("Hien", "H."), "Nguyen"),
-  year = "2018",
-  title = "Inference of Functional Dependency via Asymmetric, Optimal, and Model-free Statistics",
-  school = "Department of Computer Science, New Mexico State University",
-  address = "Las Cruces, NM, USA"
-)
-
 bibentry(bibtype="inproceedings",
   key = "Nguyen2020EFT",
+  header = "To cite the exact functional test using dynamic and quadratic programming in publications, use",
   author = c(person(c("Hien", "H."), "Nguyen"),
              person("Hua", "Zhong"),
              person("Mingzhou", "Song")),
-	booktitle = "International Joint Conference on Artificial Intelligence",
-	note = "Accepted",
-	title = "Optimality, accuracy, and effciiency of an exact functional test",
-	year = "2020"
+	booktitle = "Proceedings of the Twenty-Ninth International Joint Conference on Artificial Intelligence, {IJCAI-20}",
+	title = "Optimality, accuracy, and efficiency of an exact functional test",
+	year = "2020",
+	pages = "2683--2689",
+	doi = "10.24963/ijcai.2020/372"
 )
 
 bibentry(bibtype="Article",
   key = "zhong2019eft",
-  header = "To cite the exact functional test using quadratic programming in publications use:",
+  header = "To cite the exact functional test using quadratic programming in publications, use",
   title = "A fast exact functional test for directional association and cancer biology applications",
   journal = "IEEE/ACM Transactions on Computational Biology and Bioinformatics",
   year = "2019",
@@ -43,18 +35,9 @@ bibentry(bibtype="Article",
   doi = "10.1109/TCBB.2018.2809743"
 )
 
-bibentry(bibtype="PhdThesis",
-  key = "zhong2019modelfree",
-  author = person("Hua", "Zhong"),
-  year = "2019",
-  title ="Model-free Gene-to-zone Network Inference of Molecular Mechanisms in Biology",
-  school = "Department of Computer Science, New Mexico State University",
-  address = "Las Cruces, NM, USA"
-)
-
 bibentry(bibtype="Article",
   key = "sharma2017simulating",
-  header = "To cite the simulate_tables() function in publications use:",
+  header = "To cite the simulate_tables() function in publications, use",
   title = "Simulating noisy, nonparametric, and multivariate discrete patterns",
   journal = "The R Journal",
   year = "2017",
@@ -67,7 +50,7 @@ bibentry(bibtype="Article",
 
 bibentry(bibtype="Article",
   key = "Zhong2019FANTOM5",
-  header = "To cite the function index in publications use:",
+  header = "To cite the function index in publications, use",
 	Author = c(person("Hua", "Zhong"), person("Mingzhou", "Song")),
 	Doi = "10.1186/s12920-019-0565-9",
 	Journal = "BMC Med Genomics",
@@ -91,14 +74,4 @@ bibentry(bibtype="inproceedings",
 	Pages = "185--190",
 	Title = "Scrutinizing functional interaction networks from {RNA}-binding proteins to their targets in cancer",
 	Year = "2018"
-)
-
-bibentry(bibtype="PhdThesis",
-  key = "zhang2014nonparametric",
-  header = "To cite the comparative functional chi-square test in publications use:",
-  author = person("Yang", "Zhang"),
-  year = "2014",
-  title ="Nonparametric Statistical Methods for Biological Network Inference",
-  school = "Department of Computer Science, New Mexico State University",
-  address = "Las Cruces, NM, USA"
 )

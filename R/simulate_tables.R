@@ -49,14 +49,23 @@
 #                : Pattern table is not dependent on row and column marginals.
 #                : (previously depdendent on row marginals).
 #                : If samples are distributed according to column marginal then, samples
-#                : within the columns are distributed accroding to row marginals.
+#                : within the columns are distributed according to row marginals.
 #                : Added a new method decide.marginal() : if both marginals are provided,
 #                : randomly select one with probability of 0.5 or none of them provided.
 #                : Default row and column marginals are NULL.
 #                : Added a new method sample.in.cols() to distribute samples according to
-#                : each columns accrording to given column marginals.
+#                : each columns according to given column marginals.
 #                : Added a new method dis.samples() to distribute samples within a column
-#                : accroding to row marginals.
+#                : according to row marginals.
+#
+# Modified       : Ruby Sharma May 4, 2021
+# Version        : 0.0.7
+# Updates        : All changes are for functional tables.
+#                : Modified not_constant() function to make pattern table non-constant
+#                : according to non.zero row and column marginals.
+#                : Modified is_many.to.one() function to make pattern table non-monotonic
+#                : according to non.zero row and column marginals.
+#
 
 simulate_tables <- function(n = 100,
                             nrow = 3,
@@ -216,83 +225,83 @@ table.generate = function(nrow,
   mar.type = allmar$Martype
 
   if (type == "dependent.non.functional") {
-     if (n < (nrow * ncol))
-        stop(paste(
+    if (n < (nrow * ncol))
+      stop(paste(
         "For dependent.non.functional, n must be greater than or equal to",
         (nrow * ncol)
       ))
-      col.marginal = rep(1/ncol, ncol)
-      sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
-      pattern.table = nonfunctional.table(nrow, ncol, row.marginal, sam.val.row)
-      prob.table = non.functional.prob(nrow, ncol, pattern.table)
-      sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, prob.table, col.marginal)
+    col.marginal = rep(1/ncol, ncol)
+    sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
+    pattern.table = nonfunctional.table(nrow, ncol, row.marginal, sam.val.row)
+    prob.table = non.functional.prob(nrow, ncol, pattern.table)
+    sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, prob.table, col.marginal)
 
-      sampled.table = is_dependent(n,
-                                   nrow,
-                                   ncol,
-                                   row.marginal,
-                                   col.marginal,
-                                   sampled.table,
-                                   sam.val.row)
+    sampled.table = is_dependent(n,
+                                 nrow,
+                                 ncol,
+                                 row.marginal,
+                                 col.marginal,
+                                 sampled.table,
+                                 sam.val.row)
 
-      p.val = chisq.test.pval(sampled.table)
+    p.val = chisq.test.pval(sampled.table)
 
   } else if (type == "many.to.one") {
-      if (nrow < 3)
-        stop("For many.to.one, number of rows must be at least be 3!")
+    if (nrow < 3)
+      stop("For many.to.one, number of rows must be at least be 3!")
 
-      if (length(which(row.marginal != 0)) < 3)
-        stop("For many.to.one, at least three non-zero row probabilities are expected!")
+    if (length(which(row.marginal != 0)) < 3)
+      stop("For many.to.one, at least three non-zero row probabilities are expected!")
 
-      if (length(which(col.marginal != 0)) < 2)
-        stop("For many.to.one, at least two non-zero column probabilities are expected!")
+    if (length(which(col.marginal != 0)) < 2)
+      stop("For many.to.one, at least two non-zero column probabilities are expected!")
 
-      if (n < nrow)
-        stop(paste("n must be greater than or equal to", nrow))
+    if (n < nrow)
+      stop(paste("n must be greater than or equal to", nrow))
 
-      pattern.table = many.to.one.table(nrow, ncol)
+    pattern.table = many.to.one.table(nrow, ncol, row.marginal, col.marginal)
 
-      if (mar.type == "col") {
-        sam.val.col = sample.in.cols(n, pattern.table, col.marginal,  ncol)
-        sampled.table = dis.samples(n, pattern.table, sam.val.col, row.marginal, nrow, ncol)
-      } else {
-        sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
-        sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, pattern.table, col.marginal)
-      }
+    if (mar.type == "col") {
+      sam.val.col = sample.in.cols(n, pattern.table, col.marginal,  ncol)
+      sampled.table = dis.samples(n, pattern.table, sam.val.col, row.marginal, nrow, ncol)
+    } else {
+      sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
+      sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, pattern.table, col.marginal)
+    }
 
     p.val = FunChisq::fun.chisq.test(sampled.table)$p.value
 
   } else if (type == "discontinuous") {
-      if (n < nrow)
-        stop(paste("n must be greater than or equal to", nrow))
+    if (n < nrow)
+      stop(paste("n must be greater than or equal to", nrow))
 
-      pattern.table = discontinuous.table(nrow, ncol)
-      if (mar.type == "col") {
-        sam.val.col = sample.in.cols(n, pattern.table, col.marginal,  ncol)
-        sampled.table = dis.samples(n, pattern.table, sam.val.col, row.marginal, nrow, ncol)
-      } else {
-         sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
-         sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, pattern.table, col.marginal)
-      }
+    pattern.table = discontinuous.table(nrow, ncol)
+    if (mar.type == "col") {
+      sam.val.col = sample.in.cols(n, pattern.table, col.marginal,  ncol)
+      sampled.table = dis.samples(n, pattern.table, sam.val.col, row.marginal, nrow, ncol)
+    } else {
+      sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
+      sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, pattern.table, col.marginal)
+    }
 
-      p.val = FunChisq::fun.chisq.test(sampled.table)$p.value
+    p.val = FunChisq::fun.chisq.test(sampled.table)$p.value
 
   } else {
-      if (n < nrow)
-        stop(paste("n must be greater than or equal to", nrow))
+    if (n < nrow)
+      stop(paste("n must be greater than or equal to", nrow))
 
-      pattern.table = disc.functional.pattern(nrow, ncol)
+    pattern.table = disc.functional.pattern(nrow, ncol, row.marginal, col.marginal)
 
-      if (mar.type == "col") {
-        sam.val.col = sample.in.cols(n, pattern.table, col.marginal,  ncol)
-        sampled.table = dis.samples(n, pattern.table, sam.val.col, row.marginal, nrow, ncol)
+    if (mar.type == "col") {
+      sam.val.col = sample.in.cols(n, pattern.table, col.marginal,  ncol)
+      sampled.table = dis.samples(n, pattern.table, sam.val.col, row.marginal, nrow, ncol)
 
-      } else {
-        sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
-        sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, pattern.table, col.marginal)
-      }
+    } else {
+      sam.val.row = sample.in.rows(n, row.marginal, type, ncol)
+      sampled.table = dis.sample.prob(nrow, ncol, sam.val.row, pattern.table, col.marginal)
+    }
 
-      p.val = FunChisq::fun.chisq.test(sampled.table)$p.value
+    p.val = FunChisq::fun.chisq.test(sampled.table)$p.value
 
   }
 
@@ -353,7 +362,13 @@ dis.samples = function(n,
     if (sam.val.col[i] != 0) {
       non.zero.rows = which(pattern.table[, i] == 1)
       prob = row.marginal[non.zero.rows]
-      sampled.table[non.zero.rows, i] = rmultinom(1, sam.val.col[i], prob)
+      non.zero.rows = non.zero.rows[prob!=0]
+      prob = prob[prob!=0]
+
+      if(length(prob)!=0){
+        sampled.table[non.zero.rows, i] = rmultinom(1, sam.val.col[i], prob)
+      }
+
     }
   }
   return(sampled.table)
@@ -364,14 +379,19 @@ dis.samples = function(n,
 dis.sample.prob = function(nrow, ncol, sam.val.row, table, col.marginal)
 {
   sampled.table = matrix(0, nrow = nrow, ncol = ncol)
+
   for (i in 1:nrow)
   {
     # determine if all columns in the ith row of the supplied table are zero
     all.zero.column = all(table[i, ] == 0)
     if (!all.zero.column) {
       non.zero.columns = which(table[i, ] != 0)
-      sampled.table[i,non.zero.columns] = rmultinom(1, sam.val.row[i], col.marginal[non.zero.columns])
-
+      prob = col.marginal[non.zero.columns]
+      non.zero.columns = non.zero.columns[prob!=0]
+      prob = prob[prob!=0]
+      if(length(prob)!=0){
+        sampled.table[i,non.zero.columns] = rmultinom(1, sam.val.row[i], prob)
+      }
       #size = sam.val.row[i] - length(non.zero.columns)
       #sam.val.cell = rmultinom(1, size, table[i, ])
       #sam.val.cell[non.zero.columns] = sam.val.cell[non.zero.columns] + 1
@@ -382,7 +402,7 @@ dis.sample.prob = function(nrow, ncol, sam.val.row, table, col.marginal)
 }
 
 # generating pattern table for "functional"
-disc.functional.pattern = function(nrow, ncol)
+disc.functional.pattern = function(nrow, ncol, row.marginal, col.marginal)
 {
   pattern.table = matrix(0, ncol = ncol, nrow = nrow)
 
@@ -393,18 +413,20 @@ disc.functional.pattern = function(nrow, ncol)
 
   }
   # check for constant functions
-  pattern.table = not_constant(ncol, pattern.table)
+  pattern.table = not_constant(ncol, pattern.table, row.marginal, col.marginal)
   return(pattern.table)
 }
 
 # generating pattern table for "many.to.one"
-many.to.one.table = function(nrow, ncol)
+many.to.one.table = function(nrow, ncol, row.marginal, col.marginal)
 {
   pattern.table = matrix(0, ncol = ncol, nrow = nrow)
   # get the functional table
-  pattern.table = disc.functional.pattern(nrow, ncol)
+  pattern.table = disc.functional.pattern(nrow, ncol, row.marginal, col.marginal)
   # check for non-monotonicity
-  pattern.table = is_many.to.one(pattern.table)
+  pattern.table = is_many.to.one(pattern.table, row.marginal, col.marginal)
+  # check for constant pattern
+  pattern.table = not_constant(ncol, pattern.table, row.marginal, col.marginal)
 
   return(pattern.table)
 }
@@ -451,7 +473,7 @@ discontinuous.table = function(nrow, ncol)
     prev.col.ind = index
     pattern.table[i, index] = 1
     sample.from = sample.from[-which(sample.from == prev.col.ind)]
- }
+  }
 
   return(pattern.table)
 }
@@ -552,18 +574,52 @@ non.functional.prob = function(nrow, ncol, pattern.table)
 
 
 # check for constant function, if found then change one column index
-not_constant = function(ncol, pattern.table)
+not_constant = function(ncol, pattern.table, row.marginal, col.marginal)
 {
-  indexes = non.zero.index(pattern.table)
+
+  zero.row = which(row.marginal==0)
+  zero.col = which(col.marginal==0)
+  non.zero.row = which(row.marginal!=0)
+  non.zero.col = which(col.marginal!=0)
+
+  if(length(zero.row)!=0 && length(zero.col)!=0){
+    temp.table = pattern.table[-zero.row, -zero.col]
+  }else if(length(zero.row)!=0){
+    temp.table = pattern.table[-zero.row,]
+  }else if(length(zero.col)!=0){
+    temp.table = pattern.table[,-zero.col ]
+  }else{
+    temp.table = pattern.table
+  }
+  indexes = non.zero.index(temp.table)
   rows = indexes$rows
   cols = indexes$cols
 
-  if (length(unique(cols)) == 1) {
-    index = cols[1]
-    chng.col.index = sample.sec.col.ind(index, ncol)
-    chng.row.index = sample(rows, 1)
-    pattern.table[chng.row.index, index] = 0
-    pattern.table[chng.row.index, chng.col.index] = 1
+  if (length(unique(cols)) == 1 || length(rows)==0) {
+    tnrow = nrow(temp.table)
+    tncol = ncol(temp.table)
+
+     temp.table = matrix(data = 0, nrow = tnrow, ncol =  tncol)
+     for(i in 1:tnrow)
+     {
+       index =  sample(1:tncol, 1)
+       temp.table[i, index] = 1
+     }
+     indexes = non.zero.index( temp.table)
+     t.rows = indexes$rows
+     t.cols = indexes$cols
+     if(length(unique(t.cols)) == 1){
+        ncol = c(1:tncol)
+        selcols = ncol[!ncol%in%t.cols[1]]
+        chng.col.index = ifelse(length(selcols)==1, selcols, sample(selcols, 1))
+        chng.row.index = sample(t.rows, 1)
+        temp.table[chng.row.index, t.cols[1]] = 0
+        temp.table[chng.row.index, chng.col.index] = 1
+
+     }
+     pattern.table[zero.row,] = 0
+     pattern.table[,zero.col] = 0
+     pattern.table[non.zero.row, non.zero.col] = temp.table
   }
 
   return(pattern.table)
@@ -571,16 +627,48 @@ not_constant = function(ncol, pattern.table)
 
 
 # check monotonicity, if found then atleast two rows would share samples in the same column
-is_many.to.one = function(pattern.table)
+is_many.to.one = function(pattern.table, row.marginal, col.marginal)
 {
-  indexes = non.zero.index(pattern.table)
+
+  zero.row = which(row.marginal==0)
+  zero.col = which(col.marginal==0)
+  non.zero.row = which(row.marginal!=0)
+  non.zero.col = which(col.marginal!=0)
+  if(length(zero.row)!=0 && length(zero.col)!=0){
+   temp.table = pattern.table[-zero.row, -zero.col]
+  }else if(length(zero.row)!=0){
+    temp.table = pattern.table[-zero.row,]
+  }else if(length(zero.col)!=0){
+    temp.table = pattern.table[,-zero.col ]
+  }else{
+    temp.table = pattern.table
+  }
+  indexes = non.zero.index(temp.table )
   rows = indexes$rows
   cols = indexes$cols
 
   if (length(unique(cols)) == length(rows)) {
-    id = sample(rows, 2)
-    pattern.table[id[2], cols[which(rows == id[2])]] = 0
-    pattern.table[id[2], cols[which(rows == id[1])]] = 1
+
+    tnrow = nrow(temp.table)
+    tncol = ncol(temp.table)
+
+    temp.table = matrix(data = 0, nrow = tnrow, ncol =  tncol)
+    for(i in 1:tnrow)
+    {
+      index =  sample(1:tncol, 1)
+      temp.table[i, index] = 1
+    }
+    indexes = non.zero.index( temp.table)
+    t.rows = indexes$rows
+    t.cols = indexes$cols
+    if(length(unique(t.cols)) == length(t.rows)){
+      id = sample(t.rows,2)
+      temp.table[id[2], t.cols[which(t.rows == id[2])]] = 0
+      temp.table[id[2], t.cols[which(t.rows == id[1])]] = 1
+    }
+    pattern.table[zero.row,] = 0
+    pattern.table[,zero.col] = 0
+    pattern.table[non.zero.row, non.zero.col] = temp.table
   }
 
   return(pattern.table)
@@ -600,8 +688,8 @@ is_dependent = function(n,
   #expec.prob.table = indep.prob.table(nrow, ncol, row.marginal, col.marginal)
   #indep.sampled.table = dis.sample.prob(nrow, ncol, sam.val.indep, expec.prob.table, col.marginal)
   indep.sampled.table = simulate_independent_tables(n, nrow, ncol, n.tables = 1, p.row.marginal = row.marginal,
-                              p.col.marginal = col.marginal,
-                              noise.model = "house", noise = 0.0, margin = 0)$sample.list[[1]]
+                                                    p.col.marginal = col.marginal,
+                                                    noise.model = "house", noise = 0.0, margin = 0)$sample.list[[1]]
 
 
   difference = indep.sampled.table - sampled.table
@@ -637,8 +725,13 @@ sort.index = function(rows, cols)
   row.col.ind[, 1] = rows
   row.col.ind[, 2] = cols
   row.col.ind = row.col.ind[order(row.col.ind[, 1], row.col.ind[, 2]), ]
-  rows = row.col.ind[, 1]
-  cols = row.col.ind[, 2]
+  if(is.matrix(row.col.ind)){
+    rows = row.col.ind[, 1]
+    cols = row.col.ind[, 2]
+  }else{
+    rows = row.col.ind[1]
+    cols = row.col.ind[2]
+  }
 
   list(row.in = rows, col.in = cols)
 }
@@ -659,6 +752,7 @@ non.zero.index = function(table)
 # sampling secondary column index
 sample.sec.col.ind = function(index, ncol)
 {
+
   if (index == 1)
     vec.to.sample = c(2:ncol)
 
@@ -736,13 +830,13 @@ chisq.test.pval <- function(table)
   if (length(table[table != 0]) == 1) {
     pval = NA
   } else {
-      # identify non-zero rows and non-zero columns
-      non.zero.rows <-
-        apply(table, 1, function(row) {
+    # identify non-zero rows and non-zero columns
+    non.zero.rows <-
+      apply(table, 1, function(row) {
         0 != sum(abs(row))
       })
-      non.zero.cols <-
-        apply(table, 2, function(col) {
+    non.zero.cols <-
+      apply(table, 2, function(col) {
         0 != sum(abs(col))
       })
 

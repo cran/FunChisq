@@ -1,5 +1,75 @@
 NEWS
 
+Version 2.5.2
+
+  2021-05-19
+  1. Created 2.5.2 from 2.5.1.2
+
+Version 2.5.1.2 (not publicly released)
+
+  2021-05-17
+  1. Updated the is_many.to.one() function in simulate_tables() to
+  satisfy the non-monotonic property of functional patterns within
+  the rows and columns having non-zero marginals.
+
+  2. Added a new method option "adapted" to fun.chisq.test.
+
+  3. Added a vignette 'adapted.fun.chisq.test.Rmd' for adapted
+  functional chi-squared test.
+
+  4. Mentioned "adapted functional chi-squared test" in DESCRIPTION.
+
+  5. Imported R packages 'dqrng', 'DescTools' and 'infotheo' in
+  DESCRIPTION.
+
+  6. Added three testthat test cases for adapted functional
+  chi-squared test in test_AdpFunChisq.R.
+
+  7. Updated fun.chisq.test.Rd with details about the method option
+  "adapted".
+
+  8. Added imports from 'dqrng', 'infotheo' and 'DescTools' in NAMESPACE.
+
+  2021-05-11
+  1. Created 2.5.1.2 from 2.5.1.1
+
+  2. Updated the not_constant() function in simulate_tables() to
+  satisfy the non-constant property of functional patterns within
+  the rows and columns having non-zero marginals.
+
+Version 2.5.1.1 (not publicly released)
+
+  2021-04-18
+  1. Removed the 'LazyData: TRUE' option in the package DESCRIPTION
+  as the package does not have a 'data' directory.
+
+  2021-03-26
+  1. Further improved numerical stability for calculating FunChisq
+  statistic and function index (estimate) when alternative =
+  "non-constant" (default) for fun.chisq.test().
+  2. Added two more testthat cases for in test_FunChisq.R
+
+  2021-03-24
+  1. Fixed a bug that if the input has all zeros, the
+  fun.chisq.test() function would stop with an error. A test case
+  is added to the testthat examples.
+  2. Fixed a bug that if an input table has small non-integer values,
+  round-off errors can result in calculating function index
+  (estimate), now the issue has been fixed. A test case is added
+  to the testthat examples.
+
+  2020-11-27
+  1. Fixed the p.value entry to be unamed in the return object of
+     fun.chisq.test(). It was incorrectly named "statistic" in some
+     test options. The change was made inside file "R/FunChisq.R".
+
+  2020-07-18
+  1. Updated REFERENCES.bib and CITATION
+  2. Updated README.md
+
+  2020-06-14
+  1. Created 2.5.1.1 from 2.5.1
+
 Version 2.5.1
 
   2020-06-13
