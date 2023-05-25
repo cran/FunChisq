@@ -11,7 +11,13 @@
 # Date            : May 26 2020
 #                 : Added new test cases to test marginal
 #                 : distribution
-
+#
+# Modified Update : Ruby Sharma
+# Date            : May 19 2023
+#                 : Modified to examine pattern.tables instead of sampled tables
+#                 : for the maintenance of table type properties.
+#
+#
 library(testthat)
 library(FunChisq)
 
@@ -32,6 +38,7 @@ Test_Functional_table = function(iter)
 
     conti.table = Get.Stats$conti.table
     noise.table = Get.Stats$noise.table
+    pattern.table = Get.Stats$pattern.table
 
     # check if all samples are populated
 
@@ -57,7 +64,7 @@ Test_Functional_table = function(iter)
 
     # Check y = f(x)
 
-    check.functional = Functional.check(conti.table)
+    check.functional = Functional.check(pattern.table)
 
     if(check.functional$flag)
     {
@@ -68,7 +75,7 @@ Test_Functional_table = function(iter)
 
     # check constant functions
 
-    check.constant = Constant.check(conti.table)
+    check.constant = Constant.check(pattern.table)
 
     if(check.constant$flag)
     {
@@ -104,6 +111,7 @@ Test_Functional_Discontinuous_table = function(iter)
     Get.Stats = Construct_Table("discontinuous")
 
     conti.table = Get.Stats$conti.table
+    pattern.table = Get.Stats$pattern.table
 
     # check if all samples are populated
 
@@ -129,7 +137,7 @@ Test_Functional_Discontinuous_table = function(iter)
 
     # Check y = f(x)
 
-    check.functional = Functional.check(conti.table)
+    check.functional = Functional.check(pattern.table)
 
     if(check.functional$flag)
     {
@@ -140,7 +148,7 @@ Test_Functional_Discontinuous_table = function(iter)
 
     # check constant functions
 
-    check.constant = Constant.check(conti.table)
+    check.constant = Constant.check(pattern.table)
 
     if(check.functional$flag)
     {
@@ -170,6 +178,7 @@ Test_Functional_Many_to_one_table = function(iter)
     Get.Stats = Construct_Table("many.to.one")
 
     conti.table = Get.Stats$conti.table
+    pattern.table = Get.Stats$pattern.table
 
     # check if all samples are populated
 
@@ -196,7 +205,7 @@ Test_Functional_Many_to_one_table = function(iter)
 
     # Check y = f(x)
 
-    check.functional = Functional.check(conti.table)
+    check.functional = Functional.check(pattern.table)
 
     if(check.functional$flag)
     {
@@ -207,7 +216,7 @@ Test_Functional_Many_to_one_table = function(iter)
 
     # check x != f(y)
 
-    check.non.functional.invert = Non.functional.check(t(conti.table))
+    check.non.functional.invert = Non.functional.check(t(pattern.table))
 
     if(check.non.functional.invert$flag)
     {
@@ -218,7 +227,7 @@ Test_Functional_Many_to_one_table = function(iter)
 
     # check constant functions
 
-    check.constant = Constant.check(conti.table)
+    check.constant = Constant.check(pattern.table)
 
     if(check.constant$flag)
     {
@@ -248,6 +257,7 @@ Test_Non_Functional_table = function(iter)
     Get.Stats = Construct_Table("dependent.non.functional")
 
     conti.table = Get.Stats$conti.table
+    pattern.table = Get.Stats$pattern.table
 
     # check if all samples are populated
 
@@ -274,7 +284,7 @@ Test_Non_Functional_table = function(iter)
 
     # check y != f(x)
 
-    check.non.functional = Non.functional.check(conti.table)
+    check.non.functional = Non.functional.check(pattern.table)
 
     if(check.non.functional$flag)
     {
@@ -355,7 +365,8 @@ Construct_Table = function(type)
     conti.table = simulate_tables(n=sample.size, nrow = nrows, ncol = ncols, type = type, n.tables = 1, noise =0.2)
   }
 
-  list(conti.table = conti.table$sample.list[[1]], nrows = nrows, ncols = ncols, sample.size = sample.size, row.marginal = row.marginal, noise.table = conti.table$noise.list[[1]])
+  list(conti.table = conti.table$sample.list[[1]], nrows = nrows, ncols = ncols, sample.size = sample.size, row.marginal = row.marginal,
+       noise.table = conti.table$noise.list[[1]], pattern.table = conti.table$pattern.list[[1]])
 }
 
 # The table should contain all the samples specified in sample size
@@ -430,8 +441,10 @@ Non.functional.check = function(conti.table)
   flag=FALSE
   failure.summary = NULL
 
-  if(!status$flag)
+  if(!status$flag){
     flag = TRUE
+    failure.summary = conti.table
+  }
 
   list(flag=flag, failure.table = failure.summary)
 }

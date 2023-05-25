@@ -66,7 +66,15 @@
 #                : Modified is_many.to.one() function to make pattern table non-monotonic
 #                : according to non.zero row and column marginals.
 #
-
+#
+# Modified       : Ruby Sharma May 19, 2023
+# Version        : 0.0.8
+# Updates        : Modified not_constant() function by commenting out random pattern table
+#                : generation part (it was eliminating the table property). Now, if a pattern is
+#                : constant one cell value is moved to a different column to make the pattern non-constant.
+#                :
+#
+#
 simulate_tables <- function(n = 100,
                             nrow = 3,
                             ncol = 3,
@@ -101,7 +109,7 @@ simulate_tables <- function(n = 100,
     noise.list <- list()
     p.value.list <- list()
 
-    for (i in seq(n.tables))
+    for (i in seq(length=n.tables))
     {
       alltables = table.generate(nrow,
                                  ncol,
@@ -172,7 +180,7 @@ simulate_independent_tables <- function(n,
   pattern.table <- matrix(0, nrow = nrow, ncol = ncol)
   pattern.table[prob.table > 0] <- 1
 
-  pattern.list <- lapply(seq(n.tables), function(i) {
+  pattern.list <- lapply(seq(length=n.tables), function(i) {
     return(pattern.table)
   })
 
@@ -460,7 +468,7 @@ discontinuous.table = function(nrow, ncol)
 {
   pattern.table = matrix(0, ncol = ncol, nrow = nrow)
 
-  sample.from = seq(ncol(pattern.table))
+  sample.from = seq(length=ncol(pattern.table))
 
   for (i in 1:nrow)
   {
@@ -599,24 +607,24 @@ not_constant = function(ncol, pattern.table, row.marginal, col.marginal)
     tnrow = nrow(temp.table)
     tncol = ncol(temp.table)
 
-     temp.table = matrix(data = 0, nrow = tnrow, ncol =  tncol)
-     for(i in 1:tnrow)
-     {
-       index =  sample(1:tncol, 1)
-       temp.table[i, index] = 1
-     }
-     indexes = non.zero.index( temp.table)
-     t.rows = indexes$rows
-     t.cols = indexes$cols
-     if(length(unique(t.cols)) == 1){
+     #temp.table = matrix(data = 0, nrow = tnrow, ncol =  tncol)
+     #for(i in 1:tnrow)
+     #{
+     # index =  sample(1:tncol, 1)
+     # temp.table[i, index] = 1
+     #}
+     #indexes = non.zero.index( temp.table)
+     #t.rows = indexes$rows
+     #t.cols = indexes$cols
+     #if(length(unique(t.cols)) == 1){
         ncol = c(1:tncol)
-        selcols = ncol[!ncol%in%t.cols[1]]
+        selcols = ncol[!ncol%in%cols[1]]
         chng.col.index = ifelse(length(selcols)==1, selcols, sample(selcols, 1))
-        chng.row.index = sample(t.rows, 1)
-        temp.table[chng.row.index, t.cols[1]] = 0
+        chng.row.index = sample(rows, 1)
+        temp.table[chng.row.index, cols[1]] = 0
         temp.table[chng.row.index, chng.col.index] = 1
 
-     }
+     #}
      pattern.table[zero.row,] = 0
      pattern.table[,zero.col] = 0
      pattern.table[non.zero.row, non.zero.col] = temp.table
@@ -719,7 +727,7 @@ is_dependent = function(n,
 
 
 # sorting row and column indexes on the basis of row
-sort.index = function(rows, cols)
+sort_index = function(rows, cols)
 {
   row.col.ind = matrix(nrow = length(rows), ncol = 2)
   row.col.ind[, 1] = rows
@@ -742,7 +750,7 @@ non.zero.index = function(table)
 {
   rows = row(table)[which(!table == 0)]
   cols = col(table)[which(!table == 0)]
-  sorted = sort.index(rows, cols)
+  sorted = sort_index(rows, cols)
   rows = sorted$row.in
   cols = sorted$col.in
 
@@ -779,18 +787,29 @@ prelim.check <- function(nrow,
                          col.marginal,
                          n.tables)
 {
-  if (class(nrow) != "numeric" && class(nrow) != "integer")
+  if (
+    #class(nrow) != "numeric" && class(nrow) != "integer"
+      ! inherits(nrow, c("numeric", "integer"))
+    )
     stop("ERROR: nrow must be numeric!\n")
 
-  if (class(ncol) != "numeric" && class(ncol) != "integer")
+  if (
+    #class(ncol) != "numeric" && class(ncol) != "integer"
+    ! inherits(ncol, c("numeric", "integer"))
+    )
     stop("ERROR: ncol must be numeric!\n")
 
-  if (class(n) != "numeric" && class(n) != "integer")
+  if (
+    #class(n) != "numeric" && class(n) != "integer"
+    ! inherits(n, c("numeric", "integer"))
+  )
     stop("ERROR: n must be numeric!\n")
 
   if (!is.null(row.marginal)) {
-    if (class(row.marginal) != "numeric" &&
-        class(row.marginal) != "integer")
+    if (#class(row.marginal) != "numeric" &&
+        # class(row.marginal) != "integer"
+      ! inherits(row.marginal, c("numeric", "integer"))
+        )
       stop("ERROR: row.marginal must be numeric!\n")
 
     if (any(row.marginal < 0))
@@ -805,8 +824,10 @@ prelim.check <- function(nrow,
 
   }
   if (!is.null(col.marginal)) {
-    if (class(col.marginal) != "numeric" &&
-        class(col.marginal) != "integer")
+    if (#class(col.marginal) != "numeric" &&
+        #class(col.marginal) != "integer"
+        ! inherits(col.marginal, c("numeric", "integer"))
+        )
       stop("ERROR: col.marginal must be numeric!\n")
 
     if (any(col.marginal < 0))

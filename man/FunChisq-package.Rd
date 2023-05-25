@@ -9,7 +9,7 @@ Statistical hypothesis testing methods for model-free functional dependency usin
 
 Tests in this package reveal evidence for causality based on the causality-by-functionality principle \insertCite{Simon1966}{FunChisq}. The tests require data from two or more variables be formatted as a contingency table. Continuous variables need to be discretized first, for example, using R packages \pkg{Ckmeans.1d.dp} or \pkg{GridOnClusters}.
 
-The package implements asymptotic functional chi-squared tests \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq} and an exact functional test \insertCite{nguyen2018modelfree,zhong2019modelfree,zhong2019eft,Nguyen2020EFT}{FunChisq}. The normalized functional chi-squared test was used by Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges \insertCite{Hill:2016fk}{FunChisq}.
+The package implements an asymptotic functional chi-squared test \insertCite{zhang2013deciphering,zhang2014nonparametric}{FunChisq}, an adapted functional chi-squared test \insertCite{@Kumar2022AFT}{FunChisq}, and an exact functional test \insertCite{nguyen2018modelfree,zhong2019modelfree,zhong2019eft,Nguyen2020EFT}{FunChisq}. The normalized functional chi-squared test was used by Best Performer NMSUSongLab in HPN-DREAM (DREAM8) Breast Cancer Network Inference Challenges \insertCite{Hill:2016fk}{FunChisq}.
 
 A function index derived from the functional chi-squared offers a new effect size measure for the strength of function dependency. It is asymmetrically functionally optimal, different from the symmetric Cramer's V, also a better alternative to conditional entropy in many aspects.
 
@@ -21,7 +21,7 @@ For continuous data, these tests offer an advantage over regression analysis whe
 \tabular{ll}{
 Package: \tab FunChisq\cr
 Type: \tab Package\cr
-Current version: \tab 2.5.2\cr
+Current version: \tab 2.5.3\cr
 Initial release version: \tab 1.0\cr
 Initial release date: \tab 2014-03-08\cr
 License: \tab LGPL (>= 3) \cr
@@ -36,7 +36,7 @@ For symmetric dependency tests on discrete data, see Pearson's chi-squared test 
 }
 
 \author{
-Yang Zhang, Hua Zhong, Hien Nguyen, Ruby Sharma, Sajal Kumar, and Joe Song
+Yang Zhang, Hua Zhong, Hien Nguyen, Ruby Sharma, Sajal Kumar, Yiyi Li, and Joe Song
 }
 
 \references{

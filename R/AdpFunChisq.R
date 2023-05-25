@@ -25,7 +25,7 @@ AdpFunChisq = function(x, log.p=FALSE){
     # remove s-r most sparsely populated columns
     rem_indices = order(col_sum)[1:(og_dims[2] - og_dims[1])]
     F_x = x[,-rem_indices]
-
+    F_x = as.matrix(F_x)
     # obtain residue
     residue = sum(col_sum[rem_indices])
 

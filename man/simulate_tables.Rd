@@ -74,15 +74,17 @@ This argument is ignored by \code{"dependent.non.functional"} tables.
 \details{
 This function generates five types of table representing different interaction patterns between row and column discrete random variables \eqn{X}{X} and \eqn{Y}{Y}. Three of the five types are non-constant functional patterns (\eqn{Y}{Y} is a non-constant function of \eqn{X}{X}):
 
-\code{type="functional"}: \eqn{Y}{Y} is a function of \eqn{X}{X} but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using either the given row or column marginal probabilities. If both marginals are provided, randomly select one for each table. If neither is provided, randomly select one of them with uniform marginal for each table.
+\code{type="functional"}: \eqn{Y}{Y} is a function of \eqn{X}{X} but \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}.
 
-\code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} but \eqn{X}{X} is not a function of \eqn{Y}{Y}. The samples are distributed using either the given row or column marginal probabilities. If both marginals are provided, randomly select one for each table. If neither is provided, randomly select one of them with uniform marginal for each table.
+\code{type="many.to.one"}: \eqn{Y}{Y} is a many-to-one function of \eqn{X}{X} but \eqn{X}{X} is not a function of \eqn{Y}{Y}.
 
-\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. The samples are distributed using either the given row or column marginal probabilities. If both marginals are provided, randomly select one for each table. If neither is provided, randomly select one of them with uniform marginal for each table. A discontinuous function forms a contrast with those that are close to constant functions.
+\code{type="discontinuous"}: \eqn{Y}{Y} is a function of \eqn{X}{X}, where the function value of X must differ from its neighbors. \eqn{X}{X} may or may not be a function of \eqn{Y}{Y}. A discontinuous function forms a contrast with those that are close to constant functions.
 
 The fourth \code{type} \code{"dependent.non.functional"} is non-functional patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically dependent but not function of each other. The samples are distributed according to \code{row.marginal} probabilities.
 
 The fifth \code{type} \code{"independent"} represents patterns where \eqn{X}{X} and \eqn{Y}{Y} are statistically independent whose joint probability mass function is the product of their marginal probability mass functions.
+
+For all functional tables (\code{type="functional"}, \code{type="many.to.one"}, \code{type="discontinuous"}), the samples are distributed using either the given row or column marginal probabilities. Theoretically, it is not always possible to enforce both marginals in a functional pattern. If both marginals are provided, one will be randomly selected to generate a table; about half of the time each equested marginal is used. If neither is provided, either row or column uniform marginal will be randomly selected to generate a table; half of the time a table will have a uniform row marginal and the other half a uniform column marginal.
 
 Random noise can be optionally applied to the tables using either the house or the candle noise model. See \code{\link{add.noise}} for details.
 %(Zhang et al., 2015) by specifying a non-zero value (\eqn{\le 1}{<= 1}) for argument \code{noise}.

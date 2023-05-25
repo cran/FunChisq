@@ -63,6 +63,7 @@ bibentry(bibtype="Article",
 
 bibentry(bibtype="inproceedings",
   key = "KumarZSLS18",
+  header = "and",
 	Address = "Madrid, Spain",
 	Author = c(person("Sajal", "Kumar"),
 	           person("Hua", "Zhong"),
@@ -74,4 +75,17 @@ bibentry(bibtype="inproceedings",
 	Pages = "185--190",
 	Title = "Scrutinizing functional interaction networks from {RNA}-binding proteins to their targets in cancer",
 	Year = "2018"
+)
+
+bibentry(bibtype="Article",
+  key = "Kumar2022AFT",
+  header = "To cite the adapted functional chi-squared test in publications, use",
+  title = "Overcoming biases in causal inference of molecular interactions",
+  journal = "Bioinformatics",
+  year = "2022",
+  volume = "38",
+  number = "10",
+  pages = "2818--2825",
+  author = c(person("Sajal", "Kumar"), person("Mingzhou", "Song")),
+  doi = "10.1093/bioinformatics/btac206"
 )
