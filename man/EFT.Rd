@@ -38,7 +38,7 @@ The exact p-value of the test.
 }
 \author{
 %%  ~~who you are~~
-Hien Nguyen, Hua Zhong, and Joe Song
+Hien Nguyen, Hua Zhong, Yiyi Li, and Joe Song
 }
 \note{
 %%  ~~further notes~~

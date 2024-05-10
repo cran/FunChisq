@@ -1,7 +1,7 @@
 library(testthat)
 library(FunChisq)
 
-context("Testing the exact functional test")
+# context("Testing the exact functional test")
 
 test_that("Testing the EFT-DQP Dynamic and Quadratic Programming", {
 
@@ -25,16 +25,16 @@ test_that("Testing the EFT-DQP Dynamic and Quadratic Programming", {
   expect_equal(signif(exact.functional.test(x5), 8), 0.00017316017)
 
   x6 <- matrix(c(2,0,0,2), nrow=2, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x6), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x6), 8),
                     signif(stats::fisher.test(x6)$p.value, 8))
 
 
   x7 <- matrix(c(2,2,2,2), nrow=2, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x7), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x7), 8),
                     signif(stats::fisher.test(x7)$p.value, 8))
 
   x8 <- matrix(c(0,10,15,20,5,0,25,0,0), nrow=3, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x8), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x8), 8),
                     signif(fun.chisq.test(x8)$p.value, 8))
 
   x9 <- matrix(c(1,1,1,1,1,1,1,1,1), nrow=3, byrow = TRUE)
@@ -122,16 +122,16 @@ test_that("Testing the EFT-DP Dynamic Programming", {
   expect_equal(signif(exact.functional.test(x5), 8), 0.00017316017)
 
   x6 <- matrix(c(2,0,0,2), nrow=2, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x6), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x6), 8),
                     signif(stats::fisher.test(x6)$p.value, 8))
 
 
   x7 <- matrix(c(2,2,2,2), nrow=2, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x7), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x7), 8),
                     signif(stats::fisher.test(x7)$p.value, 8))
 
   x8 <- matrix(c(0,10,15,20,5,0,25,0,0), nrow=3, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x8), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x8), 8),
                     signif(fun.chisq.test(x8)$p.value, 8))
 
   x9 <- matrix(c(1,1,1,1,1,1,1,1,1), nrow=3, byrow = TRUE)
@@ -227,19 +227,19 @@ test_that("Testing the EFT_QP Quadratic Programming", {
                signif(exact.functional.test(x5, FALSE), 8))
 
   x6 <- matrix(c(2,0,0,2), nrow=2, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x6, TRUE), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x6, TRUE), 8),
                     signif(stats::fisher.test(x6)$p.value, 8))
   expect_equal(signif(exact.functional.test(x6, TRUE), 8),
                signif(exact.functional.test(x6, FALSE), 8))
 
   x7 <- matrix(c(2,2,2,2), nrow=2, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x7, TRUE), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x7, TRUE), 8),
                     signif(stats::fisher.test(x7)$p.value, 8))
   expect_equal(signif(exact.functional.test(x7, TRUE), 8),
                signif(exact.functional.test(x7, FALSE), 8))
 
   x8 <- matrix(c(0,10,15,20,5,0,25,0,0), nrow=3, byrow = TRUE)
-  expect_equivalent(signif(exact.functional.test(x8, TRUE), 8),
+  expect_equal(ignore_attr = TRUE, signif(exact.functional.test(x8, TRUE), 8),
                     signif(fun.chisq.test(x8)$p.value, 8))
   expect_equal(signif(exact.functional.test(x8, TRUE), 8),
                signif(exact.functional.test(x8, FALSE), 8))

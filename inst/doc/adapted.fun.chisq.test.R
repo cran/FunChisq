@@ -4,7 +4,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- fig.show="hold", out.width="45%", eval=FALSE, echo=FALSE----------------
+## ----fig.show="hold", out.width="45%", eval=FALSE, echo=FALSE-----------------
 #  require(FunChisq)
 #  require(infotheo)
 #  require(DescTools)
@@ -38,7 +38,7 @@ knitr::opts_chunk$set(
 #             main=paste0("AdpFunChisq P = ",format(incorrect_afc$p.value, digits = 2),
 #                         "\nConditional Entropy = ",format(incorrect_ce, digits = 2)))
 
-## ---- out.width="45%", message=FALSE------------------------------------------
+## ----out.width="45%", message=FALSE-------------------------------------------
 require(FunChisq)
 require(infotheo)
 require(DescTools)
@@ -95,7 +95,7 @@ compare.methods <- function(func)
   }
 }
 
-## ---- out.width="45%"---------------------------------------------------------
+## ----out.width="45%"----------------------------------------------------------
 func <- matrix(c(
   1, 5, 1,
   1, 5, 1,
@@ -103,7 +103,7 @@ func <- matrix(c(
 ), nrow=3, byrow=TRUE)
 compare.methods(func)
 
-## ---- out.width="45%"---------------------------------------------------------
+## ----out.width="45%"----------------------------------------------------------
 func <- matrix(c(
   1, 1, 6, 1,
   1, 1, 6, 1,
@@ -111,7 +111,7 @@ func <- matrix(c(
 ), nrow=3, byrow=TRUE)
 compare.methods(func)
 
-## ---- out.width="45%"---------------------------------------------------------
+## ----out.width="45%"----------------------------------------------------------
 func <- matrix(c(
   1, 5,
   1, 6,
@@ -119,7 +119,7 @@ func <- matrix(c(
 ), nrow=3, byrow=TRUE)
 compare.methods(func)
 
-## ---- fig.show="hold", out.width="45%"----------------------------------------
+## ----fig.show="hold", out.width="45%"-----------------------------------------
 # approximately functional pattern
 func = matrix(c(
   8, 0, 1, 0, 

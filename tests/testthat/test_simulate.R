@@ -18,10 +18,15 @@
 #                 : for the maintenance of table type properties.
 #
 #
+# Modified Update : Ruby Sharma
+# Date            : June 21 2023
+#                 : Set seed before simulating discrete tables to test the reproducible tables
+#                 :
+#
 library(testthat)
 library(FunChisq)
 
-context("Testing simulate_tables()")
+# context("Testing simulate_tables()")
 
 #Attributes to test
 #1) y = f(x)
@@ -34,6 +39,7 @@ Test_Functional_table = function(iter)
 
   for(i in seq(iter))
   {
+    set.seed(i)
     Get.Stats = Construct_Table("functional")
 
     conti.table = Get.Stats$conti.table
@@ -108,6 +114,7 @@ Test_Functional_Discontinuous_table = function(iter)
 
   for(i in seq(iter))
   {
+    set.seed(i)
     Get.Stats = Construct_Table("discontinuous")
 
     conti.table = Get.Stats$conti.table
@@ -174,7 +181,7 @@ Test_Functional_Many_to_one_table = function(iter)
 
   for(i in seq(iter))
   {
-
+    set.seed(i)
     Get.Stats = Construct_Table("many.to.one")
 
     conti.table = Get.Stats$conti.table
@@ -253,7 +260,7 @@ Test_Non_Functional_table = function(iter)
 
   for(i in seq(iter))
   {
-
+    set.seed(i)
     Get.Stats = Construct_Table("dependent.non.functional")
 
     conti.table = Get.Stats$conti.table
@@ -310,7 +317,7 @@ Test_Independent_table = function(iter)
 
   for(i in seq(iter))
   {
-
+    set.seed(i)
     Get.Stats = Construct_Table("independent")
 
     conti.table = Get.Stats$conti.table
@@ -534,6 +541,7 @@ test_that("Testing marginals in simulate_tables()", {
   row.mar <- row.mar / sum(row.mar)
 
   # Testing for row marginals for functional tables
+  set.seed(23)
   tables <- simulate_tables(
     100, type="fun", n.tables = 10,
     row.marginal=row.mar
@@ -551,6 +559,7 @@ test_that("Testing marginals in simulate_tables()", {
   # because of zero column, so only comparing probabities where the observed
   # colsum is non-zero.
 
+  set.seed(24)
   tables <- simulate_tables(
     100, type="fun", n.tables = 10,
     col.marginal = col.mar
@@ -572,6 +581,7 @@ test_that("Testing marginals in simulate_tables()", {
   row.mar <- c(15, 1, 30)
   row.mar <- row.mar / sum(row.mar)
 
+  set.seed(25)
   tables <- simulate_tables(
     100, type="in", n.tables = 10,
     row.marginal=row.mar, col.marginal = col.mar
@@ -599,6 +609,7 @@ test_that("Testing marginals in simulate_tables()", {
   col.mar <- c(20, 40, 30)
   col.mar <- col.mar / sum(col.mar)
 
+  set.seed(26)
   tables <- simulate_tables(
     100, type="many.to.one", n.tables = 10,
     row.marginal=row.mar
@@ -615,6 +626,7 @@ test_that("Testing marginals in simulate_tables()", {
 
 
   # Testing for many.to.one tables, column marginal test
+  set.seed(27)
   tables <- simulate_tables(
     100, type="many.to.one", n.tables = 10,
     col.marginal = col.mar
@@ -634,6 +646,7 @@ test_that("Testing marginals in simulate_tables()", {
   col.mar <- c(20, 40, 30)
   col.mar <- col.mar / sum(col.mar)
 
+  set.seed(28)
   tables <- simulate_tables(
     100, type="discontinuous", n.tables = 10,
     row.marginal=row.mar
@@ -645,6 +658,7 @@ test_that("Testing marginals in simulate_tables()", {
   expect_equal(sum(p.values > 0.05) > 5, TRUE)
 
   # Testing for discontinuous tables, column marginal test
+  set.seed(29)
   tables <- simulate_tables(
     100, type="discontinuous", n.tables = 10,
     col.marginal = col.mar
@@ -665,6 +679,7 @@ test_that("Testing marginals in simulate_tables()", {
   col.mar <- c(20, 40, 30)
   col.mar <- col.mar / sum(col.mar)
 
+  set.seed(30)
   tables <- simulate_tables(
     100, type="dep", n.tables = 10,
     row.marginal=row.mar

@@ -1,7 +1,7 @@
 library(testthat)
 library(FunChisq)
 
-context("Testing the functional chi-squared test")
+# context("Testing the functional chi-squared test")
 
 test_that("Testing the functional chi-squared test", {
 
@@ -138,13 +138,13 @@ test_that("Testing the functional chi-squared test", {
     within(ex[[i]],
            {
              h <- fun.chisq.test(x, method=method, index.kind="unconditional")
-             expect_equivalent(h$statistic, stat.truth)
-             expect_equivalent(h$parameter, par.truth)
-             expect_equivalent(signif(h$estimate, digits=digits), estimate.fun.index)
-             expect_equivalent(signif(h$p.value, digits=digits), pval.truth)
+             expect_equal(ignore_attr = TRUE, h$statistic, stat.truth)
+             expect_equal(ignore_attr = TRUE, h$parameter, par.truth)
+             expect_equal(ignore_attr = TRUE, signif(h$estimate, digits=digits), estimate.fun.index)
+             expect_equal(ignore_attr = TRUE, signif(h$p.value, digits=digits), pval.truth)
 
              h <- fun.chisq.test(x, method=method, index.kind="conditional")
-             expect_equivalent(signif(h$estimate, digits=digits), estimate.cond.fun.index)
+             expect_equal(ignore_attr = TRUE, signif(h$estimate, digits=digits), estimate.cond.fun.index)
            }
     )
   }
@@ -228,7 +228,7 @@ test_that("Testing the interaction analysis", {
   output.diff <- output.C - output.R
   for(i in c(1:nrow(output.diff))){
     for(j in c(1:ncol(output.diff))){
-      expect_equivalent(as.numeric(output.diff[i,j]), 0)
+      expect_equal(ignore_attr = TRUE, as.numeric(output.diff[i,j]), 0)
     }
   }
   # apply(output.diff, c(1,2), function(x){

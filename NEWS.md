@@ -1,5 +1,41 @@
 # NEWS
 
+## Version 2.5.4
+
+2024-05-10
+
+1. Created version 2.5.4 from 2.5.3.2.
+
+
+## Version 2.5.3.2
+
+2024-05-10
+
+  1. Add dqRNGkind("xoroshiro128+") to test code for incoming 'dqrng' package's change of default random number generator.
+  2. Update the test cases to be consistent with testthat (>= 3.0.0).
+
+
+2023-09-09
+
+Major changes were made for the exact function test (EFT). The EFT DQP code has been rewritten to fix bugs that might cause crash for certain inputs:
+
+1. Implemented the DQP algorithm using hash table instead of vector.
+2. Used row sums as the key to build the search tree. It fixed one bug in DQP.
+3. Renamed the variables to avoid reversing rows and columns in the input table.
+4. Renamed the header and cpp files of the DQP algorithm to fastEnu.h and fastEnu.cpp.
+5. Edited the main.cpp file to implement the EFT using revised code.
+
+2023-09-09
+
+1. Created version 2.5.3.2 from 2.5.3.1.
+
+## Version 2.5.3.1
+
+2023-06-21
+
+1. Created version 2.5.3.1 from 2.5.3.
+2. Added seed functions to reproduce simulated tables in the test_simulate.R
+
 ## Version 2.5.3
 
 2023-05-25

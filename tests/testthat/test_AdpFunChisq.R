@@ -6,11 +6,12 @@ library(testthat)
 library(FunChisq)
 library(dqrng)
 
-context("Testing AdpFunChisq")
+# context("Testing AdpFunChisq")
 
 test_that("Testing the adapted functional chi-squared test", {
 
   # set seed
+  dqRNGkind("xoroshiro128+")
   dqset.seed(123)
 
   # Test 1 : Portrait functional table
@@ -24,14 +25,14 @@ test_that("Testing the adapted functional chi-squared test", {
   ytox = fun.chisq.test(t(x), method="adapted")
 
   # better stats
-  expect_equivalent(signif(xtoy$p.value, digits = 2), 1.1e-23)
-  expect_equivalent(round(xtoy$statistic, digits = 2), 127.21)
-  expect_equivalent(round(xtoy$estimate, digits = 2), 0.86)
+  expect_equal(ignore_attr = TRUE, signif(xtoy$p.value, digits = 2), 1.1e-23)
+  expect_equal(ignore_attr = TRUE, round(xtoy$statistic, digits = 2), 127.21)
+  expect_equal(ignore_attr = TRUE, round(xtoy$estimate, digits = 2), 0.86)
 
   # worse stats
-  expect_equivalent(signif(ytox$p.value, digits = 2), 5e-08)
-  expect_equivalent(round(ytox$statistic, digits = 2), 49.53)
-  expect_equivalent(round(ytox$estimate, digits = 2), 0.63)
+  expect_equal(ignore_attr = TRUE, signif(ytox$p.value, digits = 2), 5e-08)
+  expect_equal(ignore_attr = TRUE, round(ytox$statistic, digits = 2), 49.53)
+  expect_equal(ignore_attr = TRUE, round(ytox$estimate, digits = 2), 0.63)
 
 
   # Test 2 : Landscape functional table
@@ -43,14 +44,14 @@ test_that("Testing the adapted functional chi-squared test", {
   ytox = fun.chisq.test(t(x), method="adapted")
 
   # better stats
-  expect_equivalent(signif(xtoy$p.value, digits = 2), 4.7e-10)
-  expect_equivalent(round(xtoy$statistic, digits = 2), 53.48)
-  expect_equivalent(round(xtoy$estimate, digits = 2), 0.73)
+  expect_equal(ignore_attr = TRUE, signif(xtoy$p.value, digits = 2), 4.7e-10)
+  expect_equal(ignore_attr = TRUE, round(xtoy$statistic, digits = 2), 53.48)
+  expect_equal(ignore_attr = TRUE, round(xtoy$estimate, digits = 2), 0.73)
 
   # worse stats
-  expect_equivalent(signif(ytox$p.value, digits = 2), 2.6e-08)
-  expect_equivalent(round(ytox$statistic, digits = 2), 46.26)
-  expect_equivalent(round(ytox$estimate, digits = 2), 0.6)
+  expect_equal(ignore_attr = TRUE, signif(ytox$p.value, digits = 2), 2.6e-08)
+  expect_equal(ignore_attr = TRUE, round(ytox$statistic, digits = 2), 46.26)
+  expect_equal(ignore_attr = TRUE, round(ytox$estimate, digits = 2), 0.6)
 
 
   # Test 3 : Independent table
@@ -62,13 +63,13 @@ test_that("Testing the adapted functional chi-squared test", {
   ytox = fun.chisq.test(t(x), method="adapted")
 
   # better stats
-  expect_equivalent(signif(xtoy$p.value, digits = 2), 0.81)
-  expect_equivalent(round(xtoy$statistic, digits = 2), 3)
-  expect_equivalent(round(xtoy$estimate, digits = 2), 0.09)
+  expect_equal(ignore_attr = TRUE, signif(xtoy$p.value, digits = 2), 0.81)
+  expect_equal(ignore_attr = TRUE, round(xtoy$statistic, digits = 2), 3)
+  expect_equal(ignore_attr = TRUE, round(xtoy$estimate, digits = 2), 0.09)
 
   # worse stats
-  expect_equivalent(signif(ytox$p.value, digits = 2), 0.89)
-  expect_equivalent(round(ytox$statistic, digits = 2), 2.31)
-  expect_equivalent(round(ytox$estimate, digits = 2), 0.08)
+  expect_equal(ignore_attr = TRUE, signif(ytox$p.value, digits = 2), 0.89)
+  expect_equal(ignore_attr = TRUE, round(ytox$statistic, digits = 2), 2.31)
+  expect_equal(ignore_attr = TRUE, round(ytox$estimate, digits = 2), 0.08)
 
 })
